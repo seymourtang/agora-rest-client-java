@@ -58,9 +58,9 @@
                 .regionArea(region)
                 .build();
 
-        // Initialize CloudRecordingService
+        // Initialize CloudRecordingClient
 
-        CloudRecordingService cloudRecordingService = CloudRecordingService.create(agoraConfig);
+        CloudRecordingClient cloudRecordingClient = CloudRecordingClient.create(agoraConfig);
 
         AcquireResourceReq acquireResourceReq = AcquireResourceReq.builder().cname(cname).uid(uid)
                 .clientRequest(AcquireResourceReq.ClientRequest.builder().scene(1)
@@ -71,7 +71,7 @@
 
         AcquireResourceRes acquireResourceRes = null;
         try {
-            acquireResourceRes = cloudRecordingService.acquire(acquireResourceReq).block();
+            acquireResourceRes = cloudRecordingClient.acquire(acquireResourceReq).block();
 
             assertNotNull(acquireResourceResp);
             logger.info("acquire resource response:{}", acquireResourceRes);
@@ -153,7 +153,7 @@
         StartResourceRes startResourceRes = null;
 
         try {
-            startResourceRes = cloudRecordingService
+            startResourceRes = cloudRecordingClient
                     .start(resourceId,mode, startResourceReq)
                     .block();
             logger.info("start resource response:{}", startResourceRes);
@@ -191,7 +191,7 @@
 
         StopResourceRes stopResourceRes;
         try {
-            stopResourceRes = cloudRecordingService
+            stopResourceRes = cloudRecordingClient
                     .stop(resourceId, sid, mode, stopResourceReq)
                     .block();
             logger.info("stop resource response:{}", stopResourceRes);
@@ -221,7 +221,7 @@
         QueryResourceRes queryResourceRes = null;
 
         try {
-            queryResourceRes = cloudRecordingService
+            queryResourceRes = cloudRecordingClient
                     .query(resourceId, sid,mode)
                     .block();
 
@@ -291,7 +291,7 @@
 
         UpdateResourceRes updateResourceRes;
         try {
-            updateResourceRes = cloudRecordingService
+            updateResourceRes = cloudRecordingClient
                     .update(resourceId, sid, mode, updateResourceReq)
                     .block();
             logger.info("update resource response:{}", updateResourceRes);

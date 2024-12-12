@@ -61,7 +61,7 @@ import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
 import io.agora.rest.services.cloudrecording.api.res.AcquireResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.StartResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.StopResourceRes;
-import io.agora.rest.services.cloudrecording.CloudRecordingService;
+import io.agora.rest.services.cloudrecording.CloudRecordingClient;
 import io.agora.rest.services.cloudrecording.scenario.mix.req.AcquireMixRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.mix.req.StartMixRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.mix.res.QueryMixHLSAndMP4RecordingResourceRes;
@@ -106,16 +106,16 @@ public class Main {
             .regionArea(RegionArea.CNRegionArea)
             .build();
 
-    // Initialize CloudRecordingService
+    // Initialize CloudRecordingClient
 
-    CloudRecordingService cloudRecordingService = CloudRecordingService.create(agoraConfig);
+    CloudRecordingClient cloudRecordingClient = CloudRecordingClient.create(agoraConfig);
 
 
     AcquireResourceRes acquireResourceRes;
 
     // Acquire resource
     try {
-      acquireResourceRes = cloudRecordingService
+      acquireResourceRes = cloudRecordingClient
               .mixScenario()
               .acquire(cname, uid, AcquireMixRecordingResourceClientReq.builder()
                       .build())
@@ -178,7 +178,7 @@ public class Main {
 
     // Start resource
     try {
-      startResourceRes = cloudRecordingService
+      startResourceRes = cloudRecordingClient
               .mixScenario()
               .start(cname, uid,
                       acquireResourceRes.getResourceId(),
@@ -209,7 +209,7 @@ public class Main {
 
     // Query resource
     try {
-      queryResourceRes = cloudRecordingService
+      queryResourceRes = cloudRecordingClient
               .mixScenario()
               .queryHLSAndMP4(startResourceRes.getResourceId(), startResourceRes.getSid())
               .block();
@@ -235,7 +235,7 @@ public class Main {
 
     // Stop resource
     try {
-      stopResourceRes = cloudRecordingService
+      stopResourceRes = cloudRecordingClient
               .mixScenario()
               .stop(cname, uid, startResourceRes.getResourceId(), startResourceRes.getSid(),
                       true)

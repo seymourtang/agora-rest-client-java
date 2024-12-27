@@ -104,7 +104,7 @@ public class Main {
             // Specify the region where the server is located.
             // Optional values are CN, US, EU, AP, and the client will automatically
             // switch to use the best domain name according to the configured region
-            .domainArea(DomainArea.)
+            .domainArea(DomainArea.CN)
             .build();
 
     // Initialize CloudRecordingClient

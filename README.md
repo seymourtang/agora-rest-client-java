@@ -42,7 +42,7 @@ API 接口的包装和内部实现，可以帮助开发者更加方便的集成�
 <dependency>
     <groupId>io.agora</groupId>
     <artifactId>agora-rest-client-core</artifactId>
-    <version>0.1.3-BETA</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 

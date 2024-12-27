@@ -6,7 +6,7 @@
     <groupId>io.agora</groupId>
 
     <artifactId>agora-rest-client-core</artifactId>
-    <version>0.1.3-BETA</version>
+    <version>0.2.0</version>
     <description>Agora REST Client for Java</description>
     <name>Agora REST Client</name>
     <url>https://github.com/AgoraIO-Community/agora-rest-client-java</url>
@@ -92,6 +92,11 @@
             <version>4.1.114.Final</version>
             <scope>runtime</scope>
             <classifier>osx-aarch_64</classifier>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver-dns</artifactId>
+            <version>4.1.114.Final</version>
         </dependency>
 
         <dependency>

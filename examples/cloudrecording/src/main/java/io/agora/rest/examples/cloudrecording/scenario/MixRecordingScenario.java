@@ -2,7 +2,7 @@ package io.agora.rest.examples.cloudrecording.scenario;
 
 import io.agora.rest.AgoraException;
 import io.agora.rest.core.Credential;
-import io.agora.rest.core.RegionArea;
+import io.agora.rest.core.DomainArea;
 import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
 import io.agora.rest.services.cloudrecording.api.req.UpdateResourceReq;
 import io.agora.rest.services.cloudrecording.api.res.*;
@@ -21,8 +21,8 @@ import java.util.Collections;
 public class MixRecordingScenario extends BaseScenario {
     private static final Logger logger = LoggerFactory.getLogger(MixRecordingScenario.class);
 
-    public MixRecordingScenario(RegionArea region, String appId, String cname, String uid, Credential credential) {
-        super(region, appId, cname, uid, credential);
+    public MixRecordingScenario(DomainArea domainArea, String appId, String cname, String uid, Credential credential) {
+        super(domainArea, appId, cname, uid, credential);
     }
 
     public void runHLS(String token, StartResourceReq.StorageConfig storageConfig) {
@@ -31,7 +31,7 @@ public class MixRecordingScenario extends BaseScenario {
         // acquire
         AcquireResourceRes acquireResourceRes;
         try {
-            acquireResourceRes = this.agoraService.cloudRecording()
+            acquireResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .acquire(cname, uid, AcquireMixRecordingResourceClientReq.builder()
                             .resourceExpiredHour(1)
@@ -55,7 +55,7 @@ public class MixRecordingScenario extends BaseScenario {
         StartResourceRes startResourceRes;
 
         try {
-            startResourceRes = this.agoraService.cloudRecording()
+            startResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .start(cname, uid, acquireResourceRes.getResourceId(), StartMixRecordingResourceClientReq.builder()
                             .token(token)
@@ -102,7 +102,7 @@ public class MixRecordingScenario extends BaseScenario {
         for (int i = 0; i < 3; i++) {
             QueryMixHLSRecordingResourceRes queryMixHLSRecordingResourceRes;
             try {
-                queryMixHLSRecordingResourceRes = this.agoraService.cloudRecording()
+                queryMixHLSRecordingResourceRes = this.cloudRecordingClient
                         .mixScenario()
                         .queryHLS(acquireResourceRes.getResourceId(), startResourceRes.getSid())
                         .block();
@@ -130,7 +130,7 @@ public class MixRecordingScenario extends BaseScenario {
         UpdateResourceRes updateResourceRes;
 
         try {
-            updateResourceRes = this.agoraService.cloudRecording()
+            updateResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateMixRecordingResourceClientReq.builder()
                             .streamSubscribe(UpdateResourceReq.StreamSubscribe.builder()
@@ -163,7 +163,7 @@ public class MixRecordingScenario extends BaseScenario {
         UpdateLayoutResourceRes updateLayoutResourceRes;
 
         try {
-            updateLayoutResourceRes = this.agoraService.cloudRecording()
+            updateLayoutResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .updateLayout(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateLayoutMixRecordingResourceClientReq.builder()
                             .mixedVideoLayout(1)
@@ -189,7 +189,7 @@ public class MixRecordingScenario extends BaseScenario {
         for (int i = 0; i < 3; i++) {
             QueryMixHLSRecordingResourceRes queryMixHLSRecordingResourceRes;
             try {
-                queryMixHLSRecordingResourceRes = this.agoraService.cloudRecording()
+                queryMixHLSRecordingResourceRes = this.cloudRecordingClient
                         .mixScenario()
                         .queryHLS(acquireResourceRes.getResourceId(), startResourceRes.getSid())
                         .block();
@@ -215,7 +215,7 @@ public class MixRecordingScenario extends BaseScenario {
 
         StopResourceRes stopResourceRes;
         try {
-            stopResourceRes = this.agoraService.cloudRecording()
+            stopResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .stop(cname, uid, startResourceRes.getResourceId(), startResourceRes.getSid(), false)
                     .block();
@@ -241,7 +241,7 @@ public class MixRecordingScenario extends BaseScenario {
         // acquire
         AcquireResourceRes acquireResourceRes;
         try {
-            acquireResourceRes = this.agoraService.cloudRecording()
+            acquireResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .acquire(cname, uid, AcquireMixRecordingResourceClientReq.builder()
                             .resourceExpiredHour(1)
@@ -265,7 +265,7 @@ public class MixRecordingScenario extends BaseScenario {
         StartResourceRes startResourceRes;
 
         try {
-            startResourceRes = this.agoraService.cloudRecording()
+            startResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .start(cname, uid, acquireResourceRes.getResourceId(), StartMixRecordingResourceClientReq.builder()
                             .token(token)
@@ -312,7 +312,7 @@ public class MixRecordingScenario extends BaseScenario {
         for (int i = 0; i < 3; i++) {
             QueryMixHLSAndMP4RecordingResourceRes queryMixHLSAndMP4RecordingResourceRes;
             try {
-                queryMixHLSAndMP4RecordingResourceRes = this.agoraService.cloudRecording()
+                queryMixHLSAndMP4RecordingResourceRes = this.cloudRecordingClient
                         .mixScenario()
                         .queryHLSAndMP4(acquireResourceRes.getResourceId(), startResourceRes.getSid())
                         .block();
@@ -340,7 +340,7 @@ public class MixRecordingScenario extends BaseScenario {
         UpdateResourceRes updateResourceRes;
 
         try {
-            updateResourceRes = this.agoraService.cloudRecording()
+            updateResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateMixRecordingResourceClientReq.builder()
                             .streamSubscribe(UpdateResourceReq.StreamSubscribe.builder()
@@ -373,7 +373,7 @@ public class MixRecordingScenario extends BaseScenario {
         UpdateLayoutResourceRes updateLayoutResourceRes;
 
         try {
-            updateLayoutResourceRes = this.agoraService.cloudRecording()
+            updateLayoutResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .updateLayout(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateLayoutMixRecordingResourceClientReq.builder()
                             .mixedVideoLayout(1)
@@ -399,7 +399,7 @@ public class MixRecordingScenario extends BaseScenario {
         for (int i = 0; i < 3; i++) {
             QueryMixHLSAndMP4RecordingResourceRes queryMixHLSAndMP4RecordingResourceRes;
             try {
-                queryMixHLSAndMP4RecordingResourceRes = this.agoraService.cloudRecording()
+                queryMixHLSAndMP4RecordingResourceRes = this.cloudRecordingClient
                         .mixScenario()
                         .queryHLSAndMP4(acquireResourceRes.getResourceId(), startResourceRes.getSid())
                         .block();
@@ -425,7 +425,7 @@ public class MixRecordingScenario extends BaseScenario {
 
         StopResourceRes stopResourceRes;
         try {
-            stopResourceRes = this.agoraService.cloudRecording()
+            stopResourceRes = this.cloudRecordingClient
                     .mixScenario()
                     .stop(cname, uid, startResourceRes.getResourceId(), startResourceRes.getSid(), false)
                     .block();

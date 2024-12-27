@@ -1,18 +1,18 @@
 package io.agora.rest.core;
 
-public class AgoraProperty {
+public class AgoraConfig {
     private final String appId;
 
     private final Credential credential;
 
-    private final RegionArea regionArea;
+    private final DomainArea domainArea;
 
     private final HttpProperty httpProperty;
 
-    private AgoraProperty(Builder builder) {
+    private AgoraConfig(Builder builder) {
         this.appId = builder.appId;
         this.credential = builder.credential;
-        this.regionArea = builder.regionArea;
+        this.domainArea = builder.domainArea;
         this.httpProperty = builder.httpProperty;
     }
 
@@ -28,8 +28,8 @@ public class AgoraProperty {
         return credential;
     }
 
-    public RegionArea getRegionArea() {
-        return regionArea;
+    public DomainArea getDomainArea() {
+        return domainArea;
     }
 
     public HttpProperty getHttpProperty() {
@@ -38,10 +38,10 @@ public class AgoraProperty {
 
     @Override
     public String toString() {
-        return "AgoraProperty{" +
+        return "AgoraConfig{" +
                 "appId='" + appId + '\'' +
                 ", credential=" + credential +
-                ", regionArea=" + regionArea +
+                ", domainArea=" + domainArea +
                 ", httpProperty=" + httpProperty +
                 '}';
     }
@@ -52,7 +52,7 @@ public class AgoraProperty {
 
         private Credential credential;
 
-        private RegionArea regionArea;
+        private DomainArea domainArea;
 
         private HttpProperty httpProperty;
 
@@ -69,8 +69,8 @@ public class AgoraProperty {
             return this;
         }
 
-        public Builder regionArea(RegionArea regionArea) {
-            this.regionArea = regionArea;
+        public Builder domainArea(DomainArea domainArea) {
+            this.domainArea = domainArea;
             return this;
         }
 
@@ -79,11 +79,11 @@ public class AgoraProperty {
             return this;
         }
 
-        public AgoraProperty build() {
+        public AgoraConfig build() {
             if (httpProperty == null) {
                 this.httpProperty = HttpProperty.builder().build();
             }
-            return new AgoraProperty(this);
+            return new AgoraConfig(this);
         }
     }
 }

@@ -18,7 +18,7 @@ public class DomainDNSResolverTest {
         assertNotNull(resolver);
 
         String domain = resolver.resolve(Arrays.asList("agora.io", "sd-rtn.com"),
-                RegionArea.CNRegionArea.getRegionDomainPrefixes().get(0)).block();
+                DomainArea.CN.getRegionDomainPrefixes().get(0)).block();
 
         logger.info("Domain: {}", domain);
         assertNotNull(domain);

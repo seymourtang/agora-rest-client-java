@@ -1,7 +1,7 @@
 package io.agora.rest.examples.cloudrecording;
 
 import io.agora.rest.core.BasicAuthCredential;
-import io.agora.rest.core.RegionArea;
+import io.agora.rest.core.DomainArea;
 import io.agora.rest.examples.cloudrecording.scenario.IndividualRecordingScenario;
 import io.agora.rest.examples.cloudrecording.scenario.MixRecordingScenario;
 import io.agora.rest.examples.cloudrecording.scenario.WebRecordingScenario;
@@ -31,7 +31,7 @@ public class Main implements Callable<Integer> {
 
     private String token;
 
-    private final RegionArea region = RegionArea.CNRegionArea;
+    private final DomainArea region = DomainArea.CN;
 
     private StartResourceReq.StorageConfig storageConfig;
 

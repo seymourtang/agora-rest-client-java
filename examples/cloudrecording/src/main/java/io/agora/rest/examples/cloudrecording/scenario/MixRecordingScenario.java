@@ -2,7 +2,7 @@ package io.agora.rest.examples.cloudrecording.scenario;
 
 import io.agora.rest.AgoraException;
 import io.agora.rest.core.Credential;
-import io.agora.rest.core.RegionArea;
+import io.agora.rest.core.DomainArea;
 import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
 import io.agora.rest.services.cloudrecording.api.req.UpdateResourceReq;
 import io.agora.rest.services.cloudrecording.api.res.*;
@@ -21,8 +21,8 @@ import java.util.Collections;
 public class MixRecordingScenario extends BaseScenario {
     private static final Logger logger = LoggerFactory.getLogger(MixRecordingScenario.class);
 
-    public MixRecordingScenario(RegionArea region, String appId, String cname, String uid, Credential credential) {
-        super(region, appId, cname, uid, credential);
+    public MixRecordingScenario(DomainArea domainArea, String appId, String cname, String uid, Credential credential) {
+        super(domainArea, appId, cname, uid, credential);
     }
 
     public void runHLS(String token, StartResourceReq.StorageConfig storageConfig) {

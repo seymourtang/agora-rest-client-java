@@ -4,6 +4,7 @@
 <img alt="Maven Central Version" src="https://img.shields.io/maven-central/v/io.agora/agora-rest-client-core?colorB=brightgreen">
 <img alt="GitHub License" src="https://img.shields.io/github/license/AgoraIO-Community/agora-rest-client-java">
 <a href="https://github.com/AgoraIO-Community/agora-rest-client-java/actions/workflows/maven.yml"><img alt="Java CI with Maven" src="https://github.com/AgoraIO-Community/agora-rest-client-java/actions/workflows/maven.yml/badge.svg"></a>
+<a href="https://github.com/AgoraIO-Community/agora-rest-client-java/actions/workflows/gitee-sync.yml"><img alt="gitee-sync" src="https://github.com/AgoraIO-Community/agora-rest-client-java/actions/workflows/gitee-sync.yml/badge.svg?branch=main"></a>
 <img alt="GitHub" src="https://img.shields.io/github/v/release/AgoraIO-Community/agora-rest-client-java">
 <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/AgoraIO-Community/agora-rest-client-java">
 </p>
@@ -56,7 +57,7 @@ import io.agora.rest.AgoraException;
 import io.agora.rest.core.AgoraConfig;
 import io.agora.rest.core.BasicAuthCredential;
 import io.agora.rest.core.Credential;
-import io.agora.rest.core.RegionArea;
+import io.agora.rest.core.DomainArea;
 import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
 import io.agora.rest.services.cloudrecording.api.res.AcquireResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.StartResourceRes;
@@ -101,9 +102,9 @@ public class Main {
             .appId(appId)
             .credential(credential)
             // Specify the region where the server is located.
-            // Optional values are CN, NA, EU, AP, and the client will automatically
+            // Optional values are CN, US, EU, AP, and the client will automatically
             // switch to use the best domain name according to the configured region
-            .regionArea(RegionArea.CNRegionArea)
+            .domainArea(DomainArea.)
             .build();
 
     // Initialize CloudRecordingClient

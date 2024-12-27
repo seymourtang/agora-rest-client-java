@@ -30,8 +30,8 @@ public class DomainPool {
 
     private final Logger logger = LoggerFactory.getLogger(DomainPool.class);
 
-    public DomainPool(RegionArea domainArea) {
-        if (domainArea == null || domainArea == RegionArea.UnkonwnRegionArea) {
+    public DomainPool(DomainArea domainArea) {
+        if (domainArea == null || domainArea == DomainArea.Unknown) {
             throw new AgoraInvalidArgumentException("invalid domain area");
         }
 

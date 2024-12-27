@@ -5,14 +5,14 @@ public class AgoraConfig {
 
     private final Credential credential;
 
-    private final RegionArea regionArea;
+    private final DomainArea domainArea;
 
     private final HttpProperty httpProperty;
 
     private AgoraConfig(Builder builder) {
         this.appId = builder.appId;
         this.credential = builder.credential;
-        this.regionArea = builder.regionArea;
+        this.domainArea = builder.domainArea;
         this.httpProperty = builder.httpProperty;
     }
 
@@ -28,8 +28,8 @@ public class AgoraConfig {
         return credential;
     }
 
-    public RegionArea getRegionArea() {
-        return regionArea;
+    public DomainArea getDomainArea() {
+        return domainArea;
     }
 
     public HttpProperty getHttpProperty() {
@@ -41,7 +41,7 @@ public class AgoraConfig {
         return "AgoraConfig{" +
                 "appId='" + appId + '\'' +
                 ", credential=" + credential +
-                ", regionArea=" + regionArea +
+                ", domainArea=" + domainArea +
                 ", httpProperty=" + httpProperty +
                 '}';
     }
@@ -52,7 +52,7 @@ public class AgoraConfig {
 
         private Credential credential;
 
-        private RegionArea regionArea;
+        private DomainArea domainArea;
 
         private HttpProperty httpProperty;
 
@@ -69,8 +69,8 @@ public class AgoraConfig {
             return this;
         }
 
-        public Builder regionArea(RegionArea regionArea) {
-            this.regionArea = regionArea;
+        public Builder domainArea(DomainArea domainArea) {
+            this.domainArea = domainArea;
             return this;
         }
 

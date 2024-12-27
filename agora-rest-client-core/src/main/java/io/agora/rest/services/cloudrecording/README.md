@@ -53,9 +53,9 @@
                 .appId(appId)
                 .credential(credential)
                 // Specify the region where the server is located. 
-                // Optional values are CN, NA, EU, AP, and the client will automatically
+                // Optional values are CN, US, EU, AP, and the client will automatically
                 // switch to use the best domain name according to the configured region
-                .regionArea(region)
+                .domainArea(DomainArea.CN)
                 .build();
 
         // Initialize CloudRecordingClient

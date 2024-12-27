@@ -27,7 +27,7 @@ public class DefaultContext implements Context {
     public DefaultContext(AgoraConfig agoraConfig) {
         this.agoraConfig = agoraConfig;
         this.httpClient = HttpClientFactory.createHttpClient(agoraConfig);
-        this.domainPool = new DomainPool(agoraConfig.getRegionArea());
+        this.domainPool = new DomainPool(agoraConfig.getDomainArea());
         this.codec = new JsonCodec();
     }
 

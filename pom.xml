@@ -11,6 +11,7 @@
     <modules>
         <module>agora-rest-client-core</module>
         <module>examples/cloudrecording</module>
+        <module>examples/convoai</module>
     </modules>
 
     <properties>

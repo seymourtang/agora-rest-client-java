@@ -214,9 +214,6 @@ public class JoinConvoAIReq {
          */
         @JsonProperty("failure_message")
         private String failureMessage;
-
-        @JsonProperty("style")
-        private String style;
     }
 
     public interface TTSVendorParams {

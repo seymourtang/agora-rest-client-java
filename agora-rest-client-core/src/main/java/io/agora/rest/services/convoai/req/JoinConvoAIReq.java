@@ -6,211 +6,207 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @brief 智能体加入 RTC 频道的请求参数配置
+ * @brief Request parameters for AI agent to join RTC channel
  * @since 0.3.0
  */
 public class JoinConvoAIReq {
 
     /**
-     * 智能体唯一标识，相同标识不可重复创建
+     * Unique identifier for the AI agent, cannot be duplicated
      */
     @JsonProperty("name")
     private String name;
 
     /**
-     * 智能体属性配置
+     * Configuration properties for the AI agent
      */
     @JsonProperty("properties")
     private Properties properties;
 
     /**
-     * @brief 智能体加入 RTC 频道的属性配置
+     * @brief Configuration properties for AI agent to join RTC channel
      * @since 0.3.0
      */
     public static class Properties {
 
         /**
-         * 加入 RTC 频道使用的 Token，即用于鉴权的动态密钥（Token）（可选）。如果你的项目已启用 App 证书，则务必在该字段中传入你项目的动态密钥
+         * Token used to join the RTC channel, i.e., the dynamic key for authentication (optional). If your project has enabled the App Certificate, you must pass the dynamic key in this field.
          */
         @JsonProperty("token")
         private String token;
 
         /**
-         * 智能体加入的 RTC 频道名（必须）
+         * Name of the RTC channel the AI agent joins (required)
          */
         @JsonProperty("channel")
         private String channel;
 
         /**
-         * 智能体在 RTC 频道内的用户 ID（必须）
+         * User ID of the AI agent in the RTC channel (required)
          *
-         * @note 填 "0" 时表示随机分配，但 Token 需要相应修改
+         * @note When set to "0", it means a random ID is assigned, but the Token needs to be modified accordingly.
          */
         @JsonProperty("agent_rtc_uid")
         private String agentRtcUId;
 
         /**
-         * 智能体在 RTC 频道中订阅的用户 ID 列表，只有订阅的用户才能与智能体互动（必须）
+         * List of user IDs that the AI agent subscribes to in the RTC channel, only subscribed users can interact with the AI agent (required)
          *
-         * @note 传入 "*" 表示订阅频道内所有用户
+         * @note Passing "*" means subscribing to all users in the channel.
          */
         @JsonProperty("remote_rtc_uids")
         private List<String> remoteRtcUIds;
 
         /**
-         * 是否启用 String UID（可选）
+         * Whether to enable String UID (optional)
          * <p>
-         * - true：启用 String UID
+         * - true: Enable String UID
          * <p>
-         * - false：不启用 String UID（默认）
+         * - false: Do not enable String UID (default)
          */
         @JsonProperty("enable_string_uid")
         private Boolean enableStringUId;
 
         /**
-         * RTC 频道的最大空闲时间 (s)（可选）
+         * Maximum idle time of the RTC channel (s) (optional)
          *
-         * @note 检测到 remote_rtc_uids 中指定的用户全部离开频道后的时间视为频道空闲时间，
-         * 超过设定的最大值时，频道的智能体将自动停止并退出频道。
-         * 如果填写为 0，则直到手动退出，智能体才会停止
+         * @note The time after all users specified in remote\_rtc\_uids leave the channel is considered idle time. If it exceeds the set maximum value, the AI agent will automatically stop and exit the channel. If set to 0, the AI agent will only stop when manually exited.
          */
         @JsonProperty("idle_timeout")
         private Integer idleTimeout;
 
         /**
-         * 高级功能配置（可选），详见 {@link AdvancedFeatures} 说明
+         * Advanced feature configuration (optional), see {@link AdvancedFeatures} for details
          */
         @JsonProperty("advanced_features")
         private AdvancedFeatures advancedFeatures;
 
         /**
-         * 大语言模型 (LLM) 配置（必须），详见 {@link LLM} 说明
+         * Large Language Model (LLM) configuration (required), see {@link LLM} for details
          */
         @JsonProperty("llm")
         private LLM llm;
 
         /**
-         * 文本转语音 (TTS) 配置（可选），详见 {@link TTS} 说明
+         * Text-to-Speech (TTS) configuration (optional), see {@link TTS} for details
          */
         @JsonProperty("tts")
         private TTS tts;
 
         /**
-         * 语音活动检测 (VAD) 配置（可选），详见 {@link Vad} 说明
+         * Voice Activity Detection (VAD) configuration (optional), see {@link Vad} for details
          */
         @JsonProperty("vad")
         private Vad vad;
 
-
         /**
-         * 自动语音识别 (ASR) 配置（可选），详见 {@link Asr} 说明
+         * Automatic Speech Recognition (ASR) configuration (optional), see {@link Asr} for details
          */
         @JsonProperty("asr")
         private Asr asr;
     }
 
     /**
-     * @brief 定义智能体加入 RTC 频道的高级功能配置
+     * @brief Defines advanced feature configuration for AI agent to join RTC channel
      * @since 0.3.0
      */
     public static class AdvancedFeatures {
 
         /**
-         * 是否启用优雅打断功能 (AIVAD)（可选）
+         * Whether to enable graceful interruption feature (AIVAD) (optional)
          * <p>
-         * - true：启用
-         * - false：不启用（默认）
+         * - true: Enable
+         * <p>
+         * - false: Do not enable (default)
          *
-         * @note 开启后，用户可以随时打断 AI 并快速响应，实现自然过渡和流畅对话
+         * @note When enabled, users can interrupt the AI at any time and respond quickly, achieving natural transitions and smooth conversations.
          */
         @JsonProperty("enable_aivad")
         private Boolean enableAIVad;
     }
 
-
     /**
-     * @brief 定义智能体加入 RTC 频道的大语言模型 (LLM) 配置
+     * @brief Defines Large Language Model (LLM) configuration for AI agent to join RTC channel
      * @since 0.3.0
      */
     public static class LLM {
 
         /**
-         * LLM 回调地址（必须）
+         * LLM callback URL (required)
          *
-         * @note 要求与 OpenAI 协议兼容
+         * @note Must be compatible with OpenAI protocol
          */
         @JsonProperty("url")
         private String url;
 
         /**
-         * LLM 校验 api key（必须）
+         * LLM verification API key (required)
          *
-         * @note 默认为空，生产环境中务必启用 api key
+         * @note Default is empty, API key must be enabled in production environment
          */
         @JsonProperty("api_key")
         private String apiKey;
 
         /**
-         * 一组每次调用 LLM 时被附加在最前的预定义信息，用于控制 LLM 输出(可选)
+         * A set of predefined information attached at the beginning of each LLM call, used to control LLM output (optional)
          *
-         * @note 可以是角色设定、提示词和回答样例等，要求与 OpenAI 协议兼容
+         * @note Can be role settings, prompts, and answer examples, must be compatible with OpenAI protocol
          */
         @JsonProperty("system_messages")
         private String systemMessages;
 
         /**
-         * 在消息体内传输的 LLM 附加信息，例如使用的模型、最大 Token 数限制等（可选）
+         * Additional information transmitted in the LLM message body, such as the model used, maximum token limit, etc. (optional)
          * <p>
-         * 不同的 LLM 供应商支持的配置不同，详见各自 LLM 的文档
+         * Different LLM providers support different configurations, see their respective LLM documentation for details.
          */
         @JsonProperty("params")
         private HashMap<String, Object> params;
 
         /**
-         * LLM 中缓存的短期记忆条目数（可选）
+         * Number of short-term memory entries cached in LLM (optional)
          * <p>
-         * 默认值为 10
+         * Default value is 10
          *
-         * @note 传入 0 表示不缓存任何短期记忆。智能体和订阅用户会单独记录条目
+         * @note Passing 0 means no short-term memory is cached. AI agent and subscribed users will record entries separately.
          */
         @JsonProperty("max_history")
         private Integer maxHistory;
 
         /**
-         * 智能体问候语（可选）
+         * Greeting message of the AI agent (optional)
          *
-         * @note 如果填写，则在频道内没有订阅用户列表 (remote_rtc_uids) 中的用户时，
-         * 智能体会自动向首位加入频道的订阅用户发送问候语。
+         * @note If filled, the AI agent will automatically send a greeting message to the first subscribed user who joins the channel when there are no users in the remote\_rtc\_uids list.
          */
         @JsonProperty("greeting_message")
         private String greetingMessage;
 
         /**
-         * LLM 的输入模态（可选）
+         * Input modalities of the LLM (optional)
          * <p>
-         * - ["text"]: 仅文字（默认）
+         * - ["text"]: Text only (default)
          * <p>
-         * - ["text", "image"]: 文字加图片，要求所选 LLM 支持视觉模态输入
+         * - ["text", "image"]: Text and image, requires the selected LLM to support visual modality input
          */
         @JsonProperty("input_modalities")
         private List<String> inputModalities;
 
         /**
-         * LLM 的输出模态（可选）
+         * Output modalities of the LLM (optional)
          * <p>
-         * - ["text"]: 仅文字（默认），输出的文字会经过 TTS 模块转换成语音后发布至 RTC 频道。
+         * - ["text"]: Text only (default), the output text will be converted to speech by the TTS module and then published to the RTC channel.
          * <p>
-         * - ["audio"]: 仅语音。语音会直接发布至 RTC 频道。
+         * - ["audio"]: Audio only. The audio will be directly published to the RTC channel.
          * <p>
-         * - ["text", "audio"]: 文字加语音。你可以自行编写逻辑，按需处理 LLM 的输出
+         * - ["text", "audio"]: Text and audio. You can write your own logic to handle the LLM output as needed.
          */
         @JsonProperty("output_modalities")
         private List<String> outputModalities;
 
         /**
-         * 智能体处理失败提示语(可选)
+         * Failure message of the AI agent (optional)
          *
-         * @note 如果填写，则在 LLM 调用错误时会通过 TTS 模块返回。
+         * @note If filled, it will be returned through the TTS module when an LLM call error occurs.
          */
         @JsonProperty("failure_message")
         private String failureMessage;
@@ -220,21 +216,21 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * 定义智能体加入 RTC 频道的文本转语音 (TTS) 配置
+     * Defines Text-to-Speech (TTS) configuration for AI agent to join RTC channel
      *
      * @since 0.3.0
      */
     public static class TTS {
 
         /**
-         * TTS 供应商，支持传入以下值：
-         * 见 {@link TTSVendorEnum}
+         * TTS vendor, supports the following values:
+         * See {@link TTSVendorEnum}
          */
         @JsonProperty("vendor")
         private String vendor;
 
         /**
-         * TTS 供应商参数说明，详见
+         * TTS vendor parameter description, see
          * - {@link MinimaxTTSVendorParams}
          * <p>
          * - {@link TencentTTSVendorParams}
@@ -250,7 +246,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * 定义智能体加入 RTC 频道的文本转语音 (TTS) 供应商枚举
+     * Defines Text-to-Speech (TTS) vendor enumeration for AI agent to join RTC channel
      *
      * @since 0.3.0
      */
@@ -279,7 +275,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * 定义智能体加入 RTC 频道的文本转语音 (TTS) 模块 Minimax 供应商参数，详细见
+     * Defines Text-to-Speech (TTS) module Minimax vendor parameters for AI agent to join RTC channel, see
      * <a href="https://platform.minimaxi.com/document/T2A%20V2">Minimax</a>
      *
      * @since v0.7.0
@@ -326,9 +322,8 @@ public class JoinConvoAIReq {
         private String emotion;
     }
 
-
     /**
-     * 定义智能体加入 RTC 频道的文本转语音 (TTS) 模块 Tencent 供应商参数，详细见
+     * Defines Text-to-Speech (TTS) module Tencent vendor parameters for AI agent to join RTC channel, see
      * <a href="https://cloud.tencent.com/document/product/1073/94308">Tencent</a>
      *
      * @since v0.7.0
@@ -360,7 +355,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * 定义智能体加入 RTC 频道的文本转语音 (TTS) 模块 Bytedance 供应商参数，详细见
+     * Defines Text-to-Speech (TTS) module Bytedance vendor parameters for AI agent to join RTC channel, see
      * <a href="https://www.volcengine.com/docs/6561/79823">Bytedance</a>
      *
      * @since v0.7.0
@@ -393,7 +388,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * 定义智能体加入 RTC 频道的文本转语音 (TTS) 模块 Microsoft 供应商参数
+     * Defines Text-to-Speech (TTS) module Microsoft vendor parameters for AI agent to join RTC channel
      *
      * @since v0.7.0
      */
@@ -416,7 +411,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * 定义智能体加入 RTC 频道的文本转语音 (TTS) 模块 Elevenlabs 供应商参数
+     * Defines Text-to-Speech (TTS) module Elevenlabs vendor parameters for AI agent to join RTC channel
      *
      * @since v0.7.0
      */
@@ -433,62 +428,60 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * 定义智能体加入 RTC 频道的语音活动检测 (VAD) 配置
+     * Defines Voice Activity Detection (VAD) configuration for AI agent to join RTC channel
      *
      * @since v0.7.0
      */
     public static class Vad {
 
         /**
-         * 人声持续阈值 (ms)，取值范围为 [120, 1200](可选)
+         * Human voice duration threshold (ms), range [120, 1200] (optional)
          *
-         * @note 持续检测到人声信号的最小时间长度，避免误打断
+         * @note Minimum duration of continuous human voice signal to avoid false interruptions.
          */
         @JsonProperty("interrupt_duration_ms")
         private Integer interruptDurationMs;
 
         /**
-         * 前缀填充阈值 (ms)，取值范围为 [0, 5000](可选)
+         * Prefix padding threshold (ms), range [0, 5000] (optional)
          *
-         * @note 开始新的语音片段所需的最短语音持续时间，避免非常短的声音触发语音活动检测
+         * @note Minimum duration of voice required to start a new speech segment to avoid triggering voice activity detection with very short sounds.
          */
         @JsonProperty("prefix_padding_ms")
         private Integer prefixPaddingMs;
 
         /**
-         * 静音持续阈值 (ms)，取值范围为 [0, 2000]（可选）
+         * Silence duration threshold (ms), range [0, 2000] (optional)
          *
-         * @note 语音结束时的最短静音持续时间，确保短暂的停顿不会过早结束语音片段
+         * @note Minimum duration of silence at the end of speech to ensure short pauses do not prematurely end the speech segment.
          */
         @JsonProperty("silence_duration_ms")
         private Integer silenceDurationMs;
 
         /**
-         * 语音识别灵敏度，取值范围为 (0.0,1.0)（可选）
+         * Voice recognition sensitivity, range (0.0,1.0) (optional)
          *
-         * @note 决定音频信号中何种程度的声音被视为“语音活动”。
-         * 较低的值会使智能体更容易检测到语音，较高的值则可能忽略微弱声音。
+         * @note Determines the level of sound in the audio signal considered as "voice activity". Lower values make it easier for the AI agent to detect voice, while higher values may ignore faint sounds.
          */
         @JsonProperty("threshold")
         private Float threshold;
     }
 
     /**
-     * 定义智能体加入 RTC 频道的自动语音识别 (ASR) 配置
+     * Defines Automatic Speech Recognition (ASR) configuration for AI agent to join RTC channel
      *
      * @since v0.7.0
      */
     public static class Asr {
 
         /**
-         * 用户与智能体互动时使用的语言(可选)
+         * Language used for interaction between user and AI agent (optional)
          * <p>
-         * - zh-CN：中文（支持中英文混合）（默认）
+         * - zh-CN: Chinese (supports mixed Chinese and English) (default)
          * <p>
-         * - en-US：英文
+         * - en-US: English
          */
         @JsonProperty("language")
         private String language;
     }
-
 }

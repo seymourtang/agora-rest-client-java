@@ -3,35 +3,35 @@ package io.agora.rest.services.convoai.res;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @brief 加入智能体响应参数
+ * @brief Response parameters for joining AI agent
  * @since 0.3.0
  */
 public class JoinConvoAIRes {
     /**
-     * 智能体唯一标识
+     * Unique identifier for the AI agent
      */
     @JsonProperty("agent_id")
     private String agentId;
 
     /**
-     * 创建时间戳
+     * Creation timestamp
      */
     @JsonProperty("create_ts")
     private Integer createTs;
 
     /**
-     * 状态
-     * @note 有以下状态：
+     * Status
+     * @note The following statuses are available:
      * <p>
-     * - IDLE (0)：空闲状态的智能体
+     * - IDLE (0): AI agent in idle state
      * <p>
-     * - STARTING (1)：正在启动的智能体
+     * - STARTING (1): AI agent that is starting
      * <p>
-     * - RUNNING (2)：正在运行的智能体
+     * - RUNNING (2): AI agent that is running
      * <p>
-     * - STOPPING (3)：正在停止的智能体
+     * - STOPPING (3): AI agent that is stopping
      * <p>
-     * - STOPPED (4)：已完成退出的智能体
+     * - STOPPED (4): AI agent that has completed exit
      */
     @JsonProperty("status")
     private String status;

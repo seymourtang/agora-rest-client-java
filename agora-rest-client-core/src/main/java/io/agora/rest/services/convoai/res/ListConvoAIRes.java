@@ -5,95 +5,95 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * @brief 查询智能体列表响应
+ * @brief Response for querying the list of AI agents
  * @since 0.3.0
  */
 public class ListConvoAIRes {
 
     /**
-     * 数据
+     * Data
      */
     @JsonProperty("data")
     private Data data;
 
     /**
-     * 元数据
+     * Metadata
      */
     @JsonProperty("meta")
     private Meta meta;
 
     /**
-     * 请求状态
+     * Request status
      */
     @JsonProperty("status")
     private String status;
 
     /**
-     * 响应数据
+     * Response data
      */
     public static class Data {
 
         /**
-         * 本次返回的智能体数量
+         * Number of AI agents returned in this response
          */
         @JsonProperty("count")
         private Integer count;
 
         /**
-         * 智能体列表，详细信息请参考 {@link Agent}
+         * List of AI agents, for detailed information refer to {@link Agent}
          */
         @JsonProperty("list")
         private List<Agent> list;
     }
 
     /**
-     * 智能体信息
+     * AI agent information
      */
     public static class Agent{
 
         /**
-         * 智能体唯一标识
+         * Unique identifier for the AI agent
          */
         @JsonProperty("agent_id")
         private String agentId;
 
         /**
-         * @brief 创建时间戳
+         * @brief Creation timestamp
          */
         @JsonProperty("start_ts")
         private Integer startTs;
 
         /**
-         * 状态
-         * @note 有以下状态：
+         * Status
+         * @note The following statuses are available:
          * <p>
-         * - IDLE (0)：空闲状态的智能体
+         * - IDLE (0): AI agent in idle state
          * <p>
-         * - STARTING (1)：正在启动的智能体
+         * - STARTING (1): AI agent that is starting
          * <p>
-         * - RUNNING (2)：正在运行的智能体
+         * - RUNNING (2): AI agent that is running
          * <p>
-         * - STOPPING (3)：正在停止的智能体
+         * - STOPPING (3): AI agent that is stopping
          * <p>
-         * - STOPPED (4)：已完成退出的智能体
+         * - STOPPED (4): AI agent that has completed exit
          */
         @JsonProperty("status")
         private String status;
     }
 
     /**
-     * 元数据
+     * Metadata
      */
     public static class Meta{
 
         /**
-         * 满足本次查询条件的智能体总数量
+         * Total number of AI agents that meet the query criteria
          */
         @JsonProperty("total")
         private Integer total;
 
         /**
-         * 分页游标
+         * Pagination cursor
          */
         @JsonProperty("cursor")
         private String cursor;

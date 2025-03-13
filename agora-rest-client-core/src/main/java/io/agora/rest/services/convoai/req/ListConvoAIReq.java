@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @brief 查询智能体列表请求参数
+ * @brief Request parameters for querying the list of AI agents
  * @since 0.3.0
  */
 public class ListConvoAIReq {
@@ -14,9 +14,9 @@ public class ListConvoAIReq {
     }
 
     /**
-     * @param channel 频道
-     * @return 返回 {@link ListConvoAIReq} 实例
-     * @brief 设置查询channel参数，查询指定频道名下的智能体列表
+     * @param channel Channel
+     * @return Returns an instance of {@link ListConvoAIReq}
+     * @brief Sets the query channel parameter to query the list of AI agents under the specified channel name
      */
     public ListConvoAIReq channel(String channel) {
         params.put("channel", channel);
@@ -24,9 +24,9 @@ public class ListConvoAIReq {
     }
 
     /**
-     * @param limit 数量
-     * @return 返回 {@link ListConvoAIReq} 实例
-     * @brief 设置查询limit参数，查询指定数量的智能体列表，分页获取单次返回的最大条数，默认为 20
+     * @param limit Number
+     * @return Returns an instance of {@link ListConvoAIReq}
+     * @brief Sets the query limit parameter to query the specified number of AI agents. The maximum number of items returned per page is 20 by default.
      */
     public ListConvoAIReq limit(Integer limit) {
         params.put("limit", limit);
@@ -34,20 +34,20 @@ public class ListConvoAIReq {
     }
 
     /**
-     * @param state 状态
-     * @return 返回 {@link ListConvoAIReq} 实例
-     * @brief 设置查询state参数，查询指定状态的智能体列表，单次查询不支持指定多种状态
-     * @note 支持以下状态：
+     * @param state State
+     * @return Returns an instance of {@link ListConvoAIReq}
+     * @brief Sets the query state parameter to query the list of AI agents with the specified state. Multiple states cannot be specified in a single query.
+     * @note Supports the following states:
      * <p>
-     * - IDLE (0)：空闲状态的智能体
+     * - IDLE (0): AI agents in idle state
      * <p>
-     * - STARTING (1)：正在启动的智能体
+     * - STARTING (1): AI agents that are starting
      * <p>
-     * - RUNNING (2)：正在运行的智能体
+     * - RUNNING (2): AI agents that are running
      * <p>
-     * - STOPPING (3)：正在停止的智能体
+     * - STOPPING (3): AI agents that are stopping
      * <p>
-     * - STOPPED (4)：已完成退出的智能体
+     * - STOPPED (4): AI agents that have completed exit
      */
     public ListConvoAIReq state(Integer state) {
         params.put("state", state);
@@ -55,9 +55,9 @@ public class ListConvoAIReq {
     }
 
     /**
-     * @param cursor 游标
-     * @return 返回 {@link ListConvoAIReq} 实例
-     * @brief 设置查询cursor参数，查询指定游标位置的智能体列表，即分页起始位置的智能体 ID
+     * @param cursor Cursor
+     * @return Returns an instance of {@link ListConvoAIReq}
+     * @brief Sets the query cursor parameter to query the list of AI agents at the specified cursor position, i.e., the starting position of the page.
      */
     public ListConvoAIReq cursor(String cursor) {
         params.put("cursor", cursor);
@@ -65,9 +65,9 @@ public class ListConvoAIReq {
     }
 
     /**
-     * @param fromTime 开始时间
-     * @return 返回 {@link ListConvoAIReq} 实例
-     * @brief 设置查询fromTime参数，查询列表开始时间戳 (s)，默认为 1 天前
+     * @param fromTime Start time
+     * @return Returns an instance of {@link ListConvoAIReq}
+     * @brief Sets the query fromTime parameter to query the list starting from the specified timestamp (s). The default is 1 day ago.
      */
     public ListConvoAIReq fromTime(Long fromTime) {
         params.put("fromTime", fromTime);
@@ -75,9 +75,9 @@ public class ListConvoAIReq {
     }
 
     /**
-     * @param toTime 结束时间
-     * @return 返回 {@link ListConvoAIReq} 实例
-     * @brief 设置查询toTime参数，查询列表结束时间戳 (s)，默认为当前时刻
+     * @param toTime End time
+     * @return Returns an instance of {@link ListConvoAIReq}
+     * @brief Sets the query toTime parameter to query the list ending at the specified timestamp (s). The default is the current time.
      */
     public ListConvoAIReq toTime(Long toTime) {
         params.put("toTime", toTime);
@@ -85,8 +85,8 @@ public class ListConvoAIReq {
     }
 
     /**
-     * @return 返回查询字符串
-     * @brief 将请求参数转换为查询字符串
+     * @return Returns the query string
+     * @brief Converts the request parameters to a query string
      */
     public String toQueryString() {
         if (params.isEmpty()) {

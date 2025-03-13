@@ -14,12 +14,12 @@ public class ListConvoAIAPI {
         this.context = context;
     }
 
-    public Mono<ListConvoAIRes> handle(ListConvoAIReq req) {
+    public Mono<ListConvoAIRes> handle(ListConvoAIReq request) {
         StringBuilder path = new StringBuilder(String.format("/api/conversational-ai-agent/v2/projects/%s/agents",
                 this.context.getAgoraConfig().getAppId()));
 
-        if (req != null && req.toQueryString() != null) {
-            path.append(String.format("?%s", req.toQueryString()));
+        if (request != null && request.toQueryString() != null) {
+            path.append(String.format("?%s", request.toQueryString()));
         }
 
         return this.context.sendRequest(path.toString(), HttpMethod.GET, null, ListConvoAIRes.class);

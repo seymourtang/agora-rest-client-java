@@ -92,12 +92,12 @@ public class ConvoAIClient {
      *
      * @post 成功执行后，将会以列表形式获取满足条件的智能体信息
      *
-     * @param req 列出对话式智能体请求参数，详见 {@link ListConvoAIReq}
+     * @param request 列出对话式智能体请求参数，详见 {@link ListConvoAIReq}
      *
      * @return 返回查询列表结果，详见 {@link ListConvoAIRes}
      */
-    public Mono<ListConvoAIRes> list(ListConvoAIReq req) {
-        return listConvoAIAPI.handle(req);
+    public Mono<ListConvoAIRes> list(ListConvoAIReq request) {
+        return listConvoAIAPI.handle(request);
     }
 
     /**

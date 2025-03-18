@@ -1,4 +1,4 @@
-package io.agora.rest.services.convoai.api.res;
+package io.agora.rest.services.convoai.res;
 
 /**
  * @brief 离开智能体响应

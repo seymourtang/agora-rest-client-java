@@ -1,12 +1,10 @@
 package io.agora.rest.services.convoai.api;
 
 import io.agora.rest.core.Context;
-import io.agora.rest.services.convoai.api.req.JoinConvoAIReq;
-import io.agora.rest.services.convoai.api.res.JoinConvoAIRes;
+import io.agora.rest.services.convoai.req.JoinConvoAIReq;
+import io.agora.rest.services.convoai.res.JoinConvoAIRes;
 import io.netty.handler.codec.http.HttpMethod;
 import reactor.core.publisher.Mono;
-
-import java.util.HashMap;
 
 public class JoinConvoAIAPI {
 

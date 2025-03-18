@@ -3,13 +3,12 @@ package io.agora.rest.examples.convoai.service;
 import io.agora.rest.core.AgoraConfig;
 import io.agora.rest.core.Credential;
 import io.agora.rest.core.DomainArea;
-import io.agora.rest.examples.convoai.scenario.BaseScenario;
-import io.agora.rest.services.cloudrecording.CloudRecordingClient;
+import io.agora.rest.services.convoai.ConvoAIClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BaseService {
-    private static final Logger logger = LoggerFactory.getLogger(BaseScenario.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseService.class);
 
     protected final DomainArea domainArea;
 
@@ -21,7 +20,7 @@ public class BaseService {
 
     protected final Credential credential;
 
-    protected final CloudRecordingClient cloudRecordingClient;
+    protected final ConvoAIClient convoAIClient;
 
     public BaseService(DomainArea domainArea, String appId, String cname, String uid, Credential credential) {
         this.domainArea = domainArea;
@@ -38,6 +37,6 @@ public class BaseService {
 
         logger.info("AgoraConfig: {}", agoraConfig);
 
-        this.cloudRecordingClient = CloudRecordingClient.create(agoraConfig);
+        this.convoAIClient = ConvoAIClient.create(agoraConfig);
     }
 }

@@ -1,8 +1,8 @@
 package io.agora.rest.services.convoai.api;
 
 import io.agora.rest.core.Context;
-import io.agora.rest.services.convoai.api.req.UpdateConvoAIReq;
-import io.agora.rest.services.convoai.api.res.UpdateConvoAIRes;
+import io.agora.rest.services.convoai.req.UpdateConvoAIReq;
+import io.agora.rest.services.convoai.res.UpdateConvoAIRes;
 import io.netty.handler.codec.http.HttpMethod;
 import reactor.core.publisher.Mono;
 

@@ -1,4 +1,4 @@
-package io.agora.rest.services.convoai.api.req;
+package io.agora.rest.services.convoai.req;
 
 import java.util.HashMap;
 import java.util.Map;

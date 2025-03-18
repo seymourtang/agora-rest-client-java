@@ -1,4 +1,4 @@
-package io.agora.rest.services.convoai.api.res;
+package io.agora.rest.services.convoai.res;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

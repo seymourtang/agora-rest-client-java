@@ -6,7 +6,6 @@ import io.agora.rest.services.convoai.req.JoinConvoAIReq;
 import io.agora.rest.services.convoai.req.ListConvoAIReq;
 import io.agora.rest.services.convoai.req.UpdateConvoAIReq;
 import io.agora.rest.services.convoai.res.*;
-import io.agora.rest.services.convoai.res.JoinConvoAIRes;
 import reactor.core.publisher.Mono;
 
 public abstract class ConvoAIClient {
@@ -46,7 +45,7 @@ public abstract class ConvoAIClient {
      *
      * @return Returns the join response result, see {@link JoinConvoAIRes}
      */
-    public abstract Mono<JoinConvoAIRes> join(io.agora.rest.services.convoai.req.JoinConvoAIReq request);
+    public abstract Mono<JoinConvoAIRes> join(JoinConvoAIReq request);
 
     /**
      * @brief Requests to stop the specified conversational agent instance and make the agent leave the RTC channel

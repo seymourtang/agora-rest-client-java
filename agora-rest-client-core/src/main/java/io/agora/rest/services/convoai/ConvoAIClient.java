@@ -17,12 +17,18 @@ public abstract class ConvoAIClient {
      *
      * @since 0.3.0
      *
-     * @param agoraConfig Instance of {@link AgoraConfig}
+     * @param convoAIConfig Instance of {@link ConvoAIConfig}
      *
      * @return Returns an instance of ConvoAIClient
      */
-    public static synchronized ConvoAIClient create(AgoraConfig agoraConfig) {
+    public static synchronized ConvoAIClient create(ConvoAIConfig convoAIConfig) {
         if (mInstance == null) {
+            AgoraConfig agoraConfig= AgoraConfig.builder()
+                    .appId(convoAIConfig.getAppId())
+                    .credential(convoAIConfig.getCredential())
+                    .domainArea(convoAIConfig.getDomainArea())
+                    .httpProperty(convoAIConfig.getHttpProperty())
+                    .build();
             mInstance = new ConvoAIClientImpl(new DefaultContext(agoraConfig));
         }
 

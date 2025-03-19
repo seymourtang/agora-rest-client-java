@@ -1,9 +1,10 @@
 package io.agora.rest.examples.convoai.service;
 
-import io.agora.rest.core.AgoraConfig;
 import io.agora.rest.core.Credential;
 import io.agora.rest.core.DomainArea;
 import io.agora.rest.services.convoai.ConvoAIClient;
+import io.agora.rest.services.convoai.ConvoAIConfig;
+import io.agora.rest.services.convoai.ConvoAIServiceRegionEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,23 +21,27 @@ public class BaseService {
 
     protected final Credential credential;
 
+    protected final ConvoAIServiceRegionEnum serviceRegion;
+
     protected final ConvoAIClient convoAIClient;
 
-    public BaseService(DomainArea domainArea, String appId, String cname, String uid, Credential credential) {
+    public BaseService(DomainArea domainArea, String appId, String cname, String uid, Credential credential, ConvoAIServiceRegionEnum serviceRegion) {
         this.domainArea = domainArea;
         this.appId = appId;
         this.cname = cname;
         this.uid = uid;
         this.credential = credential;
+        this.serviceRegion = serviceRegion;
 
-        AgoraConfig agoraConfig = AgoraConfig.builder()
+        ConvoAIConfig convoAIConfig = ConvoAIConfig.builder()
                 .appId(appId)
                 .credential(credential)
                 .domainArea(domainArea)
+                .serverRegion(serviceRegion)
                 .build();
 
-        logger.info("AgoraConfig: {}", agoraConfig);
+        logger.info("ConvoAIConfig: {}", convoAIConfig);
 
-        this.convoAIClient = ConvoAIClient.create(agoraConfig);
+        this.convoAIClient = ConvoAIClient.create(convoAIConfig);
     }
 }

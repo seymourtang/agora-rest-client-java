@@ -1,6 +1,9 @@
 package io.agora.rest.examples.convoai;
 
+import io.agora.rest.core.BasicAuthCredential;
 import io.agora.rest.core.DomainArea;
+import io.agora.rest.examples.convoai.service.Service;
+import io.agora.rest.services.convoai.ConvoAIServiceRegionEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
@@ -20,11 +23,14 @@ public class Main implements Callable<Integer> {
 
     private String password;
 
-    private final DomainArea region = DomainArea.CN;
+    private final DomainArea domainArea = DomainArea.CN;
 
 
     @Option(names = {"-t", "--ttsVendor"}, description = "bytedance,microsoft,tencent,minimax,elevenlabs")
     private String ttsVendor = "";
+
+    @Option(names = {"-s", "--serviceRegion"}, description = "chineseMainland,global")
+    private String serviceRegion;
 
     public static void main(String[] args) {
         logger.info("Start conversational ai service");
@@ -43,19 +49,57 @@ public class Main implements Callable<Integer> {
     public Integer call() throws Exception {
         loadEnv();
 
-        logger.info("appId: {}, username: {}, password: {}, region: {}, ttsVendor: {}",
-                appId, username, password, region, ttsVendor);
+        logger.info("appId: {}, username: {}, password: {}, region: {}, ttsVendor: {}, serviceRegion: {}",
+                appId, username, password, domainArea, ttsVendor, serviceRegion);
 
+        if (serviceRegion==null) {
+            throw new IllegalArgumentException("serviceRegion is required");
+        }
+
+        ConvoAIServiceRegionEnum convoAIServiceRegionEnum;
+
+        if(serviceRegion.equals("chineseMainland")){
+            convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.ChinaMainland;
+        }
+        else if(serviceRegion.equals("global")){
+            convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.Global;
+        }
+        else{
+            throw new IllegalArgumentException("Invalid serviceRegion: " + serviceRegion);
+        }
+
+        Service svc =new Service(domainArea, appId, username, password, new BasicAuthCredential(username, password),  convoAIServiceRegionEnum);
         switch (ttsVendor) {
             case "bytedance":
+                if(convoAIServiceRegionEnum!=ConvoAIServiceRegionEnum.ChinaMainland){
+                    throw new IllegalArgumentException("Bytedance TTS is only available in China Mainland");
+                }
+
+                svc.runBytedanceTTS();
                 break;
             case "microsoft":
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.Global) {
+                    throw new IllegalArgumentException("Microsoft TTS is only available in Global");
+                }
+                svc.runMicrosoftTTS();
                 break;
             case "tencent":
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.ChinaMainland) {
+                    throw new IllegalArgumentException("Tencent TTS is only available in China Mainland");
+                }
+                svc.runTencentTTS();
                 break;
             case "minimax":
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.ChinaMainland) {
+                    throw new IllegalArgumentException("Minimax TTS is only available in China Mainland");
+                }
+                svc.runMinimaxTTS();
                 break;
             case "elevenlabs":
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.Global) {
+                    throw new IllegalArgumentException("Elevenlabs TTS is only available in Global");
+                }
+                svc.runElevenlabsTTS();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid ttsVendor: " + ttsVendor);

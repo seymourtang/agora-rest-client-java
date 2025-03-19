@@ -29,13 +29,10 @@ public abstract class ConvoAIClient {
         return mInstance;
     }
 
-
     /**
      * @brief Sends a join request to the conversational AI engine API
      *
      * @since 0.3.0
-     *
-     * @details This method sends a request to the conversational AI engine API to make the agent join the specified RTC channel
      *
      * @example Use when you need to create an agent instance in the RTC channel
      *
@@ -52,8 +49,6 @@ public abstract class ConvoAIClient {
      *
      * @since 0.3.0
      *
-     * @details This method sends a request to the conversational AI engine API to stop the agent and make it leave the RTC channel
-     *
      * @example Use when you need to stop an agent instance
      *
      * @post After successful execution, the agent will be stopped and leave the RTC channel
@@ -69,8 +64,6 @@ public abstract class ConvoAIClient {
      *
      * @since 0.3.0
      *
-     * @details This method sends a request to the conversational AI engine API to retrieve the information of agents that meet the criteria in a list form
-     *
      * @example Use when you need to retrieve the information of agents that meet the criteria in a list form
      *
      * @post After successful execution, the information of agents that meet the criteria will be retrieved in a list form
@@ -85,8 +78,6 @@ public abstract class ConvoAIClient {
      * @brief Retrieves the current running status information of the specified agent instance
      *
      * @since 0.3.0
-     *
-     * @details This method sends a request to the conversational AI engine API to retrieve the current running status information of the specified agent instance
      *
      * @example Use when you need to retrieve the current running status information of the specified agent instance
      *
@@ -104,8 +95,6 @@ public abstract class ConvoAIClient {
      * @brief Allows runtime adjustment of agent parameters
      *
      * @since 0.3.0
-     *
-     * @details This method sends a request to the conversational AI engine API to adjust the parameters of the runtime agent
      *
      * @example Use when you need to adjust the parameters of the runtime agent
      *

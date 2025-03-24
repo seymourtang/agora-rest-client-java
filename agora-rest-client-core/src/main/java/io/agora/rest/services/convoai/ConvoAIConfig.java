@@ -43,6 +43,10 @@ public class ConvoAIConfig {
         return httpProperty;
     }
 
+    public ConvoAIServiceRegionEnum getServiceRegion() {
+        return serviceRegion;
+    }
+
     @Override
     public String toString() {
         return "ConvoAIConfig{" +

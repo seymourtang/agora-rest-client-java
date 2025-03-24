@@ -4,6 +4,7 @@ import io.agora.rest.core.BasicAuthCredential;
 import io.agora.rest.core.DomainArea;
 import io.agora.rest.examples.convoai.service.Service;
 import io.agora.rest.services.convoai.ConvoAIServiceRegionEnum;
+import io.agora.rest.services.convoai.req.JoinConvoAIReq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
@@ -52,6 +53,12 @@ public class Main implements Callable<Integer> {
         logger.info("appId: {}, username: {}, password: {}, region: {}, ttsVendor: {}, serviceRegion: {}",
                 appId, username, password, domainArea, ttsVendor, serviceRegion);
 
+        JoinConvoAIReq.TTSVendorEnum ttsVendorEnum= JoinConvoAIReq.TTSVendorEnum.getEnum(ttsVendor);
+
+        if (ttsVendorEnum==null) {
+            throw new IllegalArgumentException("ttsVendor is required");
+        }
+
         if (serviceRegion==null) {
             throw new IllegalArgumentException("serviceRegion is required");
         }
@@ -59,44 +66,45 @@ public class Main implements Callable<Integer> {
         ConvoAIServiceRegionEnum convoAIServiceRegionEnum;
 
         if(serviceRegion.equals("chineseMainland")){
-            convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.ChinaMainland;
+            convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.CHINESE_MAINLAND;
         }
         else if(serviceRegion.equals("global")){
-            convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.Global;
+            convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.GLOBAL;
         }
         else{
             throw new IllegalArgumentException("Invalid serviceRegion: " + serviceRegion);
         }
 
         Service svc =new Service(domainArea, appId, username, password, new BasicAuthCredential(username, password),  convoAIServiceRegionEnum);
-        switch (ttsVendor) {
-            case "bytedance":
-                if(convoAIServiceRegionEnum!=ConvoAIServiceRegionEnum.ChinaMainland){
-                    throw new IllegalArgumentException("Bytedance TTS is only available in China Mainland");
+
+        switch (ttsVendorEnum) {
+            case BYTEDANCE:
+                if(convoAIServiceRegionEnum!=ConvoAIServiceRegionEnum.CHINESE_MAINLAND){
+                    throw new IllegalArgumentException("Bytedance TTS is only available in ChineseMainland");
                 }
 
                 svc.runBytedanceTTS();
                 break;
-            case "microsoft":
-                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.Global) {
+            case MICROSOFT:
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.GLOBAL) {
                     throw new IllegalArgumentException("Microsoft TTS is only available in Global");
                 }
                 svc.runMicrosoftTTS();
                 break;
-            case "tencent":
-                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.ChinaMainland) {
-                    throw new IllegalArgumentException("Tencent TTS is only available in China Mainland");
+            case TENCENT:
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.CHINESE_MAINLAND) {
+                    throw new IllegalArgumentException("Tencent TTS is only available in ChineseMainland");
                 }
                 svc.runTencentTTS();
                 break;
-            case "minimax":
-                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.ChinaMainland) {
-                    throw new IllegalArgumentException("Minimax TTS is only available in China Mainland");
+            case MINIMAX:
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.CHINESE_MAINLAND) {
+                    throw new IllegalArgumentException("Minimax TTS is only available in ChineseMainland");
                 }
                 svc.runMinimaxTTS();
                 break;
-            case "elevenlabs":
-                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.Global) {
+            case ELEVENLABS:
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.GLOBAL) {
                     throw new IllegalArgumentException("Elevenlabs TTS is only available in Global");
                 }
                 svc.runElevenlabsTTS();

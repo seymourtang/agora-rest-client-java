@@ -1,6 +1,7 @@
 package io.agora.rest.services.convoai;
 
 import io.agora.rest.core.Context;
+import io.agora.rest.exception.AgoraInvalidArgumentException;
 import io.agora.rest.services.convoai.api.*;
 import io.agora.rest.services.convoai.req.JoinConvoAIReq;
 import io.agora.rest.services.convoai.req.ListConvoAIReq;
@@ -9,6 +10,7 @@ import io.agora.rest.services.convoai.res.*;
 import reactor.core.publisher.Mono;
 
 public class ConvoAIClientImpl extends ConvoAIClient {
+
 
     private final JoinConvoAIAPI joinConvoAIAPI;
 
@@ -20,19 +22,43 @@ public class ConvoAIClientImpl extends ConvoAIClient {
 
     private final UpdateConvoAIAPI updateConvoAIAPI;
 
-    protected ConvoAIClientImpl(Context context) {
-        joinConvoAIAPI = new JoinConvoAIAPI(context);
-        leaveConvoAIAPI = new LeaveConvoAIAPI(context);
-        listConvoAIAPI = new ListConvoAIAPI(context);
-        queryConvoAIAPI = new QueryConvoAIAPI(context);
-        updateConvoAIAPI = new UpdateConvoAIAPI(context);
+    private final String chineseMainlandPrefixTpl = "/cn/api/conversational-ai-agent/v2/projects/%s";
+
+    private final String globalPrefixTpl = "/api/conversational-ai-agent/v2/projects/%s";
+
+    protected ConvoAIClientImpl(Context context, ConvoAIServiceRegionEnum serviceRegionEnum) {
+        String pathPrefix = getPathPrefix(context, serviceRegionEnum);
+        joinConvoAIAPI = new JoinConvoAIAPI(context, pathPrefix);
+        leaveConvoAIAPI = new LeaveConvoAIAPI(context,pathPrefix);
+        listConvoAIAPI = new ListConvoAIAPI(context,pathPrefix);
+        queryConvoAIAPI = new QueryConvoAIAPI(context,pathPrefix);
+        updateConvoAIAPI = new UpdateConvoAIAPI(context,pathPrefix);
+    }
+
+    private String getPathPrefix(Context context, ConvoAIServiceRegionEnum serviceRegionEnum) {
+        if(serviceRegionEnum ==null){
+            throw new AgoraInvalidArgumentException("service region is null");
+        }
+
+        String pathPrefixTpl = null;
+
+        switch (serviceRegionEnum){
+            case CHINESE_MAINLAND:
+                pathPrefixTpl= chineseMainlandPrefixTpl;
+                break;
+            case GLOBAL:
+                pathPrefixTpl= globalPrefixTpl;
+                break;
+        }
+
+        return String.format(pathPrefixTpl, context.getAgoraConfig().getAppId());
     }
 
     public Mono<JoinConvoAIRes> join(JoinConvoAIReq request) {
         return joinConvoAIAPI.handle(request);
     }
 
-    public Mono<LeaveConvoAIRes> leave(String agentId) {
+    public Mono<Void> leave(String agentId) {
         return leaveConvoAIAPI.handle(agentId);
     }
 

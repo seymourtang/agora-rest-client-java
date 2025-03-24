@@ -20,8 +20,8 @@ public class UpdateConvoAIRes {
     private Integer createTs;
 
     /**
-     * Status
-     * @note The following statuses are available:
+     * state
+     * The following statuses are available:
      * <p>
      * - IDLE (0): AI agent in idle state
      * <p>
@@ -33,6 +33,15 @@ public class UpdateConvoAIRes {
      * <p>
      * - STOPPED (4): AI agent that has completed exit
      */
-    @JsonProperty("status")
-    private String status;
+    @JsonProperty("state")
+    private String state;
+
+    @Override
+    public String toString() {
+        return "UpdateConvoAIRes{" +
+                "agentId='" + agentId + '\'' +
+                ", createTs=" + createTs +
+                ", state='" + state + '\'' +
+                '}';
+    }
 }

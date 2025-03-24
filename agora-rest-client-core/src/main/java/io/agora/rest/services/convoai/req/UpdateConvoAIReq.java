@@ -13,4 +13,36 @@ public class UpdateConvoAIReq {
      */
     @JsonProperty("token")
     private String token;
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private UpdateConvoAIReq(Builder builder) {
+        setToken(builder.token);
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public static final class Builder {
+        private String token;
+
+        private Builder() {
+        }
+
+        public Builder token(String val) {
+            token = val;
+            return this;
+        }
+
+        public UpdateConvoAIReq build() {
+            return new UpdateConvoAIReq(this);
+        }
+    }
 }

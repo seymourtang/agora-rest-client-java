@@ -6,11 +6,6 @@ import java.util.List;
 
 public enum DomainArea {
     /**
-     * Unknown domain area
-     */
-    Unknown(Collections.emptyList(), Collections.emptyList()),
-
-    /**
      * US domain area
      */
     US(

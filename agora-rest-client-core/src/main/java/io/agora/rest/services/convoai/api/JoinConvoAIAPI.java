@@ -10,13 +10,16 @@ public class JoinConvoAIAPI {
 
     private final Context context;
 
-    public JoinConvoAIAPI(Context context) {
+    private final String pathPrefix;
+
+    public JoinConvoAIAPI(Context context, String pathPrefix) {
         this.context = context;
+        this.pathPrefix = pathPrefix;
     }
 
     public Mono<JoinConvoAIRes> handle(JoinConvoAIReq request) {
-        String path = String.format("/api/conversational-ai-agent/v2/projects/%s/join",
-                this.context.getAgoraConfig().getAppId());
+        String path = String.format("%s/join",
+                pathPrefix);
 
         return this.context.sendRequest(path, HttpMethod.POST,request,JoinConvoAIRes.class);
     }

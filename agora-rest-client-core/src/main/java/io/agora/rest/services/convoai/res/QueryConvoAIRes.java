@@ -48,4 +48,15 @@ public class QueryConvoAIRes {
      */
     @JsonProperty("agent_id")
     private String agentId;
+
+    @Override
+    public String toString() {
+        return "QueryConvoAIRes{" +
+                "message='" + message + '\'' +
+                ", startTs=" + startTs +
+                ", stopTs=" + stopTs +
+                ", status='" + status + '\'' +
+                ", agentId='" + agentId + '\'' +
+                '}';
+    }
 }

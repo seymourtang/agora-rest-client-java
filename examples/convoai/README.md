@@ -1,65 +1,78 @@
-# CloudRecording Example
+# 对话式 AI 引擎服务
 
-> 这是 Agora Cloud Recording 的一个示例项目，使用了 Agora Cloud Recording RESTful API，实现了频道录制的功能。本示例支持合流录制、单流录制和页面录制三种模式。
+[English](./README.md) |  简体中文
 
-## 运行示例项目
+> 这是一个对话式 AI 引擎的示例项目，利用对话式 AI 引擎 API 实现对话式 AI 功能。
 
-### 前提条件
+## 前提条件
 
-配置环境变量，环境变量包括以下参数内容：
+设置环境变量。基本环境变量包括：
 
 ```bash
 export APP_ID=<Your App ID>
-export CNAME=<Your Channel Name>
-export USER_ID=<Your User ID>
-export BASIC_AUTH_USERNAME=<Your Basic Auth Username>
-export BASIC_AUTH_PASSWORD=<Your Basic Auth Password>
-export TOKEN=<Your Token>
-export STORAGE_CONFIG_VENDOR=<Your Storage Vendor>
-export STORAGE_CONFIG_REGION=<Your Storage Region>
-export STORAGE_CONFIG_BUCKET=<Your Storage Bucket>
-export STORAGE_CONFIG_ACCESS_KEY=<Your Storage Access Key>
-export STORAGE_CONFIG_SECRET_KEY=<Your Storage Secret Key>
+export BASIC_AUTH_USERNAME=<您的基本认证用户名>
+export BASIC_AUTH_PASSWORD=<您的基本认证密码>
+export CONVOAI_TOKEN=<您的代理令牌>
+export CONVOAI_CHANNEL=<您的频道名称>
+export CONVOAI_AGENT_RTC_UID=<您的代理 RTC UID>
 ```
 
-相关的参数可以通过可在 [CloudRecording 服务说明](../../agora-rest-client-core/src/main/java/io/agora/rest/services/cloudrecording/README.md) 查看
+您可以在 [对话式 AI 服务文档](../../services/convoai/README_ZH.md) 中找到相关参数。
 
-### 执行
+选择不同的 TTS 提供商时，需要配置额外的环境变量。目前支持的 TTS 提供商有：
 
-请确保在主模块目录已经执行了模块安装操作：
+### bytedance
 
 ```bash
-make install
+export CONVOAI_TTS_BYTEDANCE_TOKEN=<Your tts bytedance token>
+export CONVOAI_TTS_BYTEDANCE_APP_ID=<Your tts bytedance app id>
+export CONVOAI_TTS_BYTEDANCE_CLUSTER=<Your tts bytedance cluster>
+export CONVOAI_TTS_BYTEDANCE_VOICE_TYPE=<Your tts bytedance voice type>
 ```
 
-接着，在当前模块下，通过分别执行下面的命令来体验不同场景的`CloudRecording`示例：
+### tencent
 
 ```bash
-mvn exec:java -Dexec.mainClass="io.agora.rest.examples.cloudrecording.Main" -Dexec.args="--mode=mix --mix_scene=<scene>"
-mvn exec:java -Dexec.mainClass="io.agora.rest.examples.cloudrecording.Main" -Dexec.args="--mode=individual --individual_scene=<scene>"
-mvn exec:java -Dexec.mainClass="io.agora.rest.examples.cloudrecording.Main" -Dexec.args="--mode=web --web_scene=<scene>"
+export CONVOAI_TTS_TENCENT_APP_ID=<Your tts tencent app id>
+export CONVOAI_TTS_TENCENT_SECRET_ID=<Your tts tencent secret id>
+export CONVOAI_TTS_TENCENT_SECRET_KEY=<Your tts tencent secret key>
 ```
 
-其中 `mode` 表示云录制模式：
+### minimax
 
-* mix: 合流录制
-* individual: 单流录制
-* web: 页面录制
+```bash
+export CONVOAI_TTS_MINIMAX_GROUP_ID=<Your tts minimax group id>
+export CONVOAI_TTS_MINIMAX_GROUP_KEY=<Your tts minimax group key>
+export CONVOAI_TTS_MINIMAX_GROUP_MODEL=<Your tts minimax group model>
+```
 
-其中 `mix_scene` 表示合流录制场景：
+### microsoft
 
-* hls: 录制hls格式
-* hls_and_mp4: 录制hls和mp4格式
+```bash
+export CONVOAI_TTS_MICROSOFT_KEY=<Your tts microsoft key>
+export CONVOAI_TTS_MICROSOFT_REGION=<Your tts microsoft region>
+export CONVOAI_TTS_MICROSOFT_VOICE_NAME=<Your tts microsoft voice name>
+```
 
-其中 `individual_scene` 表示单流录制场景：
+### elevenLabs
 
-* recording: 仅录制
-* snapshot: 仅截图
-* recording_and_snapshot: 录制+截图
-* recording_and_postpone_transcoding: 录制+延时转码
-* recording_and_audio_mix: 录制+延时混音
+```bash
+export CONVOAI_TTS_ELEVENLABS_API_KEY=<Your tts elevenLabs api key>
+export CONVOAI_TTS_ELEVENLABS_MODEL_ID=<Your tts elevenLabs model id>
+export CONVOAI_TTS_ELEVENLABS_VOICE_ID=<Your tts elevenLabs voice id>
+```
 
-其中 `web_scene` 表示页面录制场景：
+## 执行
 
-* web_recorder: 页面录制
-* web_recorder_and_rtmp_publish: 页面录制+转推到CDN
+使用以下命令运行示例项目：
+
+```bash
+mvn exec:java -Dexec.mainClass="io.agora.rest.examples.convoai.Main" -Dexec.args="--ttsVendor=<ttsVendor> --serviceRegion=<serviceRegion>"
+```
+
+`ttsVendor` 代表不同的 TTS 提供商。根据您的需求选择合适的 TTS 提供商。
+`serviceRegion` 代表选择的服务区域。目前支持的服务区域有：
+* `ChineseMainland`
+* `Global`
+
+

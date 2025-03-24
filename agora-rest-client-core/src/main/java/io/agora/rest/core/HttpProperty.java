@@ -1,7 +1,5 @@
 package io.agora.rest.core;
 
-import reactor.netty.transport.logging.AdvancedByteBufFormat;
-
 public class HttpProperty {
 
     private final int httpConnectionPoolSize;
@@ -16,8 +14,6 @@ public class HttpProperty {
 
     private final int httpConnectionPendingAcquireMaxCount;
 
-    private final AdvancedByteBufFormat httpLogFormat;
-
     public static Builder builder() {
         return new Builder();
     }
@@ -29,7 +25,6 @@ public class HttpProperty {
         httpConnectionEvictInBackground = builder.httpConnectionEvictInBackground;
         httpConnectionPendingAcquireTimout = builder.httpConnectionPendingAcquireTimout;
         httpConnectionPendingAcquireMaxCount = builder.httpConnectionPendingAcquireMaxCount;
-        httpLogFormat = builder.httpLogFormat;
     }
 
     public int getHttpConnectionPoolSize() {
@@ -56,22 +51,6 @@ public class HttpProperty {
         return httpConnectionPendingAcquireMaxCount;
     }
 
-    public AdvancedByteBufFormat getHttpLogFormat() {
-        return httpLogFormat;
-    }
-
-    @Override
-    public String toString() {
-        return "HttpProperty{" +
-                "httpConnectionPoolSize=" + httpConnectionPoolSize +
-                ", httpConnectionMaxIdleTime=" + httpConnectionMaxIdleTime +
-                ", httpConnectionMaxLifeTime=" + httpConnectionMaxLifeTime +
-                ", httpConnectionEvictInBackground=" + httpConnectionEvictInBackground +
-                ", httpConnectionPendingAcquireTimout=" + httpConnectionPendingAcquireTimout +
-                ", httpConnectionPendingAcquireMaxCount=" + httpConnectionPendingAcquireMaxCount +
-                ", httpLogFormat=" + httpLogFormat +
-                '}';
-    }
 
     public static final class Builder {
         private int httpConnectionPoolSize = 50;
@@ -85,8 +64,6 @@ public class HttpProperty {
         private int httpConnectionPendingAcquireTimout = 60 * 1000;
 
         private int httpConnectionPendingAcquireMaxCount = 100;
-
-        private AdvancedByteBufFormat httpLogFormat = AdvancedByteBufFormat.SIMPLE;
 
         private Builder() {
 
@@ -119,11 +96,6 @@ public class HttpProperty {
 
         public Builder httpConnectionPendingAcquireMaxCount(int val) {
             httpConnectionPendingAcquireMaxCount = val;
-            return this;
-        }
-
-        public Builder httpLogFormat(AdvancedByteBufFormat val) {
-            httpLogFormat = val;
             return this;
         }
 

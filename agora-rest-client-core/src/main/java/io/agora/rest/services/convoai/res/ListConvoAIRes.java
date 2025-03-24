@@ -28,6 +28,15 @@ public class ListConvoAIRes {
     @JsonProperty("status")
     private String status;
 
+    @Override
+    public String toString() {
+        return "ListConvoAIRes{" +
+                "data=" + data +
+                ", meta=" + meta +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
     /**
      * Response data
      */
@@ -44,6 +53,14 @@ public class ListConvoAIRes {
          */
         @JsonProperty("list")
         private List<Agent> list;
+
+        @Override
+        public String toString() {
+            return "Data{" +
+                    "count=" + count +
+                    ", list=" + list +
+                    '}';
+        }
     }
 
     /**
@@ -79,6 +96,15 @@ public class ListConvoAIRes {
          */
         @JsonProperty("status")
         private String status;
+
+        @Override
+        public String toString() {
+            return "Agent{" +
+                    "agentId='" + agentId + '\'' +
+                    ", startTs=" + startTs +
+                    ", status='" + status + '\'' +
+                    '}';
+        }
     }
 
     /**
@@ -97,5 +123,13 @@ public class ListConvoAIRes {
          */
         @JsonProperty("cursor")
         private String cursor;
+
+        @Override
+        public String toString() {
+            return "Meta{" +
+                    "total=" + total +
+                    ", cursor='" + cursor + '\'' +
+                    '}';
+        }
     }
 }

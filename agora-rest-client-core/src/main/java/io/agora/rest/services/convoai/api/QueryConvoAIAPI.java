@@ -9,13 +9,15 @@ public class QueryConvoAIAPI {
 
     private final Context context;
 
-    public QueryConvoAIAPI(Context context) {
+    private final String pathPrefix;
+
+    public QueryConvoAIAPI(Context context, String pathPrefix) {
         this.context = context;
+        this.pathPrefix = pathPrefix;
     }
 
     public Mono<QueryConvoAIRes> handle(String agentId) {
-        String path = String.format("/api/conversational-ai-agent/v2/projects/%s/agents/%s",
-                this.context.getAgoraConfig().getAppId(),agentId);
+        String path = String.format("%s/agents/%s",pathPrefix,agentId);
         return this.context.sendRequest(path, HttpMethod.GET,null, QueryConvoAIRes.class);
     }
 }

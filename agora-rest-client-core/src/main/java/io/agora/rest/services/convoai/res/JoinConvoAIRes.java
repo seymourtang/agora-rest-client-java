@@ -35,4 +35,37 @@ public class JoinConvoAIRes {
      */
     @JsonProperty("status")
     private String status;
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
+    }
+
+    public Integer getCreateTs() {
+        return createTs;
+    }
+
+    public void setCreateTs(Integer createTs) {
+        this.createTs = createTs;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "JoinConvoAIRes{" +
+                "agentId='" + agentId + '\'' +
+                ", createTs=" + createTs +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

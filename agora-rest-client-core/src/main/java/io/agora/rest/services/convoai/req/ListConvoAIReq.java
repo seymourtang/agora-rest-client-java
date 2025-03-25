@@ -42,15 +42,19 @@ public class ListConvoAIReq {
     /**
      * Status of the intelligent agent to query，supports the following statuses:
      * <p>
-     * - IDLE (0): Idle State of the intelligent agent
+     * - IDLE (0): The agent is idle.
      * <p>
-     * - STARTING (1): Intelligent agent is starting
+     * - STARTING (1): The agent is starting.
      * <p>
-     * - RUNNING (2): Intelligent agent is running
+     * - RUNNING (2): The agent is running.
      * <p>
-     * - STOPPING (3): Intelligent agent is stopping
+     * - STOPPING (3): The agent is stopping.
      * <p>
-     * - STOPPED (4): Intelligent agent has completed exit
+     * - STOPPED (4): The agent has stopped.
+     * <p>
+     * - RECOVERING (5): The agent is recovering.
+     * <p>
+     * - FAILED (6): The agent has failed.
      */
     private final Integer state;
 

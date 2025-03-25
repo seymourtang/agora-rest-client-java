@@ -913,6 +913,11 @@ public class JoinConvoAIReq {
         }
     }
 
+
+    /**
+     * @brief Defines Text-to-Speech module Minimax vendor audio setting parameters for agent to join RTC channel
+     * @since v0.3.0
+     */
     public static class MinimaxTTSVendorAudioSettingParam {
 
         @JsonProperty("sample_rate")
@@ -951,6 +956,10 @@ public class JoinConvoAIReq {
         }
     }
 
+    /**
+     * @brief Defines Text-to-Speech module Minimax vendor voice setting parameters for agent to join RTC channel
+     * @since v0.3.0
+     */
     public static class MinimaxTTSVendorVoiceSettingParam {
 
         @JsonProperty("voice_id")

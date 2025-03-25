@@ -1,25 +1,25 @@
-# Conversational AI Service
+# 对话式 AI 引擎服务
 
-English | [简体中文](./README_ZH.md)
+ [English](./README.md) |  简体中文
 
-> This is a sample project for the Agora Conversational AI engine, utilizing the Agora Conversational Engine API to implement conversational AI functionalities.
+> 这是一个对话式 AI 引擎的示例项目，利用对话式 AI 引擎 API 实现对话式 AI 功能。
 
-## Prerequisites
+## 前提条件
 
-Set up environment variables. The basic environment variables include:
+设置环境变量。基本环境变量包括：
 
 ```bash
 export APP_ID=<Your App ID>
-export BASIC_AUTH_USERNAME=<Your Basic Auth Username>
-export BASIC_AUTH_PASSWORD=<Your Basic Auth Password>
-export CONVOAI_TOKEN=<Your Agent Token>
-export CONVOAI_CHANNEL=<Your Channel Name>
-export CONVOAI_AGENT_RTC_UID=<Your Agent RTC UID>
+export BASIC_AUTH_USERNAME=<您的基本认证用户名>
+export BASIC_AUTH_PASSWORD=<您的基本认证密码>
+export CONVOAI_TOKEN=<您的代理令牌>
+export CONVOAI_CHANNEL=<您的频道名称>
+export CONVOAI_AGENT_RTC_UID=<您的代理 RTC UID>
 ```
 
-You can find the relevant parameters in the [Conversational AI Service Documentation](../../agora-rest-client-core/src/main/java/io/agora/rest/services/convoai/README.md).
+您可以在 [对话式 AI 服务文档](../../agora-rest-client-core/src/main/java/io/agora/rest/services/convoai/README_ZH.md) 中找到相关参数。
 
-When choosing different TTS providers, you need to configure additional environment variables. The currently supported TTS providers are:
+选择不同的 TTS 提供商时，需要配置额外的环境变量。目前支持的 TTS 提供商有：
 
 ### bytedance
 
@@ -62,22 +62,22 @@ export CONVOAI_TTS_ELEVENLABS_MODEL_ID=<Your tts elevenLabs model id>
 export CONVOAI_TTS_ELEVENLABS_VOICE_ID=<Your tts elevenLabs voice id>
 ```
 
-## Execution
+## 执行
 
-Please ensure that you have executed the module installation operation in the main module directory:
+请确保在主模块目录已经执行了模块安装操作：
 
 ```bash
 make install
 ```
 
-Then, in the current module, execute the following commands to experience different scenarios of the `ConvoAI` example:
+接着，在当前模块下，通过分别执行下面的命令来体验不同场景的`Convo AI`示例：
 
 ```bash
 mvn exec:java -Dexec.mainClass="io.agora.rest.examples.convoai.Main" -Dexec.args="--ttsVendor=<ttsVendor> --serviceRegion=<serviceRegion>"
 ```
 
-`ttsVendor` represents different TTS providers. Choose the appropriate TTS provider based on your requirements.
-`serviceRegion` represents the chosen service region. The currently supported service regions are:
+`ttsVendor` 代表不同的 TTS 提供商。根据您的需求选择合适的 TTS 提供商。
+`serviceRegion` 代表选择的服务区域。目前支持的服务区域有：
 * `chineseMainland`
 * `global`
 

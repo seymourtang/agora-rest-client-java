@@ -1,39 +1,39 @@
-# Conversational AI Engine Service
+# 对话式 AI 引擎服务
 
-English | [简体中文](./README_ZH.md)
+ [English](./README.md) | 简体中文
 
-## Service Overview
+## 服务概述
 
-Agora's Conversational AI Engine redefines human-computer interaction, breaking through traditional text interactions to achieve highly realistic, natural, and smooth real-time voice conversations, allowing AI to truly "speak." It is suitable for innovative scenarios such as intelligent assistants, emotional companionship, spoken language training, intelligent customer service, smart hardware, and immersive game NPCs.
+声网对话式 AI 引擎重新定义了人机交互界面，突破了传统文字交互，实现了高拟真、自然流畅的实时语音对话，让 AI 真正“开口说话”。适用于智能助手、情感陪伴、口语陪练、智能客服、智能硬件、沉浸式游戏 NPC 等创新场景。
 
-## Environment Setup
+## 环境准备
 
-- Obtain Agora App ID -------- [Agora - Documentation Center - How to Get App ID](https://docs.agora.io/en/Agora%20Platform/get_appid_token?platform=All%20Platforms#get-app-id)
+- 获取声网App ID -------- [声网Agora - 文档中心 - 如何获取 App ID](https://docs.agora.io/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-id)
 
-  > - Click to create an application
+  > - 点击创建应用
   >
   >   ![](https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/github_readme/create_app_1.jpg)
   >
-  > - Select the type of application you want to create
+  > - 选择你要创建的应用类型
   >
   >   ![](https://accktvpic.oss-cn-beijing.aliyuncs.com/pic/github_readme/create_app_2.jpg)
 
-- Obtain App Certificate ----- [Agora - Documentation Center - Get App Certificate](https://docs.agora.io/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-%E8%AF%81%E4%B9%A6)
+- 获取App 证书 ----- [声网Agora - 文档中心 - 获取 App 证书](https://docs.agora.io/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-%E8%AF%81%E4%B9%A6)
 
-  > In the project management page of the Agora console, find your project and click configure.
+  > 在声网控制台的项目管理页面，找到你的项目，点击配置。
   > ![](https://fullapp.oss-cn-beijing.aliyuncs.com/scenario_api/callapi/config/1641871111769.png)
-  > Click the copy icon under the primary certificate to get the project's App Certificate.
+  > 点击主要证书下面的复制图标，即可获取项目的 App 证书。
   > ![](https://fullapp.oss-cn-beijing.aliyuncs.com/scenario_api/callapi/config/1637637672988.png)
 
-- Enable Conversational AI Engine Service ----- [Enable Service](https://doc.shengwang.cn/doc/convoai/restful/get-started/enable-service)
+- 启用会话式AI引擎服务 ----- [启用服务](https://doc.shengwang.cn/doc/convoai/restful/get-started/enable-service)
 
-## API Definition
+## API定义
 
-For more api details, please refer to the [API Documentation](https://doc.shengwang.cn/api-ref/convoai/go/go-api/overview)
+更多API详情，请参考 [API文档](https://doc.shengwang.cn//api-ref/convoai/java/java-api/overview)
 
-## API Call Examples
+## API调用示例
 
-### Initialize Conversational AI Engine Client
+### 初始化会话式AI引擎客户端
 
 ```java
     public static final String APP_ID = "<your appId>";
@@ -56,13 +56,13 @@ For more api details, please refer to the [API Documentation](https://doc.shengw
     ConvoAIClient convoAIClient = ConvoAIClient.create(config);
 ```
 
-### Create Conversational Agent
+### 创建对话式智能体
 >
-> Create a Conversational AI agent instance and join an RTC channel.
+> 创建对话式 AI 智能体实例并加入RTC频道。
 
-Parameters to set: LLM, TTS, and Agent related parameters.
+需要设置的参数：LLM、TTS和代理相关参数。
 
-Call the `join` method to create a conversational agent, using Bytedance TTS as an example:
+调用`join`方法创建会话代理，以使用字节跳动TTS为例：
 
 ```java
     public static final String CNAME = "<your cname>";
@@ -163,12 +163,12 @@ Call the `join` method to create a conversational agent, using Bytedance TTS as 
 
 ```
 
-### Stop Conversational Agent
+### 停止对话式智能体
 
-> Stop the conversational agent and leave the RTC channel.
+> 停止对话式智能体并离开RTC频道。
 
-Parameters to set:
-- AgentId returned by the `join` interface
+需要设置的参数：
+- `join`接口返回的AgentId
 
 ```java
  // Stop the agent
@@ -182,13 +182,13 @@ Parameters to set:
     }
 ```
 
-### Update Agent Configuration
+### 更新智能体配置
 
-> Currently, only the Token information of a running conversational agent can be updated.
+> 目前只能更新正在运行的智能体的Token信息。
 
-Parameters to set:
-- AgentId returned by the `join` interface
-- Token to be updated
+需要设置的参数：
+- `join`接口返回的AgentId
+- 要更新的Token
 
 ```java
     // Update agent
@@ -208,12 +208,12 @@ Parameters to set:
     logger.info("Update the agent successfully, updateConvoAIRes:{}", updateConvoAIRes);
 ```
 
-### Query Agent Status
+### 查询智能体状态
 
-> Query the status of the conversational agent.
+> 查询智能体的状态。
 
-Parameters to set:
-- AgentId returned by the `join` interface
+需要设置的参数：
+- `join`接口返回的AgentId
 
 ```java
     // Query agent
@@ -237,12 +237,11 @@ Parameters to set:
 ```
 
 
-## Retrieves a list of agents
+## 检索智能体列表
+> 按照条件检索智能体列表。
 
-> Retrieves a list of agents that meet the specified criteria.
-
-Parameters to set:
-- AgentId returned by the `join` interface
+需要设置的参数：
+- `join`接口返回的AgentId
 
 ```java
      // List agent
@@ -268,5 +267,5 @@ Parameters to set:
      logger.info("List the agent successfully, listConvoAIRes:{}", listConvoAIRes);
 ```
 
-## Error Codes and Response Status Codes Handling
-For specific business response codes, please refer to the [Business Response Codes](https://doc.shengwang.cn/doc/convoai/restful/api/response-code) documentation.
+## 错误代码和响应状态代码处理
+有关具体的业务响应代码，请参考 [业务响应代码](https://doc.shengwang.cn/doc/convoai/restful/api/response-code) 文档。

@@ -59,7 +59,7 @@ public class JoinConvoAIReq {
         /**
          * Token used to join the RTC channel, i.e., the dynamic key for authentication (optional).
          * <p>
-         * If your project has enabled App Certificate, be sure to pass the dynamic key of your project in this field
+         * If your project has enabled the App Certificate, you must pass the dynamic key in this field.
          */
         @JsonProperty("token")
         private String token;
@@ -93,7 +93,7 @@ public class JoinConvoAIReq {
          * <p>
          * - true: Enable String UID
          * <p>
-         * - false: Disable String UID (default)
+         * - false: Do not enable String UID (default)
          */
         @JsonProperty("enable_string_uid")
         private Boolean enableStringUId;
@@ -101,11 +101,11 @@ public class JoinConvoAIReq {
         /**
          * Maximum idle time of the RTC channel (s) (optional)
          * <p>
-         * The time after detecting that all users specified in remote_rtc_uids have left the channel is considered idle time.
+         * The time after all users specified in remote_rtc_uids leave the channel is considered idle time.
          * <p>
-         * If it exceeds the set maximum value, the agent in the channel will automatically stop and exit the channel.
+         * If it exceeds the set maximum value, the agent will automatically stop and exit the channel.
          * <p>
-         * If set to 0, the agent will not stop until manually exited
+         * If set to 0, the agent will only stop when manually exited.
          * <p>
          */
         @JsonProperty("idle_timeout")
@@ -133,7 +133,7 @@ public class JoinConvoAIReq {
         private LLM llm;
 
         /**
-         * Text-to-Speech (TTS) module configuration (required), see {@link TTS} for details
+         * Text-to-Speech (TTS) module configuration (optional), see {@link TTS} for details
          */
         @JsonProperty("tts")
         private TTS tts;
@@ -154,7 +154,6 @@ public class JoinConvoAIReq {
         public static Builder builder() {
             return new Builder();
         }
-
         private Properties(Builder builder) {
             setToken(builder.token);
             setChannel(builder.channel);
@@ -350,17 +349,17 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines advanced feature configurations for the agent to join the RTC channel
+     * @brief Defines advanced feature configuration for the agent to join RTC channel
      * @since v0.3.0
      */
     public static class AdvancedFeatures {
 
         /**
-         * Whether to enable graceful interruption (AIVAD) (optional)
+         * Whether to enable graceful interruption feature (AIVAD) (optional)
          * <p>
          * - true: Enable
          * <p>
-         * - false: Disable (default)
+         * - false: Do not enable (default)
          * <p>
          * When enabled, users can interrupt the AI at any time and respond quickly, achieving natural transitions and smooth conversations.
          */
@@ -372,7 +371,7 @@ public class JoinConvoAIReq {
          * <p>
          * - true: Enable
          * <p>
-         * - false: Disable (default)
+         * - false: Do not enable (default)
          * <p>
          * When enabled, the agent can use the capabilities provided by RTM to implement some advanced features.
          */
@@ -442,23 +441,23 @@ public class JoinConvoAIReq {
         private String url;
 
         /**
-         * LLM API key for verification (required)
+         * LLM verification API key (required)
          * <p>
-         * Default is empty, make sure to enable the API key in the production environment
+         * Default is empty, API key must be enabled in production environment
          */
         @JsonProperty("api_key")
         private String apiKey;
 
         /**
-         * A set of predefined information attached at the beginning of each LLM call to control LLM output (optional)
+         * A set of predefined information attached at the beginning of each LLM call, used to control LLM output (optional)
          * <p>
-         * Can be role settings, prompts, and answer samples, must be compatible with the OpenAI protocol
+         * Can be role settings, prompts, and answer examples, must be compatible with OpenAI protocol
          */
         @JsonProperty("system_messages")
         private List<Map<String, Object>> systemMessages;
 
         /**
-         * Additional information transmitted in the LLM message body, such as the model used, maximum token Limit, etc. (optional)
+         * Additional information transmitted in the LLM message body, such as the model used, maximum token limit, etc. (optional)
          * <p>
          * Different LLM providers support different configurations, see their respective LLM documentation for details.
          */
@@ -470,7 +469,7 @@ public class JoinConvoAIReq {
          * <p>
          * Default value is 10
          * <p>
-         * Passing 0 means no short-term memory is cached. The agent and subscribed users will record entries separately.
+         * Passing 0 means no short-term memory is cached. agent and subscribed users will record entries separately.
          */
         @JsonProperty("max_history")
         private Integer maxHistory;
@@ -484,7 +483,7 @@ public class JoinConvoAIReq {
         private String greetingMessage;
 
         /**
-         * Input modalities for the LLM (optional)
+         * Input modalities of the LLM (optional)
          * <p>
          * - ["text"]: Text only (default)
          * <p>
@@ -494,7 +493,7 @@ public class JoinConvoAIReq {
         private List<String> inputModalities;
 
         /**
-         * Output modalities for the LLM (optional)
+         * Output modalities of the LLM (optional)
          * <p>
          * - ["text"]: Text only (default), the output text will be converted to speech by the TTS module and then published to the RTC channel.
          * <p>
@@ -763,7 +762,7 @@ public class JoinConvoAIReq {
         // Microsoft TTS vendor
         MICROSOFT("microsoft"),
 
-        // ElevenLabs TTS vendor
+        // Elevenlabs TTS vendor
         ELEVENLABS("elevenLabs");
 
         private final String vendor;
@@ -794,7 +793,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Minimax vendor parameters for the Text-to-Speech (TTS) module when the agent joins the RTC channel, see
+     * @brief Defines Text-to-Speech (TTS) module Minimax vendor parameters for agent to join RTC channel, see
      * <a href="https://platform.minimaxi.com/document/T2A%20V2">Minimax</a>
      * @since v0.3.0
      */
@@ -1063,7 +1062,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief @brief Defines the Tencent vendor parameters for the Text-to-Speech (TTS) module when the agent joins the RTC channel, see
+     * @brief Defines Text-to-Speech (TTS) module Tencent vendor parameters for agent to join RTC channel, see
      * <a href="https://cloud.tencent.com/document/product/1073/94308">Tencent</a>
      * @since v0.3.0
      */
@@ -1239,7 +1238,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Bytedance vendor parameters for the Text-to-Speech (TTS) module when the agent joins the RTC channel, see
+     * @brief Defines Text-to-Speech (TTS) module Bytedance vendor parameters for agent to join RTC channel, see
      * <a href="https://www.volcengine.com/docs/6561/79823">Bytedance</a>
      * @since v0.3.0
      */
@@ -1408,7 +1407,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Microsoft vendor parameters for the Text-to-Speech (TTS) module when the agent joins the RTC channel, see
+     * @brief Defines Text-to-Speech (TTS) module Microsoft vendor parameters for agent to join RTC channel
      * @since v0.3.0
      */
     public static class MicrosoftTTSVendorParams implements TTSVendorParams {
@@ -1522,7 +1521,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the ElevenLabs vendor parameters for the Text-to-Speech (TTS) module when the agent joins the RTC channel, see
+     * @brief Defines Text-to-Speech (TTS) module Elevenlabs vendor parameters for agent to join RTC channel
      * @since v0.3.0
      */
     public static class ElevenLabsTTSVendorParams implements TTSVendorParams {
@@ -1600,7 +1599,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Voice Activity Detection (VAD) configuration for the agent to join the RTC channel.
+     * @brief Defines the Voice Activity Detection (VAD) configuration for the agent to join the RTC channel
      * @since v0.3.0
      */
     public static class Vad {
@@ -1616,7 +1615,7 @@ public class JoinConvoAIReq {
         /**
          * Prefix padding threshold (ms), range [0, 5000] (optional)
          * <p>
-         * Minimum duration of continuous voice required to start a new voice segment, avoiding very short sounds triggering voice activity detection
+         * Minimum duration of voice required to start a new speech segment to avoid triggering voice activity detection with very short sounds.
          */
         @JsonProperty("prefix_padding_ms")
         private Integer prefixPaddingMs;
@@ -1718,7 +1717,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Automatic Speech Recognition (ASR) configuration for the agent to join the RTC channel.
+     * @brief Defines the Automatic Speech Recognition (ASR) configuration for agent to join RTC channel
      * @since v0.3.0
      */
     public static class Asr {

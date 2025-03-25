@@ -4,12 +4,54 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @brief Define the filter condition type used to query the list of intelligent agents
+ * @since v0.3.0
+ */
 public class ListConvoAIReq {
+
+    /**
+     * Set the channel name.
+     */
     private final String channel;
+    /**
+     * Set the number of items.
+     * <p>
+     * Limit The number of items returned per page for pagination,default is 20
+     */
     private final Integer limit;
+    /**
+     * Set the pagination cursor.
+     * <p>
+     * Pagination Cursor, i.e., the intelligent agent ID of the pagination start position
+     */
     private final String cursor;
+    /**
+     * Set the end timestamp.
+     * <p>
+     * End timestamp (s), default is the current time
+     */
     private final Long fromTime;
+
+    /**
+     * Set the start timestamp.
+     * <p>
+     * Start timestamp (s), default is 1 day ago
+     */
     private final Long toTime;
+    /**
+     * Status of the intelligent agent to query，supports the following statuses:
+     * <p>
+     * - IDLE (0): Idle State of the intelligent agent
+     * <p>
+     * - STARTING (1): Intelligent agent is starting
+     * <p>
+     * - RUNNING (2): Intelligent agent is running
+     * <p>
+     * - STOPPING (3): Intelligent agent is stopping
+     * <p>
+     * - STOPPED (4): Intelligent agent has completed exit
+     */
     private final Integer state;
 
     public static Builder builder() {

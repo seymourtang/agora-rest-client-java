@@ -5,19 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * @brief Response for querying the list of AI agents
+ * @brief Response returned by the Conversational AI engine List API
  * @since v0.3.0
  */
 public class ListConvoAIRes {
 
     /**
-     * Data
+     * Intelligent agent data information
      */
     @JsonProperty("data")
     private Data data;
 
     /**
-     * Metadata
+     * Metadata of the returned list
      */
     @JsonProperty("meta")
     private Meta meta;
@@ -38,7 +38,7 @@ public class ListConvoAIRes {
     }
 
     /**
-     * Response data
+     * Intelligent agent data information
      */
     public static class Data {
 
@@ -49,7 +49,7 @@ public class ListConvoAIRes {
         private Integer count;
 
         /**
-         * List of AI agents, for detailed information refer to {@link Agent}
+         * List of intelligent agents that meet the conditions, for detailed information refer to {@link Agent}
          */
         @JsonProperty("list")
         private List<Agent> list;
@@ -64,36 +64,40 @@ public class ListConvoAIRes {
     }
 
     /**
-     * AI agent information
+     * Intelligent agent information
      */
     public static class Agent {
 
         /**
-         * Unique identifier for the AI agent
+         * Unique identifier of the agent
          */
         @JsonProperty("agent_id")
         private String agentId;
 
         /**
-         * @brief Creation timestamp
+         * Intelligent agent creation timestamp
          */
         @JsonProperty("start_ts")
         private Integer startTs;
 
         /**
          * Status
-         *
-         * @note The following statuses are available:
          * <p>
-         * - IDLE (0): AI agent in idle state
+         * The following statuses are available:
          * <p>
-         * - STARTING (1): AI agent that is starting
+         * - IDLE (0): The agent is idle.
          * <p>
-         * - RUNNING (2): AI agent that is running
+         * - STARTING (1): The agent is starting.
          * <p>
-         * - STOPPING (3): AI agent that is stopping
+         * - RUNNING (2): The agent is running.
          * <p>
-         * - STOPPED (4): AI agent that has completed exit
+         * - STOPPING (3): The agent is stopping.
+         * <p>
+         * - STOPPED (4): The agent has stopped.
+         * <p>
+         * - RECOVERING (5): The agent is recovering.
+         * <p>
+         * - FAILED (6): The agent has failed.
          */
         @JsonProperty("status")
         private String status;
@@ -109,7 +113,7 @@ public class ListConvoAIRes {
     }
 
     /**
-     * Metadata
+     * Metadata of the returned list
      */
     public static class Meta {
 

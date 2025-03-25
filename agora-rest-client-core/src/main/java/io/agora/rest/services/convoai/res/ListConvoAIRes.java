@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @brief Response for querying the list of AI agents
- * @since 0.3.0
+ * @since v0.3.0
  */
 public class ListConvoAIRes {
 

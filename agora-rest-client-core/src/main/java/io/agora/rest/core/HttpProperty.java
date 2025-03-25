@@ -1,17 +1,39 @@
 package io.agora.rest.core;
 
+/**
+ * @brief HttpProperty represents the properties of the HTTP client
+ * @since v0.3.0
+ */
 public class HttpProperty {
 
+    /**
+     * Maximum number of connections in the connection pool
+     */
     private final int httpConnectionPoolSize;
 
+    /**
+     * Maximum idle time of a connection in the connection pool, unit: ms
+     */
     private final int httpConnectionMaxIdleTime;
 
+    /**
+     * Maximum lifetime of a connection in the connection pool，unit: ms
+     */
     private final int httpConnectionMaxLifeTime;
 
+    /**
+     * Time to evict connections in the background, unit: ms
+     */
     private final int httpConnectionEvictInBackground;
 
+    /**
+     * Timeout for acquiring a connection from the connection pool, unit: ms
+     */
     private final int httpConnectionPendingAcquireTimout;
 
+    /**
+     * The maximum number of registered requests for acquire to keep in a pending queue
+     */
     private final int httpConnectionPendingAcquireMaxCount;
 
     public static Builder builder() {
@@ -49,6 +71,18 @@ public class HttpProperty {
 
     public int getHttpConnectionPendingAcquireMaxCount() {
         return httpConnectionPendingAcquireMaxCount;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpProperty{" +
+                "httpConnectionPoolSize=" + httpConnectionPoolSize +
+                ", httpConnectionMaxIdleTime=" + httpConnectionMaxIdleTime +
+                ", httpConnectionMaxLifeTime=" + httpConnectionMaxLifeTime +
+                ", httpConnectionEvictInBackground=" + httpConnectionEvictInBackground +
+                ", httpConnectionPendingAcquireTimout=" + httpConnectionPendingAcquireTimout +
+                ", httpConnectionPendingAcquireMaxCount=" + httpConnectionPendingAcquireMaxCount +
+                '}';
     }
 
 

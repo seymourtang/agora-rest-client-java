@@ -3,8 +3,8 @@ package io.agora.rest.services.convoai.req;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @brief Request parameters for updating AI agent
- * @since 0.3.0
+ * @brief Request body for calling the Conversational AI engine Update API
+ * @since v0.3.0
  */
 public class UpdateConvoAIReq {
 

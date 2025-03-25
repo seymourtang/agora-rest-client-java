@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @brief Response for updating the AI agent
- * @since 0.3.0
+ * @since v0.3.0
  */
 public class UpdateConvoAIRes {
     /**

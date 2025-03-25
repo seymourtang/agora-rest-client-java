@@ -1,73 +1,82 @@
 package io.agora.rest.services.convoai.req;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ListConvoAIReq {
-    private final Map<String, Object> params;
+    private final String channel;
+    private final Integer limit;
+    private final String cursor;
+    private final Long fromTime;
+    private final Long toTime;
+    private final Integer state;
 
     public static Builder builder() {
         return new Builder();
     }
 
     private ListConvoAIReq(Builder builder) {
-        this.params = builder.params;
-    }
-
-    public Map<String, Object> getParams() {
-        return params;
+        channel = builder.channel;
+        limit = builder.limit;
+        cursor = builder.cursor;
+        fromTime = builder.fromTime;
+        toTime = builder.toTime;
+        state = builder.state;
     }
 
     public String toQueryString() {
-        if (params.isEmpty()) {
-            return null;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            if (sb.length() > 0) {
-                sb.append("&");
-            }
-            sb.append(String.format("%s=%s", entry.getKey(), entry.getValue()));
-        }
-        return sb.toString();
+        return Stream.of(
+                        Optional.ofNullable(channel).map(c -> "channel=" + c),
+                        Optional.ofNullable(limit).map(l -> "limit=" + l),
+                        Optional.ofNullable(cursor).map(c -> "cursor=" + c),
+                        Optional.ofNullable(fromTime).map(ft -> "fromTime=" + ft),
+                        Optional.ofNullable(toTime).map(tt -> "toTime=" + tt),
+                        Optional.ofNullable(state).map(s -> "state=" + s)
+                )
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.joining("&"));
     }
 
-    public static class Builder {
-        private final Map<String, Object> params = new HashMap<>();
+    public static final class Builder {
+        private String channel;
+        private Integer limit;
+        private String cursor;
+        private Long fromTime;
+        private Long toTime;
+        private Integer state;
 
         private Builder() {
-
         }
 
-
-        public Builder channel(String channel) {
-            params.put("channel", channel);
+        public Builder channel(String val) {
+            channel = val;
             return this;
         }
 
-        public Builder limit(Integer limit) {
-            params.put("limit", limit);
+        public Builder limit(Integer val) {
+            limit = val;
             return this;
         }
 
-        public Builder state(Integer state) {
-            params.put("state", state);
+        public Builder cursor(String val) {
+            cursor = val;
             return this;
         }
 
-        public Builder cursor(String cursor) {
-            params.put("cursor", cursor);
+        public Builder fromTime(Long val) {
+            fromTime = val;
             return this;
         }
 
-        public Builder fromTime(Long fromTime) {
-            params.put("fromTime", fromTime);
+        public Builder toTime(Long val) {
+            toTime = val;
             return this;
         }
 
-        public Builder toTime(Long toTime) {
-            params.put("toTime", toTime);
+        public Builder state(Integer val) {
+            state = val;
             return this;
         }
 

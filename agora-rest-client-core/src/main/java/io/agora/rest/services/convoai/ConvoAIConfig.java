@@ -4,15 +4,40 @@ import io.agora.rest.core.Credential;
 import io.agora.rest.core.DomainArea;
 import io.agora.rest.core.HttpProperty;
 
+
+/**
+ * @brief Defines the configuration for the Conversational AI engine client
+ * @since v0.3.0
+ */
 public class ConvoAIConfig {
+
+    /**
+     * Agora AppID
+     */
     private final String appId;
 
+    /**
+     * Credential for accessing the Agora service.
+     * <p>
+     * Available credential types:
+     * <p>
+     * - BasicAuthCredential: See {@link io.agora.rest.core.BasicAuthCredential}
+     */
     private final Credential credential;
 
+    /**
+     * Domain area for the REST Client. See {@link DomainArea}
+     */
     private final DomainArea domainArea;
 
+    /**
+     * HTTP properties for the REST Client. See {@link HttpProperty}
+     */
     private final HttpProperty httpProperty;
 
+    /**
+     * Service region for the Conversational AI engine. See {@link ConvoAIServiceRegionEnum}
+     */
     private final ConvoAIServiceRegionEnum serviceRegion;
 
     private ConvoAIConfig(Builder builder) {

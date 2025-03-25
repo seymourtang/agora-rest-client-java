@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 public class ConvoAIClientImpl extends ConvoAIClient {
 
-
     private final JoinConvoAIAPI joinConvoAIAPI;
 
     private final LeaveConvoAIAPI leaveConvoAIAPI;

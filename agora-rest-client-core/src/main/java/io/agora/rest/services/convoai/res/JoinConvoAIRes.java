@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @brief Response parameters for joining AI agent
- * @since 0.3.0
+ * @since v0.3.0
  */
 public class JoinConvoAIRes {
     /**

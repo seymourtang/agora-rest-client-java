@@ -16,7 +16,7 @@ public class LeaveConvoAIAPI {
     }
 
     public Mono<Void> handle(String agentId) {
-        String path = String.format("%s/agents/%s/leave", pathPrefix,agentId);
-        return this.context.sendRequest(path, HttpMethod.POST,null, Void.class);
+        String path = String.format("%s/agents/%s/leave", pathPrefix, agentId);
+        return this.context.sendRequest(path, HttpMethod.POST, null, Void.class);
     }
 }

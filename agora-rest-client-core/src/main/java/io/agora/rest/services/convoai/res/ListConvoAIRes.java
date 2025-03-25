@@ -66,7 +66,7 @@ public class ListConvoAIRes {
     /**
      * AI agent information
      */
-    public static class Agent{
+    public static class Agent {
 
         /**
          * Unique identifier for the AI agent
@@ -82,6 +82,7 @@ public class ListConvoAIRes {
 
         /**
          * Status
+         *
          * @note The following statuses are available:
          * <p>
          * - IDLE (0): AI agent in idle state
@@ -110,7 +111,7 @@ public class ListConvoAIRes {
     /**
      * Metadata
      */
-    public static class Meta{
+    public static class Meta {
 
         /**
          * Total number of AI agents that meet the query criteria

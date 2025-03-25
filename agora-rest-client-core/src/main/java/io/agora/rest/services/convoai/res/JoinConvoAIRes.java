@@ -21,6 +21,7 @@ public class JoinConvoAIRes {
 
     /**
      * Status
+     *
      * @note The following statuses are available:
      * <p>
      * - IDLE (0): AI agent in idle state

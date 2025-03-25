@@ -21,6 +21,6 @@ public class JoinConvoAIAPI {
         String path = String.format("%s/join",
                 pathPrefix);
 
-        return this.context.sendRequest(path, HttpMethod.POST,request,JoinConvoAIRes.class);
+        return this.context.sendRequest(path, HttpMethod.POST, request, JoinConvoAIRes.class);
     }
 }

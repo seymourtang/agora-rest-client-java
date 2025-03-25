@@ -17,7 +17,7 @@ public class QueryConvoAIAPI {
     }
 
     public Mono<QueryConvoAIRes> handle(String agentId) {
-        String path = String.format("%s/agents/%s",pathPrefix,agentId);
-        return this.context.sendRequest(path, HttpMethod.GET,null, QueryConvoAIRes.class);
+        String path = String.format("%s/agents/%s", pathPrefix, agentId);
+        return this.context.sendRequest(path, HttpMethod.GET, null, QueryConvoAIRes.class);
     }
 }

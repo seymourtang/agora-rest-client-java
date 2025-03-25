@@ -6,7 +6,10 @@ import io.agora.rest.services.convoai.api.*;
 import io.agora.rest.services.convoai.req.JoinConvoAIReq;
 import io.agora.rest.services.convoai.req.ListConvoAIReq;
 import io.agora.rest.services.convoai.req.UpdateConvoAIReq;
-import io.agora.rest.services.convoai.res.*;
+import io.agora.rest.services.convoai.res.JoinConvoAIRes;
+import io.agora.rest.services.convoai.res.ListConvoAIRes;
+import io.agora.rest.services.convoai.res.QueryConvoAIRes;
+import io.agora.rest.services.convoai.res.UpdateConvoAIRes;
 import reactor.core.publisher.Mono;
 
 public class ConvoAIClientImpl extends ConvoAIClient {
@@ -22,32 +25,32 @@ public class ConvoAIClientImpl extends ConvoAIClient {
 
     private final UpdateConvoAIAPI updateConvoAIAPI;
 
-    private final String chineseMainlandPrefixTpl = "/cn/api/conversational-ai-agent/v2/projects/%s";
+    private final static String chineseMainlandPrefixTpl = "/cn/api/conversational-ai-agent/v2/projects/%s";
 
-    private final String globalPrefixTpl = "/api/conversational-ai-agent/v2/projects/%s";
+    private final static String globalPrefixTpl = "/api/conversational-ai-agent/v2/projects/%s";
 
     protected ConvoAIClientImpl(Context context, ConvoAIServiceRegionEnum serviceRegionEnum) {
         String pathPrefix = getPathPrefix(context, serviceRegionEnum);
         joinConvoAIAPI = new JoinConvoAIAPI(context, pathPrefix);
-        leaveConvoAIAPI = new LeaveConvoAIAPI(context,pathPrefix);
-        listConvoAIAPI = new ListConvoAIAPI(context,pathPrefix);
-        queryConvoAIAPI = new QueryConvoAIAPI(context,pathPrefix);
-        updateConvoAIAPI = new UpdateConvoAIAPI(context,pathPrefix);
+        leaveConvoAIAPI = new LeaveConvoAIAPI(context, pathPrefix);
+        listConvoAIAPI = new ListConvoAIAPI(context, pathPrefix);
+        queryConvoAIAPI = new QueryConvoAIAPI(context, pathPrefix);
+        updateConvoAIAPI = new UpdateConvoAIAPI(context, pathPrefix);
     }
 
     private String getPathPrefix(Context context, ConvoAIServiceRegionEnum serviceRegionEnum) {
-        if(serviceRegionEnum ==null){
+        if (serviceRegionEnum == null) {
             throw new AgoraInvalidArgumentException("service region is null");
         }
 
         String pathPrefixTpl = null;
 
-        switch (serviceRegionEnum){
+        switch (serviceRegionEnum) {
             case CHINESE_MAINLAND:
-                pathPrefixTpl= chineseMainlandPrefixTpl;
+                pathPrefixTpl = chineseMainlandPrefixTpl;
                 break;
             case GLOBAL:
-                pathPrefixTpl= globalPrefixTpl;
+                pathPrefixTpl = globalPrefixTpl;
                 break;
         }
 

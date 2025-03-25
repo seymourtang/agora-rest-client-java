@@ -154,6 +154,7 @@ public class JoinConvoAIReq {
         public static Builder builder() {
             return new Builder();
         }
+
         private Properties(Builder builder) {
             setToken(builder.token);
             setChannel(builder.channel);

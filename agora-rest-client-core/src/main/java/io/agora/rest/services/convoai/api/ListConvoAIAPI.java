@@ -29,7 +29,7 @@ public class ListConvoAIAPI {
             path.append(String.format("?%s", request.toQueryString()));
         }
 
-        logger.info("path:{}", path);
+        logger.debug("path:{}", path);
 
         return this.context.sendRequest(path.toString(), HttpMethod.GET, null, ListConvoAIRes.class);
     }

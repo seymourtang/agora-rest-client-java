@@ -799,18 +799,33 @@ public class JoinConvoAIReq {
      */
     public static class MinimaxTTSVendorParams implements TTSVendorParams {
 
+        /**
+         * Group ID
+         */
         @JsonProperty("group_id")
         private String groupId;
 
+        /**
+         * API key
+         */
         @JsonProperty("key")
         private String key;
 
+        /**
+         * Model
+         */
         @JsonProperty("model")
         private String model;
 
+        /**
+         * Audio setting
+         */
         @JsonProperty("audio_setting")
         private MinimaxTTSVendorAudioSettingParam audioSetting;
 
+        /**
+         * Voice setting
+         */
         @JsonProperty("voice_setting")
         private MinimaxTTSVendorVoiceSettingParam voiceSetting;
 
@@ -920,6 +935,9 @@ public class JoinConvoAIReq {
      */
     public static class MinimaxTTSVendorAudioSettingParam {
 
+        /**
+         * Sample rate
+         */
         @JsonProperty("sample_rate")
         private Integer sampleRate;
 
@@ -962,18 +980,33 @@ public class JoinConvoAIReq {
      */
     public static class MinimaxTTSVendorVoiceSettingParam {
 
+        /**
+         * Voice ID
+         */
         @JsonProperty("voice_id")
         private String voiceId;
 
+        /**
+         * Speed of speech
+         */
         @JsonProperty("speed")
         private Float speed;
 
+        /**
+         * Volume
+         */
         @JsonProperty("vol")
         private Float vol;
 
+        /**
+         * Pitch Ratio
+         */
         @JsonProperty("pitch")
         private Integer pitch;
 
+        /**
+         * Emotion
+         */
         @JsonProperty("emotion")
         private String emotion;
 
@@ -1076,27 +1109,52 @@ public class JoinConvoAIReq {
      * @since v0.3.0
      */
     public static class TencentTTSVendorParams implements TTSVendorParams {
+
+        /**
+         * Tencent Cloud TTS App ID
+         */
         @JsonProperty("app_id")
         private String appId;
 
+        /**
+         * Tencent Cloud TTS Secret ID
+         */
         @JsonProperty("secret_id")
         private String secretId;
 
+        /**
+         * Tencent Cloud TTS Secret Key
+         */
         @JsonProperty("secret_key")
         private String secretKey;
 
+        /**
+         * Voice type
+         */
         @JsonProperty("voice_type")
         private Integer voiceType;
 
+        /**
+         * Volume
+         */
         @JsonProperty("volume")
         private Integer volume;
 
+        /**
+         * Speed of speech
+         */
         @JsonProperty("speed")
         private Integer speed;
 
+        /**
+         * Emotion category
+         */
         @JsonProperty("emotion_category")
         private String emotionCategory;
 
+        /**
+         * Emotion intensity
+         */
         @JsonProperty("emotion_intensity")
         private Integer emotionIntensity;
 
@@ -1253,27 +1311,51 @@ public class JoinConvoAIReq {
      */
     public static class BytedanceTTSVendorParams implements TTSVendorParams {
 
+        /**
+         * Bytedance TTS token
+         */
         @JsonProperty("token")
         private String token;
 
+        /**
+         * Bytedance TTS App ID
+         */
         @JsonProperty("app_id")
         private String appId;
 
+        /**
+         * Bytedance TTS cluster
+         */
         @JsonProperty("cluster")
         private String cluster;
 
+        /**
+         * Voice type
+         */
         @JsonProperty("voice_type")
         private String voiceType;
 
+        /**
+         * Speed ratio
+         */
         @JsonProperty("speed_ratio")
         private Float speedRatio;
 
+        /**
+         * Volume ratio
+         */
         @JsonProperty("volume_ratio")
         private Float volumeRatio;
 
+        /**
+         * Pitch ratio
+         */
         @JsonProperty("pitch_ratio")
         private Float pitchRatio;
 
+        /**
+         * Emotion
+         */
         @JsonProperty("emotion")
         private String emotion;
 

@@ -1497,10 +1497,6 @@ public class JoinConvoAIReq {
         }
     }
 
-    /**
-     * @brief Define Microsoft TTS module parameters.
-     * @since v0.3.0
-     */
     public static class MicrosoftTTSVendorParams implements TTSVendorParams {
 
         @JsonProperty("key")
@@ -1611,10 +1607,6 @@ public class JoinConvoAIReq {
         }
     }
 
-    /**
-     * @brief Define ElevenLabs TTS module parameters.
-     * @since v0.3.0
-     */
     public static class ElevenLabsTTSVendorParams implements TTSVendorParams {
 
         @JsonProperty("api_key")

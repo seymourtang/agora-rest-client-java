@@ -999,7 +999,7 @@ public class JoinConvoAIReq {
         private Float vol;
 
         /**
-         * Pitch Ratio
+         * Pitch
          */
         @JsonProperty("pitch")
         private Integer pitch;
@@ -1336,19 +1336,19 @@ public class JoinConvoAIReq {
         private String voiceType;
 
         /**
-         * Speed ratio
+         * Speed of speech
          */
         @JsonProperty("speed_ratio")
         private Float speedRatio;
 
         /**
-         * Volume ratio
+         * Volume
          */
         @JsonProperty("volume_ratio")
         private Float volumeRatio;
 
         /**
-         * Pitch ratio
+         * Pitch
          */
         @JsonProperty("pitch_ratio")
         private Float pitchRatio;

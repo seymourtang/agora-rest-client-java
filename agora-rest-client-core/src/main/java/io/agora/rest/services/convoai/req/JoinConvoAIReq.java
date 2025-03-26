@@ -745,7 +745,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines Text-to-Speech (TTS) module vendor enumeration for agent to join RTC channel
+     * @brief Defines TTS module vendor enumeration for agent to join RTC channel
      * @since v0.3.0
      */
     public enum TTSVendorEnum {
@@ -793,7 +793,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines Text-to-Speech (TTS) module Minimax vendor parameters for agent to join RTC channel, see
+     * @brief Define Minimax TTS module parameters, see
      * <a href="https://platform.minimaxi.com/document/T2A%20V2">Minimax</a>
      * @since v0.3.0
      */
@@ -915,7 +915,7 @@ public class JoinConvoAIReq {
 
 
     /**
-     * @brief Defines Text-to-Speech module Minimax vendor audio setting parameters for agent to join RTC channel
+     * @brief Defines Minimax vendor audio setting parameters
      * @since v0.3.0
      */
     public static class MinimaxTTSVendorAudioSettingParam {
@@ -957,7 +957,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines Text-to-Speech module Minimax vendor voice setting parameters for agent to join RTC channel
+     * @brief Defines Minimax vendor voice setting parameters
      * @since v0.3.0
      */
     public static class MinimaxTTSVendorVoiceSettingParam {
@@ -1071,7 +1071,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines Text-to-Speech (TTS) module Tencent vendor parameters for agent to join RTC channel, see
+     * @brief Define Tencent TTS module parameters, see
      * <a href="https://cloud.tencent.com/document/product/1073/94308">Tencent</a>
      * @since v0.3.0
      */
@@ -1247,7 +1247,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines Text-to-Speech (TTS) module Bytedance vendor parameters for agent to join RTC channel, see
+     * @brief Define Bytedance TTS module parameters, see
      * <a href="https://www.volcengine.com/docs/6561/79823">Bytedance</a>
      * @since v0.3.0
      */
@@ -1416,7 +1416,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines Text-to-Speech (TTS) module Microsoft vendor parameters for agent to join RTC channel
+     * @brief Define Microsoft TTS module parameters.
      * @since v0.3.0
      */
     public static class MicrosoftTTSVendorParams implements TTSVendorParams {
@@ -1530,7 +1530,7 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines Text-to-Speech (TTS) module Elevenlabs vendor parameters for agent to join RTC channel
+     * @brief Define ElevenLabs TTS module parameters.
      * @since v0.3.0
      */
     public static class ElevenLabsTTSVendorParams implements TTSVendorParams {

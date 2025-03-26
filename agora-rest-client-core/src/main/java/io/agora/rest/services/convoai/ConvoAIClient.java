@@ -50,7 +50,7 @@ public abstract class ConvoAIClient {
      * @brief Stops the specified agent instance and leaves the RTC channel.
      * @example Use this to stop an agent instance.
      * @post After successful execution, the agent will be stopped and leave the RTC channel.
-     * @note Ensure the agent ID has been obtained by calling the Join API before using this method.
+     * @note Ensure the agent ID has been obtained by calling the join API before using this method.
      * @since v0.3.0
      */
     public abstract Mono<Void> leave(String agentId);
@@ -71,7 +71,7 @@ public abstract class ConvoAIClient {
      * @brief Query the current status of the specified agent instance.
      * @example Use this to get the current status of the specified agent instance.
      * @post After successful execution, the current running status information of the specified agent instance will be retrieved.
-     * @note Ensure the agent ID has been obtained by calling the Join API before using this method.
+     * @note Ensure the agent ID has been obtained by calling the join API before using this method.
      * @since v0.3.0
      */
     public abstract Mono<QueryConvoAIRes> query(String agentId);
@@ -83,7 +83,7 @@ public abstract class ConvoAIClient {
      * @brief Adjusts the agent's parameters at runtime.
      * @example Use this to adjust the agent's parameters at runtime.
      * @post After successful execution, the agent's parameters will be adjusted.
-     * @note Ensure the agent ID has been obtained by calling the Join API before using this method.
+     * @note Ensure the agent ID has been obtained by calling the join API before using this method.
      * @since v0.3.0
      */
     public abstract Mono<UpdateConvoAIRes> update(String agentId, UpdateConvoAIReq request);

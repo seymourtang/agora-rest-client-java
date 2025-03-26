@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * @brief Response returned by the Conversational AI engine List API
+ * @brief Response returned by the Conversational AI engine list API
  * @since v0.3.0
  */
 public class ListConvoAIRes {

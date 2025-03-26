@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @brief Request Body parameters for calling the Conversational AI engine Join API
+ * @brief Request Body parameters for calling the Conversational AI engine join API
  * @since v0.3.0
  */
 public class JoinConvoAIReq {

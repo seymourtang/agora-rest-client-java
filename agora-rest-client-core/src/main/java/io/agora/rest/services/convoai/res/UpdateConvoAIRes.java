@@ -3,7 +3,7 @@ package io.agora.rest.services.convoai.res;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @brief Response returned by the Conversational AI engine Update API
+ * @brief Response returned by the Conversational AI engine update API
  * @since v0.3.0
  */
 public class UpdateConvoAIRes {

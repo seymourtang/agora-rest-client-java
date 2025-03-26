@@ -24,42 +24,42 @@ export CONVOAI_AGENT_RTC_UID=<您的代理 RTC UID>
 ### bytedance
 
 ```bash
-export CONVOAI_TTS_BYTEDANCE_TOKEN=<Your tts bytedance token>
-export CONVOAI_TTS_BYTEDANCE_APP_ID=<Your tts bytedance app id>
-export CONVOAI_TTS_BYTEDANCE_CLUSTER=<Your tts bytedance cluster>
-export CONVOAI_TTS_BYTEDANCE_VOICE_TYPE=<Your tts bytedance voice type>
+export CONVOAI_TTS_BYTEDANCE_TOKEN=<Your ttsPayload bytedance token>
+export CONVOAI_TTS_BYTEDANCE_APP_ID=<Your ttsPayload bytedance app id>
+export CONVOAI_TTS_BYTEDANCE_CLUSTER=<Your ttsPayload bytedance cluster>
+export CONVOAI_TTS_BYTEDANCE_VOICE_TYPE=<Your ttsPayload bytedance voice type>
 ```
 
 ### tencent
 
 ```bash
-export CONVOAI_TTS_TENCENT_APP_ID=<Your tts tencent app id>
-export CONVOAI_TTS_TENCENT_SECRET_ID=<Your tts tencent secret id>
-export CONVOAI_TTS_TENCENT_SECRET_KEY=<Your tts tencent secret key>
+export CONVOAI_TTS_TENCENT_APP_ID=<Your ttsPayload tencent app id>
+export CONVOAI_TTS_TENCENT_SECRET_ID=<Your ttsPayload tencent secret id>
+export CONVOAI_TTS_TENCENT_SECRET_KEY=<Your ttsPayload tencent secret key>
 ```
 
 ### minimax
 
 ```bash
-export CONVOAI_TTS_MINIMAX_GROUP_ID=<Your tts minimax group id>
-export CONVOAI_TTS_MINIMAX_GROUP_KEY=<Your tts minimax group key>
-export CONVOAI_TTS_MINIMAX_GROUP_MODEL=<Your tts minimax group model>
+export CONVOAI_TTS_MINIMAX_GROUP_ID=<Your ttsPayload minimax group id>
+export CONVOAI_TTS_MINIMAX_GROUP_KEY=<Your ttsPayload minimax group key>
+export CONVOAI_TTS_MINIMAX_GROUP_MODEL=<Your ttsPayload minimax group model>
 ```
 
 ### microsoft
 
 ```bash
-export CONVOAI_TTS_MICROSOFT_KEY=<Your tts microsoft key>
-export CONVOAI_TTS_MICROSOFT_REGION=<Your tts microsoft region>
-export CONVOAI_TTS_MICROSOFT_VOICE_NAME=<Your tts microsoft voice name>
+export CONVOAI_TTS_MICROSOFT_KEY=<Your ttsPayload microsoft key>
+export CONVOAI_TTS_MICROSOFT_REGION=<Your ttsPayload microsoft region>
+export CONVOAI_TTS_MICROSOFT_VOICE_NAME=<Your ttsPayload microsoft voice name>
 ```
 
 ### elevenLabs
 
 ```bash
-export CONVOAI_TTS_ELEVENLABS_API_KEY=<Your tts elevenLabs api key>
-export CONVOAI_TTS_ELEVENLABS_MODEL_ID=<Your tts elevenLabs model id>
-export CONVOAI_TTS_ELEVENLABS_VOICE_ID=<Your tts elevenLabs voice id>
+export CONVOAI_TTS_ELEVENLABS_API_KEY=<Your ttsPayload elevenLabs api key>
+export CONVOAI_TTS_ELEVENLABS_MODEL_ID=<Your ttsPayload elevenLabs model id>
+export CONVOAI_TTS_ELEVENLABS_VOICE_ID=<Your ttsPayload elevenLabs voice id>
 ```
 
 ## 执行

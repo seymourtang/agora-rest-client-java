@@ -127,28 +127,28 @@ public class JoinConvoAIReq {
         private AdvancedFeatures advancedFeatures;
 
         /**
-         * Custom language model (LLM) configuration (required), see {@link LLM} for details
+         * Custom language model (LLM) configuration (required), see {@link LLMPayload} for details
          */
         @JsonProperty("llm")
-        private LLM llm;
+        private LLMPayload llmPayload;
 
         /**
-         * Text-to-Speech (TTS) module configuration (optional), see {@link TTS} for details
+         * Text-to-Speech (TTS) module configuration (optional), see {@link TTSPayload} for details
          */
         @JsonProperty("tts")
-        private TTS tts;
+        private TTSPayload ttsPayload;
 
         /**
-         * Voice Activity Detection (VAD) configuration (optional), see {@link Vad} for details
+         * Voice Activity Detection (VAD) configuration (optional), see {@link VADPayload} for details
          */
         @JsonProperty("vad")
-        private Vad vad;
+        private VADPayload vadPayload;
 
         /**
-         * Automatic Speech Recognition (ASR) configuration (optional), see {@link Asr} for details
+         * Automatic Speech Recognition (ASR) configuration (optional), see {@link ASRPayload} for details
          */
         @JsonProperty("asr")
-        private Asr asr;
+        private ASRPayload asrPayload;
 
 
         public static Builder builder() {
@@ -163,10 +163,10 @@ public class JoinConvoAIReq {
             setIdleTimeout(builder.idleTimeout);
             setAgentRtmUId(builder.agentRtmUId);
             setAdvancedFeatures(builder.advancedFeatures);
-            setLlm(builder.llm);
-            setTts(builder.tts);
-            setVad(builder.vad);
-            setAsr(builder.asr);
+            setLlm(builder.llmPayload);
+            setTts(builder.ttsPayload);
+            setVad(builder.vadPayload);
+            setAsr(builder.asrPayload);
         }
 
         public String getToken() {
@@ -233,36 +233,36 @@ public class JoinConvoAIReq {
             this.advancedFeatures = advancedFeatures;
         }
 
-        public LLM getLlm() {
-            return llm;
+        public LLMPayload getLlm() {
+            return llmPayload;
         }
 
-        public void setLlm(LLM llm) {
-            this.llm = llm;
+        public void setLlm(LLMPayload llmPayload) {
+            this.llmPayload = llmPayload;
         }
 
-        public TTS getTts() {
-            return tts;
+        public TTSPayload getTts() {
+            return ttsPayload;
         }
 
-        public void setTts(TTS tts) {
-            this.tts = tts;
+        public void setTts(TTSPayload ttsPayload) {
+            this.ttsPayload = ttsPayload;
         }
 
-        public Vad getVad() {
-            return vad;
+        public VADPayload getVad() {
+            return vadPayload;
         }
 
-        public void setVad(Vad vad) {
-            this.vad = vad;
+        public void setVad(VADPayload VADPayload) {
+            this.vadPayload = VADPayload;
         }
 
-        public Asr getAsr() {
-            return asr;
+        public ASRPayload getAsr() {
+            return asrPayload;
         }
 
-        public void setAsr(Asr asr) {
-            this.asr = asr;
+        public void setAsr(ASRPayload ASRPayload) {
+            this.asrPayload = ASRPayload;
         }
 
         public static final class Builder {
@@ -274,10 +274,10 @@ public class JoinConvoAIReq {
             private Integer idleTimeout;
             private String agentRtmUId;
             private AdvancedFeatures advancedFeatures;
-            private LLM llm;
-            private TTS tts;
-            private Vad vad;
-            private Asr asr;
+            private LLMPayload llmPayload;
+            private TTSPayload ttsPayload;
+            private VADPayload vadPayload;
+            private ASRPayload asrPayload;
 
             private Builder() {
             }
@@ -322,23 +322,23 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public Builder llm(LLM val) {
-                llm = val;
+            public Builder llmPayload(LLMPayload val) {
+                llmPayload = val;
                 return this;
             }
 
-            public Builder tts(TTS val) {
-                tts = val;
+            public Builder ttsPayload(TTSPayload val) {
+                ttsPayload = val;
                 return this;
             }
 
-            public Builder vad(Vad val) {
-                vad = val;
+            public Builder vadPayload(VADPayload val) {
+                vadPayload = val;
                 return this;
             }
 
-            public Builder asr(Asr val) {
-                asr = val;
+            public Builder asrPayload(ASRPayload val) {
+                asrPayload = val;
                 return this;
             }
 
@@ -430,7 +430,7 @@ public class JoinConvoAIReq {
      * @brief Defines the custom language model (LLM) configuration for the agent to join the RTC channel
      * @since v0.3.0
      */
-    public static class LLM {
+    public static class LLMPayload {
 
         /**
          * LLM callback URL (required)
@@ -516,7 +516,7 @@ public class JoinConvoAIReq {
             return new Builder();
         }
 
-        private LLM(Builder builder) {
+        private LLMPayload(Builder builder) {
             setUrl(builder.url);
             setApiKey(builder.apiKey);
             setSystemMessages(builder.systemMessages);
@@ -659,8 +659,8 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public LLM build() {
-                return new LLM(this);
+            public LLMPayload build() {
+                return new LLMPayload(this);
             }
         }
     }
@@ -672,7 +672,7 @@ public class JoinConvoAIReq {
      * @brief Defines the Text-to-Speech (TTS) module configuration for the agent to join the RTC channel
      * @since v0.3.0
      */
-    public static class TTS {
+    public static class TTSPayload {
 
         /**
          * TTS vendor, see {@link TTSVendorEnum}
@@ -700,7 +700,7 @@ public class JoinConvoAIReq {
             return new Builder();
         }
 
-        private TTS(Builder builder) {
+        private TTSPayload(Builder builder) {
             setVendor(builder.vendor);
             setParams(builder.params);
         }
@@ -738,8 +738,8 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public TTS build() {
-                return new TTS(this);
+            public TTSPayload build() {
+                return new TTSPayload(this);
             }
         }
     }
@@ -1611,7 +1611,7 @@ public class JoinConvoAIReq {
      * @brief Defines the Voice Activity Detection (VAD) configuration for the agent to join the RTC channel
      * @since v0.3.0
      */
-    public static class Vad {
+    public static class VADPayload {
 
         /**
          * Human voice duration threshold (ms), range [120, 1200] (optional)
@@ -1651,7 +1651,7 @@ public class JoinConvoAIReq {
             return new Builder();
         }
 
-        private Vad(Builder builder) {
+        private VADPayload(Builder builder) {
             setInterruptDurationMs(builder.interruptDurationMs);
             setPrefixPaddingMs(builder.prefixPaddingMs);
             setSilenceDurationMs(builder.silenceDurationMs);
@@ -1719,8 +1719,8 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public Vad build() {
-                return new Vad(this);
+            public VADPayload build() {
+                return new VADPayload(this);
             }
         }
     }
@@ -1729,7 +1729,7 @@ public class JoinConvoAIReq {
      * @brief Defines the Automatic Speech Recognition (ASR) configuration for agent to join RTC channel
      * @since v0.3.0
      */
-    public static class Asr {
+    public static class ASRPayload {
 
         /**
          * Language used for interaction between user and agent (optional)
@@ -1745,7 +1745,7 @@ public class JoinConvoAIReq {
             return new Builder();
         }
 
-        private Asr(Builder builder) {
+        private ASRPayload(Builder builder) {
             setLanguage(builder.language);
         }
 
@@ -1768,8 +1768,8 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public Asr build() {
-                return new Asr(this);
+            public ASRPayload build() {
+                return new ASRPayload(this);
             }
         }
     }

@@ -65,13 +65,12 @@ Parameters to set: LLM, TTS, and Agent related parameters.
 Call the `join` method to create a conversational agent, using Bytedance TTS as an example:
 
 ```java
-    public static final String CNAME = "<your cname>";
     public static final String AGENT_RTC_UID = "<your agent rtc uid>";
     public static final String AGENT_RTC_TOKEN = "<your agent rtc token>";
 
-    public static final String LLM_URL = "<your LLM URL>";
-    public static final String LLM_API_KEY = "<your LLM API Key>";
-    public static final String LLM_MODEL = "<your LLM model>";
+    public static final String LLM_URL = "<your llm url>";
+    public static final String LLM_API_KEY = "<your llm api key>";
+    public static final String LLM_MODEL = "<your llm model>";
 
     public static final String TTS_BYTEDANCE_TOKEN = "<your bytedance tts token>";
     public static final String TTS_BYTEDANCE_APP_ID = "<your bytedance tts app id>";
@@ -99,7 +98,7 @@ Call the `join` method to create a conversational agent, using Bytedance TTS as 
                             .advancedFeatures(JoinConvoAIReq.AdvancedFeatures.builder()
                                     .enableAIVad(true)
                                     .build())
-                            .llm(JoinConvoAIReq.LLM.builder()
+                            .llmPayload(JoinConvoAIReq.LLMPayload.builder()
                                     .url(LLM_URL)
                                     .apiKey(LLM_API_KEY)
                                     .params(new HashMap<String, Object>() {
@@ -122,7 +121,7 @@ Call the `join` method to create a conversational agent, using Bytedance TTS as 
                                     .maxHistory(30)
                                     .greetingMessage("Hello,how can I help you?")
                                     .build())
-                            .tts(JoinConvoAIReq.TTS.builder()
+                            .ttsPayload(JoinConvoAIReq.TTSPayload.builder()
                                     .vendor(JoinConvoAIReq.TTSVendorEnum.BYTEDANCE)
                                     .params(JoinConvoAIReq.BytedanceTTSVendorParams.builder().
                                             token(TTS_BYTEDANCE_TOKEN).
@@ -135,13 +134,13 @@ Call the `join` method to create a conversational agent, using Bytedance TTS as 
                                             emotion("happy").
                                             build())
                                     .build())
-                            .vad(JoinConvoAIReq.Vad.builder()
+                            .vadPayload(JoinConvoAIReq.VADPayload.builder()
                                     .interruptDurationMs(160)
                                     .prefixPaddingMs(300)
                                     .silenceDurationMs(480)
                                     .threshold(0.5F)
                                     .build())
-                            .asr(JoinConvoAIReq.Asr.builder()
+                            .asrPayload(JoinConvoAIReq.ASRPayload.builder()
                                     .language("zh-CN")
                                     .build())
                             .build())

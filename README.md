@@ -11,6 +11,8 @@
 
 `agora-rest-client-java`is an open-source project written in Java, specifically designed for the Agora REST API. It includes wrappers and internal implementations of the official Agora REST API interfaces, making it easier for developers to integrate the server-side Agora REST API.
 
+English | [简体中文](./README_ZH.md)
+
 > [!IMPORTANT]
 This SDK has undergone some testing to ensure its basic functionality works correctly. However, due to the complexity of software development, we cannot guarantee it is completely free of defects. We encourage community developers and users to actively participate and help improve this project.
 

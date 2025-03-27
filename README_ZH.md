@@ -9,45 +9,48 @@
 <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/AgoraIO-Community/agora-rest-client-java">
 </p>
 
-`agora-rest-client-java`is an open-source project written in Java, specifically designed for the Agora REST API. It includes wrappers and internal implementations of the official Agora REST API interfaces, making it easier for developers to integrate the server-side Agora REST API.
+ [English](./README.md) | 简体中文
+
+`agora-rest-client-java`是用 Java 语言编写的一个开源项目，专门为 Agora REST API 设计。它包含了 Agora 官方提供的 REST
+API 接口的包装和内部实现，可以帮助开发者更加方便的集成服务端 Agora REST API。
 
 > [!IMPORTANT]
-This SDK has undergone some testing to ensure its basic functionality works correctly. However, due to the complexity of software development, we cannot guarantee it is completely free of defects. We encourage community developers and users to actively participate and help improve this project.
+该SDK经过一些测试以确保其基本功能正常运作。然而，由于软件开发的复杂性，我们无法保证它是完全没有缺陷的，我们鼓励社区的开发者和用户积极参与，共同改进这个项目。
 
-## Features
+## 特性
 
-* Encapsulates the request and response handling of the Agora REST API, simplifying the communication process with the Agora REST API.
-* Provides automatic switching to the best domain in case of DNS resolution failure, network errors, or request timeouts, ensuring the availability of the REST API service.
-* Offers easy-to-use APIs to easily implement common functions of the Agora REST API, such as starting and stopping cloud recording.
-* Based on Java language, it is efficient, concurrent, and scalable.
+* 封装了 Agora REST API 的请求和响应处理，简化与 Agora REST API 的通信流程
+* 当遇到 DNS 解析失败、网络错误或者请求超时等问题的时候，提供了自动切换最佳域名的能力，以保障请求 REST API 服务的可用性
+* 提供了易于使用的 API，可轻松地实现调用 Agora REST API 的常见功能，如开启云录制、停止云录制等
+* 基于 Java 语言，具有异步性、并发性和可扩展性
 
-## Supported Services
+## 支持的服务
 
-* [Cloud Recording](./agora-rest-client-core/src/main/java/io/agora/rest/services/cloudrecording/README.md)
-* [Conversational AI Engine](./agora-rest-client-core/src/main/java/io/agora/rest/services/convoai/README.md)
-  
-## Environment Setup
+* [云端录制 Cloud Recording](./agora-rest-client-core/src/main/java/io/agora/rest/services/cloudrecording/README.md)
+* [对话式 AI 引擎 Conversationsal AI Engine](./agora-rest-client-core/src/main/java/io/agora/rest/services/convoai/README_ZH.md)
 
-* [Java 1.8 or later](https://www.java.com)
-* App ID and App Certificate obtained from the [Agora Console](https://console.shengwang.cn/)
-* Basic Auth credentials from the [Agora Console](https://console.shengwang.cn/)
-* Enable the relevant service capabilities on the [Agora Console](https://console.shengwang.cn/)
+## 环境准备
 
-## Installation
+* [Java 1.8 或以上版本](https://www.java.com)
+* 在声网 [Console 平台](https://console.shengwang.cn/)申请的 App ID 和 App Certificate
+* 在声网 [Console 平台](https://console.shengwang.cn/)的 Basic Auth 认证信息
+* 在声网 [Console 平台](https://console.shengwang.cn/)开启相关的服务能力
 
-First, add the REST Client dependency in the `pom.xml` file:
+## 安装
+
+首先，在`poml.xml`文件中添加 REST Client 依赖：
 
 ```xml
 <dependency>
     <groupId>io.agora</groupId>
     <artifactId>agora-rest-client-core</artifactId>
-    <version>0.3.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
-## Usage Example
+## 使用示例
 
-Here is an example of calling the cloud recording service:
+以调用云录制服务为例：
 
 ```java
 package com.company.example;
@@ -260,36 +263,36 @@ public class Main {
 
 ```
 
-For more examples, see [Example](./examples).
+更多的示例可在 [Example](./examples) 查看
 
-## How to Contact Agora for Assistance if You Encounter Difficulties
+## 集成遇到困难，该如何联系声网获取协助
 
-> Option 1: If you are already using Agora services or are in the process of integration, you can directly contact your sales or service representative.
+> 方案1：如果您已经在使用声网服务或者在对接中，可以直接联系对接的销售或服务
 >
-> Option 2: Send an email to [support@agora.io](mailto:support@agora.io) for consultation.
+> 方案2：发送邮件给 [support@agora.io](mailto:support@agora.io) 咨询
 >
-> Option 3: Scan the QR code to join our WeChat group for questions.
+> 方案3：扫码加入我们的微信交流群提问
 >
 > <img src="https://download.agora.io/demo/release/SDHY_QA.jpg" width="360" height="360">
 ---
 
-## Contribution
+## 贡献
 
-This project welcomes and accepts contributions. If you encounter any issues or have suggestions for improvements, please open an issue or submit a Pull Request.
+本项目欢迎并接受贡献。如果您在使用中遇到问题或有改进建议，请提出 issue 或向我们提交 Pull Request。
 
-# SemVer Versioning
+# SemVer 版本规范
 
-This project uses Semantic Versioning (SemVer) to manage versions. The format is MAJOR.MINOR.PATCH.
+本项目使用语义化版本号规范 (SemVer) 来管理版本。格式为 MAJOR.MINOR.PATCH。
 
-* MAJOR version indicates incompatible changes.
-* MINOR version indicates backward-compatible new features or enhancements.
-* PATCH version indicates backward-compatible bug fixes and maintenance.
-For more details, please refer to the [Semantic Versioning](https://semver.org) specification.
+* MAJOR 版本号表示不向后兼容的重大更改。
+* MINOR 版本号表示向后兼容的新功能或增强。
+* PATCH 版本号表示向后兼容的错误修复和维护。
+  有关详细信息，请参阅 [语义化版本](https://semver.org/lang/zh-CN/) 规范。
 
-## References
+## 参考
 
-* [Agora API Documentation](https://doc.shengwang.cn/)
+* [Agora API 文档](https://doc.shengwang.cn/)
 
-## License
+## 许可证
 
-This project is licensed under the MIT License. For more details, please refer to the LICENSE file.
+该项目使用MIT许可证，详细信息请参阅LICENSE文件。

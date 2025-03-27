@@ -38,7 +38,8 @@ public class DefaultContext implements Context {
 
             return Mono.defer(() -> httpClient
                             .doOnRequest((req, conn) ->
-                                    logger.debug("request:{},{}{}", req.method(), req.requestHeaders().get("host"), req.uri()))
+                                    logger.debug("start request:{},{}", req.method(), req.resourceUrl())
+                            )
                             .headers(h -> h.add("Content-Type", "application/json"))
                             .request(method)
                             .uri(Mono.just(this.domainPool.getCurrentUrl() + path))
@@ -53,11 +54,16 @@ public class DefaultContext implements Context {
 
                                         return Mono.just(byteBuf);
                                     })
-                            ).map(buf -> {
-                                T response = codec.decode(buf, clazz);
-                                buf.release();
-                                logger.debug("response:{}", response);
-                                return response;
+                            ).flatMap(buf -> {
+                                if (clazz == Void.class) {
+                                    buf.release();
+                                    return Mono.empty();
+                                } else {
+                                    T response = codec.decode(buf, clazz);
+                                    buf.release();
+                                    logger.debug("response:{}", response);
+                                    return Mono.just(response);
+                                }
                             }))
                     .retryWhen(Retry.fixedDelay(3, Duration.ofMillis(500)).
                             filter(e -> e instanceof ChannelBindException || e instanceof UnknownHostException)

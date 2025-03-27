@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
+import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 import java.time.Duration;
 
@@ -36,7 +37,7 @@ public class HttpClientFactory {
                         agoraConfig.getCredential().setAuthorization(h);
                     }
                 })
-                .wiretap("io.agora.rest.core.http", LogLevel.DEBUG, agoraConfig.getHttpProperty().getHttpLogFormat())
+                .wiretap("io.agora.rest.core.http", LogLevel.DEBUG, AdvancedByteBufFormat.SIMPLE)
                 .doOnRequestError((req, t) -> logger.error("request error:{}", t.getMessage()));
 
     }

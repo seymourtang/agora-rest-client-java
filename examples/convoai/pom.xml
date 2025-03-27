@@ -9,7 +9,7 @@
         <version>1.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>cloudrecording</artifactId>
+    <artifactId>convoai</artifactId>
     <version>1.0</version>
 
     <properties>

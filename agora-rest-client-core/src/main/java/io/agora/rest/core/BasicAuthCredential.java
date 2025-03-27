@@ -2,6 +2,10 @@ package io.agora.rest.core;
 
 import io.netty.handler.codec.http.HttpHeaders;
 
+/**
+ * @brief BasicAuthCredential provides basic authentication for agora rest client
+ * @since v0.3.0
+ */
 public class BasicAuthCredential implements Credential {
 
     private final String username;
@@ -10,6 +14,10 @@ public class BasicAuthCredential implements Credential {
 
     private final static String name = "BasicAuth";
 
+    /**
+     * @param username Customer ID obtained from the Agora console
+     * @param password Customer secret obtained from the Agora console
+     */
     public BasicAuthCredential(String username, String password) {
         this.username = username;
         this.password = password;

@@ -74,7 +74,7 @@ public class AgoraConfig {
             return this;
         }
 
-        private Builder httpProperty(HttpProperty httpProperty) {
+        public Builder httpProperty(HttpProperty httpProperty) {
             this.httpProperty = httpProperty;
             return this;
         }

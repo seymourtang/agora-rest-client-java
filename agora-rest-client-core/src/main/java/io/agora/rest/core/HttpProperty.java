@@ -1,22 +1,40 @@
 package io.agora.rest.core;
 
-import reactor.netty.transport.logging.AdvancedByteBufFormat;
-
+/**
+ * @brief HttpProperty represents the properties of the HTTP client
+ * @since v0.3.0
+ */
 public class HttpProperty {
 
+    /**
+     * Maximum number of connections in the connection pool
+     */
     private final int httpConnectionPoolSize;
 
+    /**
+     * Maximum idle time of a connection in the connection pool, unit: ms
+     */
     private final int httpConnectionMaxIdleTime;
 
+    /**
+     * Maximum lifetime of a connection in the connection pool，unit: ms
+     */
     private final int httpConnectionMaxLifeTime;
 
+    /**
+     * Time to evict connections in the background, unit: ms
+     */
     private final int httpConnectionEvictInBackground;
 
+    /**
+     * Timeout for acquiring a connection from the connection pool, unit: ms
+     */
     private final int httpConnectionPendingAcquireTimout;
 
+    /**
+     * The maximum number of registered requests for acquire to keep in a pending queue
+     */
     private final int httpConnectionPendingAcquireMaxCount;
-
-    private final AdvancedByteBufFormat httpLogFormat;
 
     public static Builder builder() {
         return new Builder();
@@ -29,7 +47,6 @@ public class HttpProperty {
         httpConnectionEvictInBackground = builder.httpConnectionEvictInBackground;
         httpConnectionPendingAcquireTimout = builder.httpConnectionPendingAcquireTimout;
         httpConnectionPendingAcquireMaxCount = builder.httpConnectionPendingAcquireMaxCount;
-        httpLogFormat = builder.httpLogFormat;
     }
 
     public int getHttpConnectionPoolSize() {
@@ -56,10 +73,6 @@ public class HttpProperty {
         return httpConnectionPendingAcquireMaxCount;
     }
 
-    public AdvancedByteBufFormat getHttpLogFormat() {
-        return httpLogFormat;
-    }
-
     @Override
     public String toString() {
         return "HttpProperty{" +
@@ -69,9 +82,9 @@ public class HttpProperty {
                 ", httpConnectionEvictInBackground=" + httpConnectionEvictInBackground +
                 ", httpConnectionPendingAcquireTimout=" + httpConnectionPendingAcquireTimout +
                 ", httpConnectionPendingAcquireMaxCount=" + httpConnectionPendingAcquireMaxCount +
-                ", httpLogFormat=" + httpLogFormat +
                 '}';
     }
+
 
     public static final class Builder {
         private int httpConnectionPoolSize = 50;
@@ -85,8 +98,6 @@ public class HttpProperty {
         private int httpConnectionPendingAcquireTimout = 60 * 1000;
 
         private int httpConnectionPendingAcquireMaxCount = 100;
-
-        private AdvancedByteBufFormat httpLogFormat = AdvancedByteBufFormat.SIMPLE;
 
         private Builder() {
 
@@ -119,11 +130,6 @@ public class HttpProperty {
 
         public Builder httpConnectionPendingAcquireMaxCount(int val) {
             httpConnectionPendingAcquireMaxCount = val;
-            return this;
-        }
-
-        public Builder httpLogFormat(AdvancedByteBufFormat val) {
-            httpLogFormat = val;
             return this;
         }
 

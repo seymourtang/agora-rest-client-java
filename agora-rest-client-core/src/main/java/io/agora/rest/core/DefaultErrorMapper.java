@@ -36,10 +36,11 @@ public class DefaultErrorMapper implements ErrorMapper {
 
     public AgoraException convertException(HttpClientResponse response, ByteBuf buf) {
         HttpResponseStatus status = response.status();
+        String xRequestId = response.responseHeaders().get("x-request-id");
 
         byte[] body = ByteUtils.toByteArray(buf);
-        String reason = String.format("%s %s -> %d %s,body:%s", response.method(), response.uri(), status.code(),
-                status.reasonPhrase(), new String(body));
+        String reason = String.format("%s %s -> %d %s,body:%s,x-request-id:%s", response.method(), response.resourceUrl(), status.code(),
+                status.reasonPhrase(), new String(body), xRequestId);
         logger.info("reason:{}", reason);
 
         AgoraException exception = new AgoraUnknownException(reason);

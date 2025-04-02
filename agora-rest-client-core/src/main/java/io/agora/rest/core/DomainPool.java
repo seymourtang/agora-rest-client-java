@@ -49,7 +49,7 @@ public class DomainPool {
     }
 
     public void selectBestDomain() {
-        //  提前判断domain是否需要更新，避免多线程情况下重复获取锁
+        // Check if domain needs updating first to avoid acquiring locks unnecessarily in multi-threaded scenarios
         if (!domainNeedUpdate()) {
             return;
         }

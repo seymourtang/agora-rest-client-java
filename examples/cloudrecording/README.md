@@ -1,12 +1,14 @@
 # CloudRecording Example
 
-> 这是 Agora Cloud Recording 的一个示例项目，使用了 Agora Cloud Recording RESTful API，实现了频道录制的功能。本示例支持合流录制、单流录制和页面录制三种模式。
+English | [简体中文](./README_ZH.md)
 
-## 运行示例项目
+> This is a sample project for Agora Cloud Recording that utilizes the Agora Cloud Recording RESTful API to implement channel recording functionality. This example supports three recording modes: composite recording, individual recording, and web recording.
 
-### 前提条件
+## Run
 
-配置环境变量，环境变量包括以下参数内容：
+### Prerequisites
+
+Configure the environment variables with the following parameters:
 
 ```bash
 export APP_ID=<Your App ID>
@@ -22,17 +24,17 @@ export STORAGE_CONFIG_ACCESS_KEY=<Your Storage Access Key>
 export STORAGE_CONFIG_SECRET_KEY=<Your Storage Secret Key>
 ```
 
-相关的参数可以通过可在 [CloudRecording 服务说明](../../agora-rest-client-core/src/main/java/io/agora/rest/services/cloudrecording/README.md) 查看
+Relevant parameters can be found in the [CloudRecording Service Documentation](../../agora-rest-client-core/src/main/java/io/agora/rest/services/cloudrecording/README.md)
 
-### 执行
+### Execution
 
-请确保在主模块目录已经执行了模块安装操作：
+Please ensure that you have installed the module in the main module directory:
 
 ```bash
 make install
 ```
 
-接着，在当前模块下，通过分别执行下面的命令来体验不同场景的`CloudRecording`示例：
+Next, in the current module, execute the following commands to experience different scenarios of the `CloudRecording` example:
 
 ```bash
 mvn exec:java -Dexec.mainClass="io.agora.rest.examples.cloudrecording.Main" -Dexec.args="--mode=mix --mix_scene=<scene>"
@@ -40,26 +42,26 @@ mvn exec:java -Dexec.mainClass="io.agora.rest.examples.cloudrecording.Main" -Dex
 mvn exec:java -Dexec.mainClass="io.agora.rest.examples.cloudrecording.Main" -Dexec.args="--mode=web --web_scene=<scene>"
 ```
 
-其中 `mode` 表示云录制模式：
+Where `mode` represents the cloud recording mode:
 
-* mix: 合流录制
-* individual: 单流录制
-* web: 页面录制
+* mix: Composite recording
+* individual: Individual recording
+* web: Web page recording
 
-其中 `mix_scene` 表示合流录制场景：
+Where `mix_scene` represents the composite recording scenario:
 
-* hls: 录制hls格式
-* hls_and_mp4: 录制hls和mp4格式
+* hls: Record in HLS format
+* hls_and_mp4: Record in both HLS and MP4 formats
 
-其中 `individual_scene` 表示单流录制场景：
+Where `individual_scene` represents the individual recording scenario:
 
-* recording: 仅录制
-* snapshot: 仅截图
-* recording_and_snapshot: 录制+截图
-* recording_and_postpone_transcoding: 录制+延时转码
-* recording_and_audio_mix: 录制+延时混音
+* recording: Recording only
+* snapshot: Snapshot only
+* recording_and_snapshot: Recording and snapshot
+* recording_and_postpone_transcoding: Recording with delayed transcoding
+* recording_and_audio_mix: Recording with delayed audio mixing
 
-其中 `web_scene` 表示页面录制场景：
+Where `web_scene` represents the web page recording scenario:
 
-* web_recorder: 页面录制
-* web_recorder_and_rtmp_publish: 页面录制+转推到CDN
+* web_recorder: Web page recording
+* web_recorder_and_rtmp_publish: Web page recording and pushing to CDN

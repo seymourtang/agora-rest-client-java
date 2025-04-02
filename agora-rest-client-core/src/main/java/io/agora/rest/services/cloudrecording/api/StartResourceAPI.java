@@ -38,12 +38,12 @@ public class StartResourceAPI {
 
 
     private RetryBackoffSpec customRetry(int maxAttempts, Predicate<Throwable> retryPredicate) {
-        return Retry.backoff(maxAttempts, Duration.ofSeconds(1)) // 最多重试5次，初始间隔1秒
-                .maxBackoff(Duration.ofSeconds(5)) // 最大间隔5秒
-                .filter(retryPredicate) // 重试条件
+        return Retry.backoff(maxAttempts, Duration.ofSeconds(1)) // Maximum 5 retry attempts, initial 1-second interval
+                .maxBackoff(Duration.ofSeconds(5)) // Maximum 5-second interval
+                .filter(retryPredicate) // Retry condition
                 .doBeforeRetry(retrySignal -> {
-                    long retryCount = retrySignal.totalRetries() + 1; // 第几次重试
-                    Duration nextBackoff = Duration.ofSeconds(retryCount); // 下次重试间隔
+                    long retryCount = retrySignal.totalRetries() + 1; // Current retry attempt number
+                    Duration nextBackoff = Duration.ofSeconds(retryCount); // Next retry interval
                     logger.warn("Retry attempt: {}, next backoff: {}", retryCount, nextBackoff);
                 }).onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> {
                     logger.error("Retry exhausted: {}", retrySignal.totalRetries());

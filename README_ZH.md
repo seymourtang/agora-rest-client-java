@@ -291,7 +291,7 @@ public class Main {
 
 ## 参考
 
-* [Agora API 文档](https://doc.shengwang.cn/)
+* [声网 API 文档](https://doc.shengwang.cn/)
 
 ## 许可证
 

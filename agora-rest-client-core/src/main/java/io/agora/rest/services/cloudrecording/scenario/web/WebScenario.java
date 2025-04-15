@@ -1,116 +1,103 @@
 package io.agora.rest.services.cloudrecording.scenario.web;
 
-import io.agora.rest.services.cloudrecording.api.*;
-import io.agora.rest.services.cloudrecording.api.req.AcquireResourceReq;
-import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
-import io.agora.rest.services.cloudrecording.api.req.StopResourceReq;
-import io.agora.rest.services.cloudrecording.api.req.UpdateResourceReq;
 import io.agora.rest.services.cloudrecording.api.res.AcquireResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.StartResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.StopResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.UpdateResourceRes;
-import io.agora.rest.services.cloudrecording.enums.CloudRecordingModeEnum;
 import io.agora.rest.services.cloudrecording.scenario.web.req.AcquireWebRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.web.req.StartWebRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.web.req.UpdateWebRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.web.res.QueryWebRecordingResourceRes;
 import reactor.core.publisher.Mono;
 
-public class WebScenario {
-    
-    private final AcquireResourceAPI acquireResourceAPI;
+public abstract class WebScenario {
 
-    private final QueryResourceAPI queryResourceAPI;
+        /**
+         * @brief Get a resource ID for web cloud recording.
+         * @since v0.4.0
+         * @post After receiving the resource ID, call the Start API to start cloud
+         *       recording.
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param clientRequest The request body.
+         * @return Returns the response AcquireResourceRes. See AcquireResourceRes for
+         *         details.
+         */
+        public abstract Mono<AcquireResourceRes> acquire(String cname, String uid,
+                        AcquireWebRecordingResourceClientReq clientRequest);
 
-    private final StartResourceAPI startResourceAPI;
+        /**
+         * @brief Start web recording.
+         * @since v0.4.0
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param resourceId    The resource ID.
+         * @param clientRequest The request body. See StartWebRecordingResourceClientReq
+         *                      for details.
+         * @return Returns the response StartResourceRes. See StartResourceRes for
+         *         details.
+         */
+        public abstract Mono<StartResourceRes> start(String cname, String uid, String resourceId,
+                        StartWebRecordingResourceClientReq clientRequest);
 
-    private final UpdateResourceAPI updateResourceAPI;
+        /**
+         * @brief Query the status of web recording.
+         * @since v0.4.0
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @return Returns the response QueryWebRecordingResourceRes. See
+         *         QueryWebRecordingResourceRes for details.
+         */
+        public abstract Mono<QueryWebRecordingResourceRes> query(String resourceId, String sid);
 
-    private final StopResourceAPI stopResourceAPI;
+        // /**
+        // * @brief Query the status of pushing web page recording to the CDN.
+        // * @since v0.4.0
+        // * @param resourceId The resource ID.
+        // * @param sid The recording ID, identifying a recording cycle.
+        // * @return Returns the response QueryRtmpPublishResourceRes. See
+        // QueryRtmpPublishResourceRes for details.
+        // */
+        // public abstract Mono<QueryRtmpPublishResourceRes> queryRtmpPublish(String
+        // resourceId, String sid);
 
-    public WebScenario(AcquireResourceAPI acquireResourceAPI,
-                       QueryResourceAPI queryResourceAPI,
-                       StartResourceAPI startResourceAPI,
-                       UpdateResourceAPI updateResourceAPI,
-                       StopResourceAPI stopResourceAPI) {
-        this.acquireResourceAPI = acquireResourceAPI;
-        this.queryResourceAPI = queryResourceAPI;
-        this.startResourceAPI = startResourceAPI;
-        this.updateResourceAPI = updateResourceAPI;
-        this.stopResourceAPI = stopResourceAPI;
-    }
+        /**
+         * @brief Update the web recording configuration.
+         * @since v0.4.0
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param resourceId    The resource ID.
+         * @param sid           The recording ID, identifying a recording cycle.
+         * @param clientRequest The request body. See
+         *                      UpdateWebRecordingResourceClientReq for details.
+         * @return Returns the response UpdateResourceRes. See UpdateResourceRes for
+         *         details.
+         */
+        public abstract Mono<UpdateResourceRes> update(String cname, String uid, String resourceId, String sid,
+                        UpdateWebRecordingResourceClientReq clientRequest);
 
-    public Mono<AcquireResourceRes> acquire(String cname, String uid,
-                                            AcquireWebRecordingResourceClientReq clientRequest) {
-        StartResourceReq.StartClientRequest startParameter = null;
-
-        if (clientRequest.getStartParameter() != null) {
-            startParameter = StartResourceReq.StartClientRequest.builder()
-                    .storageConfig(clientRequest.getStartParameter().getStorageConfig())
-                    .recordingFileConfig(clientRequest.getStartParameter().getRecordingFileConfig())
-                    .extensionServiceConfig(clientRequest.getStartParameter().getExtensionServiceConfig())
-                    .build();
-        }
-
-        return this.acquireResourceAPI.handle(AcquireResourceReq.builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(AcquireResourceReq.ClientRequest.builder()
-                        .scene(1)
-                        .resourceExpiredHour(clientRequest.getResourceExpiredHour())
-                        .regionAffinity(clientRequest.getRegionAffinity())
-                        .excludeResourceIds(clientRequest.getExcludeResourceIds())
-                        .startParameter(startParameter)
-                        .build())
-                .build());
-    }
-
-    public Mono<StartResourceRes> start(String cname, String uid, String resourceId,
-                                        StartWebRecordingResourceClientReq clientRequest) {
-        return this.startResourceAPI.handle(resourceId, CloudRecordingModeEnum.WEB, StartResourceReq.builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(StartResourceReq.StartClientRequest.builder()
-                        .storageConfig(clientRequest.getStorageConfig())
-                        .recordingFileConfig(clientRequest.getRecordingFileConfig())
-                        .extensionServiceConfig(clientRequest.getExtensionServiceConfig())
-                        .build())
-                .build());
-    }
-
-    public Mono<QueryWebRecordingResourceRes> query(String resourceId, String sid) {
-        return this.queryResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.WEB).handle((res, sink) -> {
-            sink.next(QueryWebRecordingResourceRes.builder()
-                    .cname(res.getCname())
-                    .uid(res.getUid())
-                    .resourceId(res.getResourceId())
-                    .sid(res.getSid())
-                    .serverResponse(res.getWebRecordingServerResponse())
-                    .build());
-
-            sink.complete();
-        });
-    }
-
-    public Mono<UpdateResourceRes> update(String cname, String uid, String resourceId, String sid,
-                                          UpdateWebRecordingResourceClientReq clientRequest) {
-        return this.updateResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.WEB, UpdateResourceReq.builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(UpdateResourceReq.ClientRequest.builder()
-                        .webRecordingConfig(clientRequest.getWebRecordingConfig())
-                        .rtmpPublishConfig(clientRequest.getRtmpPublishConfig())
-                        .build())
-                .build());
-    }
-
-    public Mono<StopResourceRes> stop(String cname, String uid, String resourceId, String sid, boolean asyncStop) {
-        return this.stopResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.WEB, StopResourceReq.builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(StopResourceReq.StopClientRequest.builder()
-                        .asyncStop(asyncStop)
-                        .build())
-                .build());
-    }
+        /**
+         * @brief Stop web recording.
+         * @since v0.4.0
+         * @param cname      The name of the channel to be recorded.
+         * @param uid        The user ID used by the cloud recording service in the RTC
+         *                   channel to identify the recording service in the channel.
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @param asyncStop  Whether to stop the recording asynchronously.
+         *                   <p>
+         *                   - true: Stop the recording asynchronously.
+         *                   <p>
+         *                   - false: Stop the recording synchronously.
+         * @return Returns the response StopResourceRes. See StopResourceRes for
+         *         details.
+         */
+        public abstract Mono<StopResourceRes> stop(String cname, String uid, String resourceId, String sid,
+                        boolean asyncStop);
 }

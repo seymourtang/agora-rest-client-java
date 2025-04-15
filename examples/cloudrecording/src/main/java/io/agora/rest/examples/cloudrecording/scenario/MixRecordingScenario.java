@@ -35,7 +35,8 @@ public class MixRecordingScenario extends BaseScenario {
                     .mixScenario()
                     .acquire(cname, uid, AcquireMixRecordingResourceClientReq.builder()
                             .resourceExpiredHour(1)
-                            .build()).block();
+                            .build())
+                    .block();
         } catch (AgoraException e) {
             logger.error("Failed to acquire resource,err:{}", e.getMessage());
             return;
@@ -97,7 +98,6 @@ public class MixRecordingScenario extends BaseScenario {
 
         logger.info("Start resource successfully,startResourceResp:{}", startResourceRes);
 
-
         // query resource detail
         for (int i = 0; i < 3; i++) {
             QueryMixHLSRecordingResourceRes queryMixHLSRecordingResourceRes;
@@ -118,7 +118,8 @@ public class MixRecordingScenario extends BaseScenario {
                 return;
             }
 
-            logger.info("Query resource successfully,queryMixHLSRecordingResourceResp:{}", queryMixHLSRecordingResourceRes);
+            logger.info("Query resource successfully,queryMixHLSRecordingResourceResp:{}",
+                    queryMixHLSRecordingResourceRes);
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -132,16 +133,18 @@ public class MixRecordingScenario extends BaseScenario {
         try {
             updateResourceRes = this.cloudRecordingClient
                     .mixScenario()
-                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateMixRecordingResourceClientReq.builder()
-                            .streamSubscribe(UpdateResourceReq.StreamSubscribe.builder()
-                                    .audioUidList(UpdateResourceReq.AudioUIDList.builder()
-                                            .subscribeAudioUIDs(Collections.singletonList("#allstream#"))
-                                            .build())
-                                    .videoUidList(UpdateResourceReq.VideoUIDList.builder()
-                                            .subscribeVideoUIDs(Collections.singletonList("#allstream#"))
+                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(),
+                            UpdateMixRecordingResourceClientReq.builder()
+                                    .streamSubscribe(UpdateResourceReq.StreamSubscribe.builder()
+                                            .audioUidList(UpdateResourceReq.AudioUIDList.builder()
+                                                    .subscribeAudioUIDs(Collections.singletonList("#allstream#"))
+                                                    .build())
+                                            .videoUidList(UpdateResourceReq.VideoUIDList.builder()
+                                                    .subscribeVideoUIDs(Collections.singletonList("#allstream#"))
+                                                    .build())
                                             .build())
                                     .build())
-                            .build()).block();
+                    .block();
 
         } catch (AgoraException e) {
             logger.error("Failed to update resource,err:{}", e.getMessage());
@@ -158,17 +161,18 @@ public class MixRecordingScenario extends BaseScenario {
 
         logger.info("Update resource successfully,updateResourceResp:{}", updateResourceRes);
 
-
         // update
         UpdateLayoutResourceRes updateLayoutResourceRes;
 
         try {
             updateLayoutResourceRes = this.cloudRecordingClient
                     .mixScenario()
-                    .updateLayout(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateLayoutMixRecordingResourceClientReq.builder()
-                            .mixedVideoLayout(1)
-                            .backgroundColor("#FF0000")
-                            .build()).block();
+                    .updateLayout(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(),
+                            UpdateLayoutMixRecordingResourceClientReq.builder()
+                                    .mixedVideoLayout(1)
+                                    .backgroundColor("#FF0000")
+                                    .build())
+                    .block();
 
         } catch (AgoraException e) {
             logger.error("Failed to update layout resource,err:{}", e.getMessage());
@@ -205,7 +209,8 @@ public class MixRecordingScenario extends BaseScenario {
                 return;
             }
 
-            logger.info("Query resource successfully,queryMixHLSRecordingResourceResp:{}", queryMixHLSRecordingResourceRes);
+            logger.info("Query resource successfully,queryMixHLSRecordingResourceResp:{}",
+                    queryMixHLSRecordingResourceRes);
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -245,7 +250,8 @@ public class MixRecordingScenario extends BaseScenario {
                     .mixScenario()
                     .acquire(cname, uid, AcquireMixRecordingResourceClientReq.builder()
                             .resourceExpiredHour(1)
-                            .build()).block();
+                            .build())
+                    .block();
         } catch (AgoraException e) {
             logger.error("Failed to acquire resource,err:{}", e.getMessage());
             return;
@@ -307,7 +313,6 @@ public class MixRecordingScenario extends BaseScenario {
 
         logger.info("Start resource successfully,startResourceResp:{}", startResourceRes);
 
-
         // query resource detail
         for (int i = 0; i < 3; i++) {
             QueryMixHLSAndMP4RecordingResourceRes queryMixHLSAndMP4RecordingResourceRes;
@@ -328,7 +333,8 @@ public class MixRecordingScenario extends BaseScenario {
                 return;
             }
 
-            logger.info("Query resource successfully,queryMixHLSAndMP4RecordingResourceResp:{}", queryMixHLSAndMP4RecordingResourceRes);
+            logger.info("Query resource successfully,queryMixHLSAndMP4RecordingResourceResp:{}",
+                    queryMixHLSAndMP4RecordingResourceRes);
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -342,16 +348,18 @@ public class MixRecordingScenario extends BaseScenario {
         try {
             updateResourceRes = this.cloudRecordingClient
                     .mixScenario()
-                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateMixRecordingResourceClientReq.builder()
-                            .streamSubscribe(UpdateResourceReq.StreamSubscribe.builder()
-                                    .audioUidList(UpdateResourceReq.AudioUIDList.builder()
-                                            .subscribeAudioUIDs(Collections.singletonList("#allstream#"))
-                                            .build())
-                                    .videoUidList(UpdateResourceReq.VideoUIDList.builder()
-                                            .subscribeVideoUIDs(Collections.singletonList("#allstream#"))
+                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(),
+                            UpdateMixRecordingResourceClientReq.builder()
+                                    .streamSubscribe(UpdateResourceReq.StreamSubscribe.builder()
+                                            .audioUidList(UpdateResourceReq.AudioUIDList.builder()
+                                                    .subscribeAudioUIDs(Collections.singletonList("#allstream#"))
+                                                    .build())
+                                            .videoUidList(UpdateResourceReq.VideoUIDList.builder()
+                                                    .subscribeVideoUIDs(Collections.singletonList("#allstream#"))
+                                                    .build())
                                             .build())
                                     .build())
-                            .build()).block();
+                    .block();
 
         } catch (AgoraException e) {
             logger.error("Failed to update resource,err:{}", e.getMessage());
@@ -368,17 +376,18 @@ public class MixRecordingScenario extends BaseScenario {
 
         logger.info("Update resource successfully,updateResourceResp:{}", updateResourceRes);
 
-
         // update
         UpdateLayoutResourceRes updateLayoutResourceRes;
 
         try {
             updateLayoutResourceRes = this.cloudRecordingClient
                     .mixScenario()
-                    .updateLayout(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateLayoutMixRecordingResourceClientReq.builder()
-                            .mixedVideoLayout(1)
-                            .backgroundColor("#FF0000")
-                            .build()).block();
+                    .updateLayout(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(),
+                            UpdateLayoutMixRecordingResourceClientReq.builder()
+                                    .mixedVideoLayout(1)
+                                    .backgroundColor("#FF0000")
+                                    .build())
+                    .block();
 
         } catch (AgoraException e) {
             logger.error("Failed to update layout resource,err:{}", e.getMessage());
@@ -415,7 +424,8 @@ public class MixRecordingScenario extends BaseScenario {
                 return;
             }
 
-            logger.info("Query resource successfully,queryMixHLSAndMP4RecordingResourceResp:{}", queryMixHLSAndMP4RecordingResourceRes);
+            logger.info("Query resource successfully,queryMixHLSAndMP4RecordingResourceResp:{}",
+                    queryMixHLSAndMP4RecordingResourceRes);
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

@@ -2,14 +2,30 @@ package io.agora.rest.services.cloudrecording.scenario.mix.req;
 
 import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
 
+/**
+ * @brief Client request for starting mix recording.
+ * @since v0.4.0
+ */
 public class StartMixRecordingResourceClientReq {
 
+    /**
+     * Agora App Token.(Optional)
+     */
     private String token;
 
+    /**
+     * Configuration for recorded audio and video streams.(Optional)
+     */
     private StartResourceReq.RecordingConfig recordingConfig;
 
+    /**
+     * Configuration for recorded files.(Optional)
+     */
     private StartResourceReq.RecordingFileConfig recordingFileConfig;
 
+    /**
+     * Configuration for third-party cloud storage.(Required)
+     */
     private StartResourceReq.StorageConfig storageConfig;
 
     public static Builder builder() {

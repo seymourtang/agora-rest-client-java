@@ -2,16 +2,36 @@ package io.agora.rest.services.cloudrecording.scenario.individual.res;
 
 import io.agora.rest.services.cloudrecording.api.res.QueryResourceRes;
 
+/**
+ * @brief Response returned by the individual recording Query API.
+ * @since v0.4.0
+ */
 public class QueryIndividualRecordingResourceRes {
-
+    /**
+     * The name of the channel to be recorded.
+     */
     private String cname;
 
+    /**
+     * The user ID used by the cloud recording service in the RTC channel to
+     * identify the recording service in the channel.
+     */
     private String uid;
 
+    /**
+     * Unique identifier of the resource.
+     */
     private String resourceId;
 
+    /**
+     * Unique identifier of the recording session.
+     */
     private String sid;
 
+    /**
+     * Server response. See
+     * {@link QueryResourceRes.QueryIndividualRecordingServerResponse}.
+     */
     private QueryResourceRes.QueryIndividualRecordingServerResponse serverResponse;
 
     public static Builder builder() {

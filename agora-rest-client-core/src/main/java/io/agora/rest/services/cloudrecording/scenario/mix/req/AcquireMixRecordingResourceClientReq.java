@@ -2,14 +2,49 @@ package io.agora.rest.services.cloudrecording.scenario.mix.req;
 
 import java.util.List;
 
+/**
+ * @brief Client request for acquiring mix cloud recording resources.
+ * @since v0.4.0
+ */
 public class AcquireMixRecordingResourceClientReq {
 
+    /**
+     * The validity period for calling the cloud recording RESTful API.
+     * <p>
+     * Start calculating after you successfully initiate the cloud recording service
+     * and obtain the sid (Recording ID).
+     * <p>
+     * The calculation unit is hours.
+     * <p>
+     * The value range is [1,720]. The default value is 72.
+     */
     private Integer resourceExpiredHour;
 
+    /**
+     * The resourceId of another or several other recording tasks.
+     */
     private List<String> excludeResourceIds;
 
+    /**
+     * Specify regions that the cloud recording service can access.
+     * <p>
+     * The region can be set to:
+     * <p>
+     * - 0: Closest to request origin (default)
+     * <p>
+     * - 1: China
+     * <p>
+     * - 2: Southeast Asia
+     * <p>
+     * - 3: Europe
+     * <p>
+     * - 4: North America
+     */
     private Integer regionAffinity;
 
+    /**
+     * The start parameter improves availability and optimizes load balancing.
+     */
     private StartMixRecordingResourceClientReq startParameter;
 
     public static Builder builder() {

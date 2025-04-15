@@ -2,16 +2,35 @@ package io.agora.rest.services.cloudrecording.scenario.mix.res;
 
 import io.agora.rest.services.cloudrecording.api.res.QueryResourceRes;
 
+/**
+ * @brief Response returned by the mix recording QueryHLS API.
+ * @since v0.4.0
+ */
 public class QueryMixHLSRecordingResourceRes {
-
+    /**
+     * The name of the channel to be recorded.
+     */
     private String cname;
 
+    /**
+     * The user ID used by the cloud recording service in the RTC channel to
+     * identify the recording service in the channel.
+     */
     private String uid;
 
+    /**
+     * Unique identifier of the resource.
+     */
     private String resourceId;
 
+    /**
+     * Unique identifier of the recording session.
+     */
     private String sid;
 
+    /**
+     * Server response. See {@link QueryResourceRes.MixRecordingHLSServerResponse}.
+     */
     private QueryResourceRes.MixRecordingHLSServerResponse serverResponse;
 
     public static Builder builder() {

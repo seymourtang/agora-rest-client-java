@@ -10,16 +10,28 @@ import io.agora.rest.services.cloudrecording.enums.CloudRecordingModeEnum;
 import java.util.List;
 
 public class QueryResourceRes {
+    /**
+     * The name of the channel to be recorded.
+     */
     @JsonProperty("cname")
     private String cname;
 
+    /**
+     * The user ID used by the cloud recording service in the RTC channel to
+     * identify the recording service in the channel.
+     */
     @JsonProperty("uid")
     private String uid;
 
+    /**
+     * Unique identifier of the resource.
+     */
     @JsonProperty("resourceId")
     private String resourceId;
 
-    @JsonProperty("sid")
+    /**
+     * Unique identifier of the recording session.
+     */
     private String sid;
 
     @JsonProperty("serverResponse")
@@ -140,7 +152,8 @@ public class QueryResourceRes {
         return queryIndividualRecordingServerResponse;
     }
 
-    public void setQueryIndividualRecordingServerResponse(QueryIndividualRecordingServerResponse queryIndividualRecordingServerResponse) {
+    public void setQueryIndividualRecordingServerResponse(
+            QueryIndividualRecordingServerResponse queryIndividualRecordingServerResponse) {
         this.queryIndividualRecordingServerResponse = queryIndividualRecordingServerResponse;
     }
 
@@ -148,7 +161,8 @@ public class QueryResourceRes {
         return queryIndividualVideoScreenshotServerResponse;
     }
 
-    public void setQueryIndividualVideoScreenshotServerResponse(QueryIndividualVideoScreenshotServerResponse queryIndividualVideoScreenshotServerResponse) {
+    public void setQueryIndividualVideoScreenshotServerResponse(
+            QueryIndividualVideoScreenshotServerResponse queryIndividualVideoScreenshotServerResponse) {
         this.queryIndividualVideoScreenshotServerResponse = queryIndividualVideoScreenshotServerResponse;
     }
 
@@ -164,7 +178,8 @@ public class QueryResourceRes {
         return mixRecordingHLSAndMP4ServerResponse;
     }
 
-    public void setMixRecordingHLSAndMP4ServerResponse(MixRecordingHLSAndMP4ServerResponse mixRecordingHLSAndMP4ServerResponse) {
+    public void setMixRecordingHLSAndMP4ServerResponse(
+            MixRecordingHLSAndMP4ServerResponse mixRecordingHLSAndMP4ServerResponse) {
         this.mixRecordingHLSAndMP4ServerResponse = mixRecordingHLSAndMP4ServerResponse;
     }
 
@@ -338,10 +353,41 @@ public class QueryResourceRes {
         }
     }
 
+    /**
+     * @brief Server response returned by the individual recording
+     *        QueryVideoScreenshot API.
+     * @since v0.4.0
+     */
     public static class QueryIndividualVideoScreenshotServerResponse {
+        /**
+         * Current status of the cloud service:
+         * <p>
+         * - 0: Cloud service has not started.
+         * <p>
+         * - 1: The cloud service initialization is complete.
+         * <p>
+         * - 2: The cloud service components are starting.
+         * <p>
+         * - 3: Some cloud service components are ready.
+         * <p>
+         * - 4: All cloud service components are ready.
+         * <p>
+         * - 5: The cloud service is in progress.
+         * <p>
+         * - 6: The cloud service receives the request to stop.
+         * <p>
+         * - 7: All components of the cloud service stop.
+         * <p>
+         * - 8: The cloud service exits.
+         * <p>
+         * - 20: The cloud service exits abnormally.
+         */
         @JsonProperty("status")
         private Integer status;
 
+        /**
+         * The recording start time of the file, the Unix timestamp, in seconds.
+         */
         @JsonProperty("sliceStartTime")
         private Long sliceStartTime;
 

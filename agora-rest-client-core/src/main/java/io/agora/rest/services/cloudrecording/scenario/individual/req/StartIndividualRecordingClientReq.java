@@ -2,20 +2,51 @@ package io.agora.rest.services.cloudrecording.scenario.individual.req;
 
 import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
 
+/**
+ * @brief Client request for starting individual recording.
+ * @since v0.4.0
+ */
 public class StartIndividualRecordingClientReq {
 
+    /**
+     * Agora App Token.(Optional)
+     */
     private String token;
 
+    /**
+     * Configuration for the application.(Optional) See
+     * {@link StartResourceReq.AppsCollection}.
+     */
     private StartResourceReq.AppsCollection appsCollection;
 
+    /**
+     * Configuration for recorded audio and video streams.(Optional) See
+     * {@link StartResourceReq.RecordingConfig}.
+     */
     private StartResourceReq.RecordingConfig recordingConfig;
 
+    /**
+     * Configurations for the recorded files generated under postponed transcoding
+     * or audio mixing.(Optional) See {@link StartResourceReq.TranscodeOptions}.
+     */
     private StartResourceReq.TranscodeOptions transcodeOptions;
 
+    /**
+     * Configuration for recorded files.(Optional) See
+     * {@link StartResourceReq.RecordingFileConfig}.
+     */
     private StartResourceReq.RecordingFileConfig recordingFileConfig;
 
+    /**
+     * Configurations for screenshot capture.(Optional) See
+     * {@link StartResourceReq.SnapshotConfig}.
+     */
     private StartResourceReq.SnapshotConfig snapshotConfig;
 
+    /**
+     * Configuration for third-party cloud storage.(Required) See
+     * {@link StartResourceReq.StorageConfig}.
+     */
     private StartResourceReq.StorageConfig storageConfig;
 
     public static Builder builder() {

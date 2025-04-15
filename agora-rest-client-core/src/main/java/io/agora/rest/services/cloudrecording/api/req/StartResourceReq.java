@@ -245,8 +245,23 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configuration for the application.
+     * @since v0.4.0
+     */
     public static class AppsCollection {
 
+        /**
+         * The combination of cloud recording applications.(Optional)
+         * <p>
+         * The combination policy can be set to:
+         * <p>
+         * - "default": Use this policy except for postponed transcoding and audio
+         * mixing.(Default)
+         * <p>
+         * - "postpone_transcoding": Use this policy if you need to postpone transcoding
+         * or audio mixing.
+         */
         @JsonProperty("combinationPolicy")
         private String combinationPolicy;
 
@@ -295,50 +310,222 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configuration for recorded audio and video streams.
+     * @since v0.4.0
+     */
     public static class RecordingConfig {
 
+        /**
+         * The channel type.(Required)
+         * 
+         * The channel type can be set to:
+         * <p>
+         * - 0: The communication use-case (Default)
+         * <p>
+         * - 1: Live streaming scene
+         */
         @JsonProperty("channelType")
         private Integer channelType;
 
+        /**
+         * Subscribed media stream type.(Optional)
+         * <p>
+         * The stream type can be set to:
+         * <p>
+         * - 0: Subscribes to audio streams only. Suitable for smart voice review
+         * use-cases.
+         * <p>
+         * - 1: Subscribes to video streams only.
+         * <p>
+         * - 2: Subscribes to both audio and video streams.(Default)
+         */
         @JsonProperty("streamTypes")
         private Integer streamTypes;
 
+        /**
+         * Output mode of media stream.(Optional)
+         * <p>
+         * The stream mode can be set to:
+         * <p>
+         * - "default": Default mode.
+         * Recording with audio transcoding will separately generate an M3U8 audio index
+         * file and a video index file.
+         * <p>
+         * - "standard": Standard mode. Agora recommends using this mode.
+         * Recording with audio transcoding will separately generate an M3U8 audio index
+         * file, a video index file,
+         * and a merged audio and video index file. If VP8 encoding is used on the Web
+         * client, a merged MPD audio-video index file will be generated.
+         * <p>
+         * - "original": Original encoding mode. It is applicable to individual
+         * non-transcoding audio recording.
+         * This field only takes effect when subscribing to audio only (streamTypes is
+         * 0).
+         * During the recording process, the audio is not transcoded, and an M3U8 audio
+         * index file is generated.
+         */
         @JsonProperty("streamMode")
         private String streamMode;
 
+        /**
+         * The decryption mode.(Optional)
+         * <p>
+         * If you have set channel encryption in the SDK client,
+         * you need to set the same decryption mode for the cloud recording service.
+         * <p>
+         * The decryption mode can be set to:
+         * <p>
+         * - 0: Not encrypted.(Default)
+         * <p>
+         * - 1: AES_128_XTS encryption mode. 128-bit AES encryption, XTS mode.
+         * <p>
+         * - 2: AES_128_ECB encryption mode. 128-bit AES encryption, ECB mode.
+         * <p>
+         * - 3: AES_256_XTS encryption mode. 256-bit AES encryption, XTS mode.
+         * <p>
+         * - 4: SM4_128_ECB encryption mode. 128-bit SM4 encryption, ECB mode.
+         * <p>
+         * - 5: AES_128_GCM encryption mode. 128-bit AES encryption, GCM mode.
+         * <p>
+         * - 6: AES_256_GCM encryption mode. 256-bit AES encryption, GCM mode.
+         * <p>
+         * - 7: AES_128_GCM2 encryption mode. 128-bit AES encryption, GCM mode.
+         * Compared to AES_128_GCM encryption mode, AES_128_GCM2 encryption mode has
+         * higher security and requires setting a key and salt.
+         * <p>
+         * - 8: AES_256_GCM2 encryption mode. 256-bit AES encryption, GCM mode.
+         * Compared to the AES_256_GCM encryption mode, the AES_256_GCM2 encryption mode
+         * is more secure and requires setting a key and salt.
+         */
         @JsonProperty("decryptionMode")
         private Integer decryptionMode;
 
+        /**
+         * Keys related to encryption and decryption.(Optional)
+         * <p>
+         * Only needs to be set when decryptionMode is not 0.
+         */
         @JsonProperty("secret")
         private String secret;
 
+        /**
+         * Salt related to encryption and decryption.(Optional)
+         * <p>
+         * Base64 encoding, 32-bit bytes.
+         * <p>
+         * Only need to set when decryptionMode is 7 or 8.
+         */
         @JsonProperty("salt")
         private String salt;
 
+        /**
+         * Set the sampling rate, bitrate, encoding mode, and number of channels for the
+         * output audio.(Optional)
+         * <p>
+         * The audio profile can be set to:
+         * <p>
+         * - 0: 48 kHz sampling rate, music encoding, mono audio channel, and the
+         * encoding bitrate is about 48 Kbps.（Default）
+         * <p>
+         * - 1: 48 kHz sampling rate, music encoding, mono audio channel, and the
+         * encoding bitrate is approximately 128 Kbps.
+         * <p>
+         * - 2: 48 kHz sampling rate, music encoding, stereo audio channel, and the
+         * encoding bitrate is approximately 192 Kbps.
+         */
         @JsonProperty("audioProfile")
         private Integer audioProfile;
 
+        /**
+         * Sets the stream type of the remote video.(Optional)
+         * <p>
+         * If you enable dual-stream mode in the SDK client,
+         * you can choose to subscribe to either the high-quality video stream or the
+         * low-quality video stream.
+         * <p>
+         * The video stream type can be set to:
+         * <p>
+         * - 0: High-quality video stream refers to high-resolution and high-bitrate
+         * video stream.(Default)
+         * <p>
+         * - 1: Low-quality video stream refers to low-resolution and low-bitrate video
+         * stream.
+         */
         @JsonProperty("videoStreamType")
         private Integer videoStreamType;
 
+        /**
+         * Maximum channel idle time.(Optional)
+         * <p>
+         * The unit is seconds.
+         * <p>
+         * The value range is [5,259200].
+         * <p>
+         * The default value is 30.
+         */
         @JsonProperty("maxIdleTime")
         private Integer maxIdleTime;
 
+        /**
+         * Configurations for transcoded video output.(Optional)
+         */
         @JsonProperty("transcodingConfig")
         private TranscodingConfig transcodingConfig;
 
+        /**
+         * Specify which UIDs' audio streams to subscribe to.(Optional)
+         * <p>
+         * If you want to subscribe to the audio stream of all UIDs, no need to set this
+         * field.
+         */
         @JsonProperty("subscribeAudioUids")
         private List<String> subscribeAudioUIDs;
 
+        /**
+         * Specify which UIDs' audio streams not to subscribe to.(Optional)
+         * <p>
+         * The cloud recording service will subscribe to the video streams of all UIDs
+         * except the specified ones.
+         */
         @JsonProperty("unSubscribeAudioUids")
         private List<String> unsubscribeAudioUIDs;
 
+        /**
+         * Specify which UIDs' video streams to subscribe to.(Optional)
+         * <p>
+         * If you want to subscribe to the video streams of all UIDs, no need to set
+         * this field.
+         */
         @JsonProperty("subscribeVideoUids")
         private List<String> subscribeVideoUIDs;
 
+        /**
+         * Specify which UIDs' video streams not to subscribe to.(Optional)
+         * <p>
+         * The cloud recording service will subscribe to the video streams of all UIDs
+         * except the specified ones.
+         */
         @JsonProperty("unSubscribeVideoUids")
         private List<String> unsubscribeVideoUIDs;
 
+        /**
+         * Estimated peak number of subscribers.(Optional)
+         * <p>
+         * The subscription group can be set to:
+         * <p>
+         * - 0: 1 to 2 UIDs.
+         * <p>
+         * - 1: 3 to 7 UIDs.
+         * <p>
+         * - 2: 8 to 12 UIDs
+         * <p>
+         * - 3: 13 to 17 UIDs
+         * <p>
+         * - 4: 18 to 32 UIDs.
+         * <p>
+         * - 5: 33 to 49 UIDs.
+         */
         @JsonProperty("subscribeUidGroup")
         private Integer subscribeUidGroup;
 
@@ -607,8 +794,25 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Container format.
+     * @since v0.4.0
+     */
     public static class Container {
 
+        /**
+         * The container format of the file.(Optional)
+         * <p>
+         * The container format can be set to:
+         * <p>
+         * - "mp4": the default format for the postponed transcoding. MP4 format.
+         * <p>
+         * - "mp3": The default format for postponed audio mixing. MP3 format.
+         * <p>
+         * - "m4a": M4A format.
+         * <p>
+         * - "aac": AAC format.
+         */
         @JsonProperty("format")
         private String format;
 
@@ -653,14 +857,29 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configurations for the recorded files generated under postponed
+     *        transcoding or audio mixing.
+     * @since v0.8.0
+     */
     public static class TranscodeOptions {
-
+        /**
+         * The container format of the recorded files.(Optional) See
+         * {@link TranscodeOptions.Container}.
+         */
         @JsonProperty("container")
         private Container container;
 
+        /**
+         * The configuration for transcoding.(Required) See
+         * {@link TranscodeOptions.TransConfig}.
+         */
         @JsonProperty("transConfig")
         private TransConfig transConfig;
 
+        /**
+         * Audio properties of the file. See {@link TranscodeOptions.Audio}.
+         */
         @JsonProperty("audio")
         private Audio audio;
 
@@ -737,8 +956,21 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configuration for transcoding.
+     * @since v0.8.0
+     */
     public static class TransConfig {
 
+        /**
+         * The transcoding mode.(Required)
+         * <p>
+         * The transcoding mode can be set to:
+         * <p>
+         * - "postponeTranscoding": Postponed transcoding.
+         * <p>
+         * - "audioMix": Postponed audio mixing.
+         */
         @JsonProperty("transMode")
         private String transMode;
 
@@ -783,14 +1015,43 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Audio properties of the file.
+     * @since v0.4.0
+     */
     public static class Audio {
 
+        /**
+         * Audio sampling rate.(Optional)
+         * <p>
+         * The sampling rate can be set to:
+         * <p>
+         * - "48000": 48 kHz.（Default）
+         * <p>
+         * - "32000": 32 kHz.
+         * <p>
+         * - "16000": 16 kHz.
+         */
         @JsonProperty("sampleRate")
         private String sampleRate;
 
+        /**
+         * Audio bitrate(Kbps).(Optional)
+         * <p>
+         * It supports a customized value and the default value is "48000".
+         */
         @JsonProperty("bitrate")
         private String bitRate;
 
+        /**
+         * Audio channels.(Optional)
+         * <p>
+         * The channels can be set to:
+         * <p>
+         * - "1": Mono.
+         * <p>
+         * - "2": Stereo.（Default）
+         */
         @JsonProperty("channels")
         private String channels;
 
@@ -869,38 +1130,130 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configurations for transcoded video output.
+     * @since v0.8.0
+     */
     public static class TranscodingConfig {
 
+        /**
+         * The width of the video (pixels).(Optional)
+         * <p>
+         * Width × Height cannot exceed 1920 × 1080.
+         * <p>
+         * The default value is 360.
+         */
         @JsonProperty("width")
         private Integer width;
 
+        /**
+         * The height of the video (pixels).(Optional)
+         * <p>
+         * width × height cannot exceed 1920 × 1080.
+         * <p>
+         * The default value is 640.
+         */
         @JsonProperty("height")
         private Integer height;
 
+        /**
+         * The frame rate of the video (fps).(Optional)
+         * <p>
+         * The default value is 15.
+         */
         @JsonProperty("fps")
         private Integer fps;
 
+        /**
+         * The bitrate of the video (Kbps).(Optional)
+         * <p>
+         * The default value is 1500.
+         */
         @JsonProperty("bitrate")
         private Integer bitrate;
 
+        /**
+         * Only need to set it in vertical layout.(Optional)
+         * <p>
+         * Specify the user ID of the large video window.
+         */
         @JsonProperty("maxResolutionUid")
         private String maxResolutionUid;
 
+        /**
+         * Composite video layout.(Optional)
+         * <p>
+         * The video layout can be set to:
+         * <p>
+         * - 0: Floating layout(Default).
+         * The first user to join the channel will be displayed as a large window,
+         * filling the entire canvas.
+         * The video windows of other users will be displayed as small windows, arranged
+         * horizontally from bottom to top,
+         * up to 4 rows, each with 4 windows. It supports up to a total of 17 windows of
+         * different users' videos.
+         * <p>
+         * - 1: Adaptive layout.
+         * Automatically adjust the size of each user's video window according to the
+         * number of users,
+         * each user's video window size is consistent, and supports up to 17 windows.
+         * <p>
+         * - 2: Vertical layout.
+         * The maxResolutionUid is specified to display the large video window on the
+         * left side of the screen,
+         * and the small video windows of other users are vertically arranged on the
+         * right side,
+         * with a maximum of two columns, 8 windows per column, supporting up to 17
+         * windows.
+         * <p>
+         * - 3: Customized layout.
+         * Set the layoutConfig field to customize the mixed layout.
+         */
         @JsonProperty("mixedVideoLayout")
         private Integer mixedVideoLayout;
 
+        /**
+         * The background color of the video canvas.(Optional)
+         * <p>
+         * The RGB color table is supported, with strings formatted as a # sign and 6
+         * hexadecimal digits.
+         * <p>
+         * The default value is "#000000", representing the black color.
+         */
         @JsonProperty("backgroundColor")
         private String backgroundColor;
 
+        /**
+         * The URL of the background image of the video canvas.(Optional)
+         * <p>
+         * The display mode of the background image is set to cropped mode.
+         * <p>
+         * Cropped mode: Will prioritize to ensure that the screen is filled.
+         * <p>
+         * The background image size is scaled in equal proportion until the entire
+         * screen is filled with the background image.
+         * <p>
+         * If the length and width of the background image differ from the video window,
+         * the background image will be peripherally cropped to fill the window.
+         */
         @JsonProperty("backgroundImage")
         private String backgroundImage;
 
+        /**
+         * The URL of the default user screen background image.(Optional)
+         */
         @JsonProperty("defaultUserBackgroundImage")
         private String defaultUserBackgroundImage;
 
+        /**
+         * Configurations of user's layout.(Optional)
+         */
         @JsonProperty("layoutConfig")
         private List<LayoutConfig> layoutConfig;
 
+        /**
+         * Configurations of user's background image.(Optional)
+         */
         @JsonProperty("backgroundConfig")
         private List<BackgroundConfig> backgroundConfig;
 
@@ -1115,26 +1468,102 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configurations of user's layout.
+     * @since v0.8.0
+     */
     public static class LayoutConfig {
 
+        /**
+         * The content of the string is the UID of the user to be displayed in the area,
+         * 32-bit unsigned integer.
+         */
         @JsonProperty("uid")
         private String uid;
 
+        /**
+         * The relative value of the horizontal coordinate of the upper-left corner of
+         * the screen, accurate to six decimal places.
+         * <p>
+         * Layout from left to right, with 0.0 at the far left and 1.0 at the far right.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("x_axis")
         private Float xAxis;
 
+        /**
+         * The relative value of the vertical coordinate of the upper-left corner of
+         * this screen in the screen, accurate to six decimal places.
+         * <p>
+         * Layout from top to bottom, with 0.0 at the top and 1.0 at the bottom.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("y_axis")
         private Float yAxis;
 
+        /**
+         * The relative value of the width of this screen, accurate to six decimal
+         * places.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("width")
         private Float width;
 
+        /**
+         * The relative value of the height of this screen, accurate to six decimal
+         * places.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("height")
         private Float height;
 
+        /**
+         * The transparency of the user's video window. Accurate to six decimal places.
+         * <p>
+         * 0.0 means the user's video window is transparent, and 1.0 indicates that it
+         * is completely opaque.
+         * <p>
+         * The value range is [0,1].
+         * <p>
+         * The default value is 1.
+         */
         @JsonProperty("alpha")
         private Float alpha;
 
+        /**
+         * The display mode of users' video windows.
+         * <p>
+         * The rendering mode can be set to:
+         * <p>
+         * - 0: Cropped mode.(Default)
+         * Prioritize to ensure the screen is filled.
+         * The video window size is proportionally scaled until it fills the screen.
+         * If the video's length and width differ from the video window,
+         * the video stream will be cropped from its edges to fit the window,
+         * under the aspect ratio set for the video window.
+         * <p>
+         * - 1: Fit mode.
+         * Prioritize to ensure that all video content is displayed.
+         * The video size is scaled proportionally until one side of the video window is
+         * aligned with the screen border.
+         * If the video scale does not comply with the window size,
+         * the video will be scaled to fill the screen while maintaining its aspect
+         * ratio.
+         * <p>
+         * This scaling may result in a black border around the edges of the video.
+         */
         @JsonProperty("render_mode")
         private Integer renderMode;
 
@@ -1281,8 +1710,21 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configuration for the recorded files.
+     * @since v0.8.0
+     */
     public static class RecordingFileConfig {
 
+        /**
+         * Type of video files generated by recording.(Optional)
+         * <p>
+         * The file type can be set to:
+         * <p>
+         * - "hls": default value. M3U8 and TS files.
+         * <p>
+         * - "mp4": MP4 files.
+         */
         @JsonProperty("avFileType")
         private List<String> avFileType;
 
@@ -1327,11 +1769,30 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configuration for screenshot capture.
+     * @since v0.8.0
+     */
     public static class SnapshotConfig {
 
+        /**
+         * The cycle for regular screenshots in the cloud recording.(Optional)
+         * <p>
+         * The unit is seconds.
+         * <p>
+         * The value range is [5,3600].
+         * <p>
+         * The default value is 10.
+         */
         @JsonProperty("captureInterval")
         private Integer captureInterval;
 
+        /**
+         * The file format of screenshots.
+         * <p>
+         * Currently only ["jpg"] is supported, which generates screenshot files in JPG
+         * format.
+         */
         @JsonProperty("fileType")
         private List<String> fileType;
 
@@ -1393,32 +1854,93 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configuration for third-party cloud storage.
+     * @since v0.8.0
+     */
     public static class StorageConfig {
-
+        /**
+         * Third-party cloud storage platforms.(Required)
+         * <p>
+         * The vendor can be set to:
+         * <p>
+         * - 1: Amazon S3
+         * <p>
+         * - 2: Alibaba Cloud
+         * <p>
+         * - 3: Tencent Cloud
+         * <p>
+         * - 5: Microsoft Azure
+         * <p>
+         * - 6: Google Cloud
+         * <p>
+         * - 7: Huawei Cloud
+         * <p>
+         * - 8: Baidu IntelligentCloud
+         */
         @JsonProperty("vendor")
         private Integer vendor;
 
+        /**
+         * The region information specified for the third-party cloud storage.(Required)
+         */
         @JsonProperty("region")
         private Integer region;
 
+        /**
+         * Third-party cloud storage bucket.(Required)
+         */
         @JsonProperty("bucket")
         private String bucket;
 
+        /**
+         * The access key of third-party cloud storage.(Required)
+         */
         @JsonProperty("accessKey")
         private String accessKey;
 
+        /**
+         * The secret key of third-party cloud storage.(Required)
+         */
         @JsonProperty("secretKey")
         private String secretKey;
 
+        /**
+         * The storage location of the recorded files in the third-party cloud is
+         * related to the prefix of the file name.(Optional)
+         */
         @JsonProperty("fileNamePrefix")
         private List<String> fileNamePrefix;
 
+        /**
+         * A temporary security token for third-party cloud storage.
+         * <p>
+         * This token is issued by the cloud service provider's Security Token Service
+         * (STS) and used to grant limited access rights to third-party cloud storage
+         * resources.
+         * <p>
+         * Currently supported cloud service providers include only the following:
+         * <p>
+         * - 1: Amazon S3
+         * <p>
+         * - 2: Alibaba Cloud
+         * <p>
+         * - 3: Tencent Cloud.
+         */
         @JsonProperty("stsToken")
         private String stsToken;
 
+        /**
+         * The stsToken expiration timestamp used to mark UNIX time, in
+         * seconds.(Optional)
+         */
         @JsonProperty("stsExpiration")
         private Integer stsExpiration;
 
+        /**
+         * Third-party cloud storage services will encrypt and tag the uploaded
+         * recording files according to this field.(Optional)
+         */
         @JsonProperty("extensionParams")
         private ExtensionParams extensionParams;
 
@@ -1599,11 +2121,34 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Third-party cloud storage services will encrypt and tag the uploaded
+     *        recording files according to this field.
+     * @since v0.8.0
+     */
     public static class ExtensionParams {
-
+        /**
+         * The encryption mode.(Required)
+         * <p>
+         * This field is only applicable to Amazon S3,
+         * and the value can be set to:
+         * <p>
+         * - "kms": KMS encryption.
+         * <p>
+         * - "aes256": AES256 encryption.
+         */
         @JsonProperty("sse")
         private String sse;
 
+        /**
+         * Tag content.(Required)
+         * <p>
+         * After setting this field, the third-party cloud storage service
+         * will tag the uploaded recording files according to the content of this tag.
+         * <p>
+         * This field is only applicable to Alibaba Cloud and Amazon S3.
+         * For other third-party cloud storage services, this field is not required.
+         */
         @JsonProperty("tag")
         private String tag;
 
@@ -1665,16 +2210,26 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configurations for extended services.
+     * @since v0.8.0
+     */
     public static class ExtensionServiceConfig {
-
+        /**
+         * Error handling policy.(Optional)
+         * <p>
+         * You can only set it to the default value, "error_abort",
+         * which means that once an error occurs to an extension service,
+         * all other non-extension services, such as stream subscription, also stop.
+         */
         @JsonProperty("errorHandlePolicy")
         private String errorHandlePolicy;
 
+        /**
+         * Extended services.(Required)
+         */
         @JsonProperty("extensionServices")
         private List<ExtensionService> extensionServices;
-
-        @JsonProperty("serviceParam")
-        private ServiceParam serviceParam;
 
         public static Builder builder() {
             return new Builder();
@@ -1683,7 +2238,6 @@ public class StartResourceReq {
         private ExtensionServiceConfig(Builder builder) {
             setErrorHandlePolicy(builder.errorHandlePolicy);
             setExtensionServices(builder.extensionServices);
-            setServiceParam(builder.serviceParam);
         }
 
         public String getErrorHandlePolicy() {
@@ -1702,20 +2256,11 @@ public class StartResourceReq {
             this.extensionServices = extensionServices;
         }
 
-        public ServiceParam getServiceParam() {
-            return serviceParam;
-        }
-
-        public void setServiceParam(ServiceParam serviceParam) {
-            this.serviceParam = serviceParam;
-        }
-
         @Override
         public String toString() {
             return "ExtensionServiceConfig{" +
                     "errorHandlePolicy='" + errorHandlePolicy + '\'' +
                     ", extensionServices=" + extensionServices +
-                    ", serviceParam=" + serviceParam +
                     '}';
         }
 
@@ -1724,8 +2269,6 @@ public class StartResourceReq {
             private String errorHandlePolicy;
 
             private List<ExtensionService> extensionServices;
-
-            private ServiceParam serviceParam;
 
             private Builder() {
             }
@@ -1740,25 +2283,58 @@ public class StartResourceReq {
                 return this;
             }
 
-            public Builder serviceParam(ServiceParam val) {
-                serviceParam = val;
-                return this;
-            }
-
             public ExtensionServiceConfig build() {
                 return new ExtensionServiceConfig(this);
             }
         }
     }
 
+    /**
+     * @brief Configuration for extended services.
+     * @since v0.8.0
+     */
     public static class ExtensionService {
-
+        /**
+         * Name of the extended service.(Required)
+         * <p>
+         * The service name can be set to:
+         * <p>
+         * - "web_recorder_service": Represents the extended service is web page
+         * recording.
+         * <p>
+         * - "rtmp_publish_service": Represents the extended service is to push web page
+         * recording to the CDN.
+         */
         @JsonProperty("serviceName")
         private String serviceName;
 
+        /**
+         * Error handling strategy within the extension service.(Optional)
+         * <p>
+         * The error handling strategy can be set to:
+         * <p>
+         * - "error_abort": the default and only value during web page recording.
+         * Stop other extension services when the current extension service encounters
+         * an error.
+         * <p>
+         * - "error_ignore": The only default value when you push the web page recording
+         * to the CDN.
+         * <p>
+         * Other extension services are not affected when the current extension service
+         * encounters an error.
+         */
         @JsonProperty("errorHandlePolicy")
         private String errorHandlePolicy;
 
+        /**
+         * Specific configurations for extension services.(Required)
+         * <p>
+         * - "WebRecordingServiceParam" for web page recording. See
+         * WebRecordingServiceParam for details.
+         * <p>
+         * - "RtmpPublishServiceParam" for pushing web page recording to the CDN. See
+         * RtmpPublishServiceParam for details.
+         */
         @JsonProperty("serviceParam")
         private ServiceParam serviceParam;
 
@@ -1837,8 +2413,14 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief The CDN address to which you push the stream.
+     * @since v0.8.0
+     */
     public static class Outputs {
-
+        /**
+         * The CDN address to which you push the stream.(Required)
+         */
         @JsonProperty("rtmpUrl")
         private String rtmpUrl;
 
@@ -1882,38 +2464,136 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Service parameter configuration for web page recording.
+     * @since v0.8.0
+     */
     public static class WebRecordingServiceParam implements ServiceParam {
-
+        /**
+         * The address of the page to be recorded.(Required)
+         */
         @JsonProperty("url")
         private String url;
 
+        /**
+         * The bitrate of the output video (Kbps).(Optional)
+         * <p>
+         * For different output video resolutions, the default value of videoBitrate is
+         * different:
+         * <p>
+         * - Output video resolution is greater than or equal to 1280 × 720, and the
+         * default value is 2000.
+         * <p>
+         * - Output video resolution is less than 1280 × 720, and the default value is
+         * 1500.
+         */
         @JsonProperty("VideoBitrate")
         private Integer videoBitRate;
 
+        /**
+         * The frame rate of the output video (fps).(Optional)
+         * <p>
+         * The value range is [5,60].
+         * <p>
+         * The default value is 15.
+         */
         @JsonProperty("videoFps")
         private Integer videoFPS;
 
+        /**
+         * Sampling rate, bitrate, encoding mode, and number of channels for the audio
+         * output.(Required)
+         * <p>
+         * The audio profile can be set to:
+         * <p>
+         * - 0: 48 kHz sampling rate, music encoding, mono audio channel, and the
+         * encoding bitrate is approximately 48 Kbps.
+         * <p>
+         * - 1: 48 kHz sampling rate, music encoding, mono audio channel, and the
+         * encoding bitrate is approximately 128 Kbps.
+         * <p>
+         * - 2: 48 kHz sampling rate, music encoding, stereo audio channel, and the
+         * encoding bitrate is approximately 192 Kbps.
+         */
         @JsonProperty("audioProfile")
         private Integer audioProfile;
 
+        /**
+         * Whether to enable the mobile web mode.(Optional)
+         * <p>
+         * - true: Enables the mode. After enabling, the recording service uses the
+         * mobile web rendering mode to record the current page.
+         * <p>
+         * - false: Disables the mode.(Default)
+         */
         @JsonProperty("mobile")
         private Boolean mobile;
 
+        /**
+         * The output video width (pixel).(Required)
+         * <p>
+         * The product of videoWidth and videoHeight should be less than or equal to
+         * 1920 × 1080.
+         */
         @JsonProperty("videoWidth")
         private Integer videoWidth;
 
+        /**
+         * The output video height (pixel).(Required)
+         * <p>
+         * The product of videoWidth and videoHeight should be less than or equal to
+         * 1920 × 1080.
+         */
         @JsonProperty("videoHeight")
         private Integer videoHeight;
 
+        /**
+         * The maximum duration of web page recording (hours). (Required)
+         * <p>
+         * The web page recording will automatically stop after exceeding this value.
+         * <p>
+         * The value range is [1,720].
+         */
         @JsonProperty("maxRecordingHour")
         private Integer maxRecordingHour;
 
+        /**
+         * Maximum length of MP4 slice file generated by web page recording, in
+         * minutes.(Optional)
+         * <p>
+         * During the web page recording process, the recording service will create a
+         * new MP4 slice file when the current MP4 file duration exceeds the
+         * maxVideoDuration approximately.
+         * <p>
+         * The value range is [30,240].
+         * <p>
+         * The default value is 120.
+         */
         @JsonProperty("maxVideoDuration")
         private Integer maxVideoDuration;
 
+        /**
+         * Whether to pause page recording when starting a web page recording task.
+         * (Optional)
+         * <p>
+         * - true: Pauses the web page recording that has been started. Immediately
+         * pause the recording after starting the web page recording task. The
+         * recording service will open and render the page to be recorded, but will
+         * not generate slice files.
+         * <p>
+         * - false: Starts a web page recording task and performs web page
+         * recording.(Default)
+         */
         @JsonProperty("onhold")
         private Boolean onhold;
 
+        /**
+         * Set the page load timeout in seconds.(Optional)
+         * <p>
+         * The value range is [0,60].
+         * <p>
+         * The default value is 0.
+         */
         @JsonProperty("readyTimeout")
         private Integer readyTimeout;
 
@@ -2128,8 +2808,17 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Service parameter configuration for pushing web page recording to the
+     *        CDN.
+     *
+     * @since v0.4.0
+     */
     public static class RtmpPublishServiceParam implements ServiceParam {
 
+        /**
+         * The array of CDN addresses to which you push the stream.(Required)
+         */
         @JsonProperty("outputs")
         private List<Outputs> outputs;
 
@@ -2174,14 +2863,57 @@ public class StartResourceReq {
         }
     }
 
+    /**
+     * @brief Configurations of user's background image.
+     * 
+     * @since v0.8.0
+     */
     public static class BackgroundConfig {
 
+        /**
+         * The string content is the UID.(Required)
+         */
         @JsonProperty("uid")
         private String uid;
 
+        /**
+         * The URL of the user's background image.(Required)
+         * <p>
+         * After setting the background image, if the user stops sending the video
+         * stream for more than 3.5 seconds,
+         * the screen will switch to the background image.
+         * <p>
+         * URL supports the HTTP and HTTPS protocols, and the image formats supported
+         * are JPG and BMP.
+         * <p>
+         * The image size must not exceed 6 MB.
+         * <p>
+         * The settings will only take effect after the recording service successfully
+         * downloads the image;
+         * if the download fails, the settings will not take effect.
+         * <p>
+         * Different field settings may overlap each other.
+         */
         @JsonProperty("image_url")
         private String imageUrl;
 
+        /**
+         * The display mode of users' video windows.(Optional)
+         * <p>
+         * The value can be set to:
+         * <p>
+         * - 0: cropped mode.(Default)
+         * Prioritize to ensure the screen is filled.
+         * The video window size is proportionally scaled until it fills the screen.
+         * If the video's length and width differ from the video window,
+         * the video stream will be cropped from its edges to fit the window, under the
+         * aspect ratio set for the video window.
+         * <p>
+         * - 1: Fit mode.
+         * Prioritize to ensure that all video content is displayed.
+         * The video size is scaled proportionally until one side of the video window is
+         * aligned with the screen border.
+         */
         @JsonProperty("render_mode")
         private Integer renderMode;
 

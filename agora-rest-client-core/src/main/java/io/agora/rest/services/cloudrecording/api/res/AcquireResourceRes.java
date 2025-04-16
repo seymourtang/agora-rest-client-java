@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @brief Returned by the various of cloud recording scenarios Acquire API.
- * @since v0.8.0
+ * @since v0.4.0
  */
 public class AcquireResourceRes {
     /**

@@ -860,7 +860,7 @@ public class StartResourceReq {
     /**
      * @brief Configurations for the recorded files generated under postponed
      *        transcoding or audio mixing.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class TranscodeOptions {
         /**
@@ -958,7 +958,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configuration for transcoding.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class TransConfig {
 
@@ -1132,7 +1132,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configurations for transcoded video output.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class TranscodingConfig {
 
@@ -1470,7 +1470,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configurations of user's layout.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class LayoutConfig {
 
@@ -1712,7 +1712,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configuration for the recorded files.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class RecordingFileConfig {
 
@@ -1771,7 +1771,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configuration for screenshot capture.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class SnapshotConfig {
 
@@ -1856,7 +1856,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configuration for third-party cloud storage.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class StorageConfig {
         /**
@@ -2124,7 +2124,7 @@ public class StartResourceReq {
     /**
      * @brief Third-party cloud storage services will encrypt and tag the uploaded
      *        recording files according to this field.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class ExtensionParams {
         /**
@@ -2212,7 +2212,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configurations for extended services.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class ExtensionServiceConfig {
         /**
@@ -2291,7 +2291,7 @@ public class StartResourceReq {
 
     /**
      * @brief Configuration for extended services.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class ExtensionService {
         /**
@@ -2415,7 +2415,7 @@ public class StartResourceReq {
 
     /**
      * @brief The CDN address to which you push the stream.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class Outputs {
         /**
@@ -2466,7 +2466,7 @@ public class StartResourceReq {
 
     /**
      * @brief Service parameter configuration for web page recording.
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class WebRecordingServiceParam implements ServiceParam {
         /**
@@ -2866,7 +2866,7 @@ public class StartResourceReq {
     /**
      * @brief Configurations of user's background image.
      * 
-     * @since v0.8.0
+     * @since v0.4.0
      */
     public static class BackgroundConfig {
 

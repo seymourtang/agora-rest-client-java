@@ -8,6 +8,7 @@ import io.agora.rest.services.cloudrecording.scenario.web.req.AcquireWebRecordin
 import io.agora.rest.services.cloudrecording.scenario.web.req.StartWebRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.web.req.UpdateWebRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.web.res.QueryWebRecordingResourceRes;
+import io.agora.rest.services.cloudrecording.scenario.web.res.QueryWebRecordingRtmpPublishResourceRes;
 import reactor.core.publisher.Mono;
 
 public abstract class WebScenario {
@@ -53,6 +54,16 @@ public abstract class WebScenario {
          *         QueryWebRecordingResourceRes for details.
          */
         public abstract Mono<QueryWebRecordingResourceRes> query(String resourceId, String sid);
+
+        /**
+         * @brief Query the status of pushing web page recording to the CDN.
+         * @since v0.4.0
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @return Returns the response QueryWebRecordingRtmpPublishResourceRes. See
+         *         QueryWebRecordingRtmpPublishResourceRes for details.
+         */
+        public abstract Mono<QueryWebRecordingRtmpPublishResourceRes> queryRtmpPublish(String resourceId, String sid);
 
         // /**
         // * @brief Query the status of pushing web page recording to the CDN.

@@ -56,11 +56,14 @@ public class QueryResourceRes {
     private WebRecordingServerResponse webRecordingServerResponse;
 
     @JsonIgnore
+    private WebRecordingRtmpPublishServerResponse webRecordingRtmpPublishServerResponse;
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    @JsonIgnore
     public void setServerResponse(CloudRecordingModeEnum mode) throws Exception {
         JsonNode fileListModeNode = this.serverResponse.path("fileListMode");
         this.serverResponseType = ServerResponseType.QUERY_SERVER_RESPONSE_UNKNOWN_TYPE;
-
-        ObjectMapper objectMapper = new ObjectMapper();
 
         switch (mode) {
             case INDIVIDUAL:
@@ -92,12 +95,35 @@ public class QueryResourceRes {
                 }
                 break;
             case WEB:
-                this.serverResponseType = ServerResponseType.QUERY_WEB_RECORDING_SERVER_RESPONSE_TYPE;
-                this.webRecordingServerResponse = objectMapper.treeToValue(this.serverResponse,
-                        WebRecordingServerResponse.class);
+                // Check for specific service types in WEB mode
+                JsonNode extensionServiceState = this.serverResponse.path("extensionServiceState");
+
+                if (extensionServiceState.isArray() && extensionServiceState.size() > 0) {
+                    String serviceName = extensionServiceState.get(0).path("serviceName").asText();
+
+                    switch (serviceName) {
+                        case "rtmp_publish_service":
+                            this.serverResponseType = ServerResponseType.QUERY_WEB_RECORDING_RTMP_PUBLISH_SERVER_RESPONSE_TYPE;
+                            this.webRecordingRtmpPublishServerResponse = objectMapper.treeToValue(this.serverResponse,
+                                    WebRecordingRtmpPublishServerResponse.class);
+                            break;
+
+                        case "web_recorder_service":
+                            this.serverResponseType = ServerResponseType.QUERY_WEB_RECORDING_SERVER_RESPONSE_TYPE;
+                            this.webRecordingServerResponse = objectMapper.treeToValue(this.serverResponse,
+                                    WebRecordingServerResponse.class);
+                            break;
+
+                        default:
+                            throw new AgoraJsonException("Unknown service name: " + serviceName);
+                    }
+                } else {
+                    this.serverResponseType = ServerResponseType.QUERY_WEB_RECORDING_SERVER_RESPONSE_TYPE;
+                    this.webRecordingServerResponse = objectMapper.treeToValue(this.serverResponse,
+                            WebRecordingServerResponse.class);
+                }
                 break;
         }
-
     }
 
     public String getCname() {
@@ -191,6 +217,15 @@ public class QueryResourceRes {
         this.webRecordingServerResponse = webRecordingServerResponse;
     }
 
+    public WebRecordingRtmpPublishServerResponse getWebRecordingRtmpPublishServerResponse() {
+        return webRecordingRtmpPublishServerResponse;
+    }
+
+    public void setWebRecordingRtmpPublishServerResponse(
+            WebRecordingRtmpPublishServerResponse webRecordingRtmpPublishServerResponse) {
+        this.webRecordingRtmpPublishServerResponse = webRecordingRtmpPublishServerResponse;
+    }
+
     @Override
     public String toString() {
         return "QueryResourceRes{" +
@@ -214,19 +249,62 @@ public class QueryResourceRes {
         QUERY_INDIVIDUAL_VIDEO_SCREENSHOT_SERVER_RESPONSE_TYPE,
         QUERY_MIX_RECORDING_HLS_SERVER_RESPONSE_TYPE,
         QUERY_MIX_RECORDING_HLS_AND_MP4_SERVER_RESPONSE_TYPE,
-        QUERY_WEB_RECORDING_SERVER_RESPONSE_TYPE
+        QUERY_WEB_RECORDING_SERVER_RESPONSE_TYPE,
+        QUERY_WEB_RECORDING_RTMP_PUBLISH_SERVER_RESPONSE_TYPE
     }
 
+    /**
+     * @brief Server response returned by the individual recording Query API.
+     * @since v0.4.0
+     */
     public static class QueryIndividualRecordingServerResponse {
+        /**
+         * Current status of the cloud service:
+         * <p>
+         * - 0: Cloud service has not started.
+         * <p>
+         * - 1: The cloud service initialization is complete.
+         * <p>
+         * - 2: The cloud service components are starting.
+         * <p>
+         * - 3: Some cloud service components are ready.
+         * <p>
+         * - 4: All cloud service components are ready.
+         * <p>
+         * - 5: The cloud service is in progress.
+         * <p>
+         * - 6: The cloud service receives the request to stop.
+         * <p>
+         * - 7: All components of the cloud service stop.
+         * <p>
+         * - 8: The cloud service exits.
+         * <p>
+         * - 20: The cloud service exits abnormally.
+         */
         @JsonProperty("status")
         private Integer status;
 
+        /**
+         * The data format of the fileList field:
+         * <p>
+         * - "string": fileList is of String type. In composite recording mode,
+         * if avFileType is set to ["hls"], fileListMode is "string".
+         * <p>
+         * - "json": fileList is a JSON Array. When avFileType is set to ["hls","mp4"]
+         * in the individual or composite recording mode, fileListMode is set to "json".
+         */
         @JsonProperty("fileListMode")
         private String fileListMode;
 
+        /*
+         * The file list.
+         */
         @JsonProperty("fileList")
         private List<FileDetail> fileList;
 
+        /**
+         * The recording start time of the file, the Unix timestamp, in seconds.
+         */
         @JsonProperty("sliceStartTime")
         private Long sliceStartTime;
 
@@ -273,21 +351,55 @@ public class QueryResourceRes {
         }
 
         public static class FileDetail {
+            /**
+             * The file names of the M3U8 and MP4 files generated during recording.
+             */
             @JsonProperty("fileName")
             private String fileName;
 
+            /**
+             * The recording file type.
+             * <p>
+             * - "audio": Audio-only files.
+             * <p>
+             * - "video": Video-only files.
+             * <p>
+             * - "audio_and_video": audio and video files
+             */
             @JsonProperty("trackType")
             private String trackType;
 
+            /**
+             * User UID, indicating which user's audio or video stream is being recorded.
+             * <p>
+             * In composite recording mode, the uid is "0".
+             */
             @JsonProperty("uid")
             private String uid;
 
+            /**
+             * Whether the users were recorded separately.
+             * <p>
+             * - true: All users are recorded in a single file.
+             * <p>
+             * - false: Each user is recorded separately.
+             */
             @JsonProperty("mixedAllUser")
             private Boolean mixedAllUser;
 
+            /**
+             * Whether or not can be played online.
+             * <p>
+             * - true: The file can be played online.
+             * <p>
+             * - false: The file cannot be played online.
+             */
             @JsonProperty("isPlayable")
             private Boolean isPlayable;
 
+            /**
+             * The recording start time of the file, the Unix timestamp, in seconds.
+             */
             @JsonProperty("sliceStartTime")
             private Long sliceStartTime;
 
@@ -416,16 +528,58 @@ public class QueryResourceRes {
         }
     }
 
+    /**
+     * @brief Server response returned by the mix recording QueryHLS API.
+     * @since v0.4.0
+     */
     public static class MixRecordingHLSServerResponse {
+        /**
+         * Current status of the cloud service:
+         * <p>
+         * - 0: Cloud service has not started.
+         * <p>
+         * - 1: The cloud service initialization is complete.
+         * <p>
+         * - 2: The cloud service components are starting.
+         * <p>
+         * - 3: Some cloud service components are ready.
+         * <p>
+         * - 4: All cloud service components are ready.
+         * <p>
+         * - 5: The cloud service is in progress.
+         * <p>
+         * - 6: The cloud service receives the request to stop.
+         * <p>
+         * - 7: All components of the cloud service stop.
+         * <p>
+         * - 8: The cloud service exits.
+         * <p>
+         * - 20: The cloud service exits abnormally.
+         */
         @JsonProperty("status")
         private Integer status;
 
+        /**
+         * The data format of the fileList field:
+         * <p>
+         * - "string": fileList is of String type. In composite recording mode,
+         * if avFileType is set to ["hls"], fileListMode is "string".
+         * <p>
+         * - "json": fileList is a JSON Array. When avFileType is set to ["hls","mp4"]
+         * in the individual or composite recording mode, fileListMode is set to "json".
+         */
         @JsonProperty("fileListMode")
         private String fileListMode;
 
+        /*
+         * The file list.
+         */
         @JsonProperty("fileList")
         private String fileList;
 
+        /**
+         * The recording start time of the file, the Unix timestamp, in seconds.
+         */
         @JsonProperty("sliceStartTime")
         private Long sliceStartTime;
 
@@ -472,13 +626,52 @@ public class QueryResourceRes {
         }
     }
 
+    /**
+     * @brief Server response returned by the mix recording QueryHLSAndMP4 API.
+     * @since v0.4.0
+     */
     public static class MixRecordingHLSAndMP4ServerResponse {
+        /**
+         * Current status of the cloud service:
+         * <p>
+         * - 0: Cloud service has not started.
+         * <p>
+         * - 1: The cloud service initialization is complete.
+         * <p>
+         * - 2: The cloud service components are starting.
+         * <p>
+         * - 3: Some cloud service components are ready.
+         * <p>
+         * - 4: All cloud service components are ready.
+         * <p>
+         * - 5: The cloud service is in progress.
+         * <p>
+         * - 6: The cloud service receives the request to stop.
+         * <p>
+         * - 7: All components of the cloud service stop.
+         * <p>
+         * - 8: The cloud service exits.
+         * <p>
+         * - 20: The cloud service exits abnormally.
+         */
         @JsonProperty("status")
         private Integer status;
 
+        /**
+         * The data format of the fileList field:
+         * <p>
+         * - "string": fileList is of String type. In composite recording mode,
+         * if avFileType is set to ["hls"], fileListMode is "string".
+         * <p>
+         * - "json": fileList is a JSON Array. When avFileType is set to ["hls","mp4"]
+         * in the individual or composite recording mode, fileListMode is set to "json".
+         */
         @JsonProperty("fileListMode")
         private String fileListMode;
 
+        /*
+         * The file list.
+         */
         @JsonProperty("fileList")
         private List<FileDetail> fileList;
 
@@ -608,10 +801,40 @@ public class QueryResourceRes {
         }
     }
 
+    /**
+     * @brief Server response returned by the web recording Query API.
+     * @since v0.4.0
+     */
     public static class WebRecordingServerResponse {
+        /**
+         * Current status of the cloud service:
+         * <p>
+         * - 0: Cloud service has not started.
+         * <p>
+         * - 1: The cloud service initialization is complete.
+         * <p>
+         * - 2: The cloud service components are starting.
+         * <p>
+         * - 3: Some cloud service components are ready.
+         * <p>
+         * - 4: All cloud service components are ready.
+         * <p>
+         * - 5: The cloud service is in progress.
+         * <p>
+         * - 6: The cloud service receives the request to stop.
+         * <p>
+         * - 7: All components of the cloud service stop.
+         * <p>
+         * - 8: The cloud service exits.
+         * <p>
+         * - 20: The cloud service exits abnormally.
+         */
         @JsonProperty("status")
         private Integer status;
 
+        /**
+         * The extension service state.
+         */
         @JsonProperty("extensionServiceState")
         private List<ExtensionServiceState> extensionServiceState;
 
@@ -639,10 +862,26 @@ public class QueryResourceRes {
                     '}';
         }
 
+        /**
+         * @brief The extension service state.
+         * @since v0.4.0
+         */
         public static class ExtensionServiceState {
+            /**
+             * Extension service payload
+             */
             @JsonProperty("payload")
             private Payload payload;
 
+            /**
+             * Name of the extended service:
+             * <p>
+             * - "web_recorder_service": Represents the extended service is web page
+             * recording.
+             * <p>
+             * - "rtmp_publish_service": Represents the extended service is to push web page
+             * recording to the CDN.
+             */
             @JsonProperty("serviceName")
             private String serviceName;
 
@@ -654,22 +893,38 @@ public class QueryResourceRes {
                         '}';
             }
 
+            /**
+             * @brief Extended service payload.
+             * @since v0.4.0
+             */
             public static class Payload {
+                /**
+                 * The file list.
+                 */
                 @JsonProperty("fileList")
                 private List<FileDetail> fileList;
 
+                /**
+                 * Whether the page recording is in pause state:
+                 * <p>
+                 * - true: In pause state.
+                 * <p>
+                 * - false: The page recording is running.
+                 */
                 @JsonProperty("onhold")
                 private Boolean onhold;
 
+                /**
+                 * The status of uploading subscription content to the extension service:
+                 * <p>
+                 * - "init": The service is initializing.
+                 * <p>
+                 * - "inProgress": The service has started and is currently in progress.
+                 * <p>
+                 * - "exit": Service exits.
+                 */
                 @JsonProperty("state")
                 private String state;
-
-                @JsonProperty("outputs")
-                private List<Output> outputs;
-
-                public List<FileDetail> getFileList() {
-                    return fileList;
-                }
 
                 public void setFileList(List<FileDetail> fileList) {
                     this.fileList = fileList;
@@ -691,28 +946,29 @@ public class QueryResourceRes {
                     this.state = state;
                 }
 
-                public List<Output> getOutputs() {
-                    return outputs;
-                }
-
-                public void setOutputs(List<Output> outputs) {
-                    this.outputs = outputs;
-                }
-
                 @Override
                 public String toString() {
                     return "Payload{" +
                             "fileList=" + fileList +
                             ", onhold=" + onhold +
                             ", state='" + state + '\'' +
-                            ", outputs=" + outputs +
                             '}';
                 }
 
+                /**
+                 * @brief The file detail.
+                 * @since v0.4.0
+                 */
                 public static class FileDetail {
+                    /**
+                     * The file name.
+                     */
                     @JsonProperty("filename")
                     private String filename;
 
+                    /**
+                     * The recording start time of the file, the Unix timestamp, in seconds.
+                     */
                     @JsonProperty("sliceStartTime")
                     private Long sliceStartTime;
 
@@ -741,10 +997,215 @@ public class QueryResourceRes {
                     }
                 }
 
+            }
+        }
+    }
+
+    /**
+     * @brief Server response returned by the web recording Query API.
+     * @since v0.4.0
+     */
+    public static class WebRecordingRtmpPublishServerResponse {
+        /**
+         * Current status of the cloud service:
+         * <p>
+         * - 0: Cloud service has not started.
+         * <p>
+         * - 1: The cloud service initialization is complete.
+         * <p>
+         * - 2: The cloud service components are starting.
+         * <p>
+         * - 3: Some cloud service components are ready.
+         * <p>
+         * - 4: All cloud service components are ready.
+         * <p>
+         * - 5: The cloud service is in progress.
+         * <p>
+         * - 6: The cloud service receives the request to stop.
+         * <p>
+         * - 7: All components of the cloud service stop.
+         * <p>
+         * - 8: The cloud service exits.
+         * <p>
+         * - 20: The cloud service exits abnormally.
+         */
+        @JsonProperty("status")
+        private Integer status;
+
+        /**
+         * The extension service state.
+         */
+        @JsonProperty("extensionServiceState")
+        private List<ExtensionServiceState> extensionServiceState;
+
+        public Integer getStatus() {
+            return status;
+        }
+
+        public void setStatus(Integer status) {
+            this.status = status;
+        }
+
+        public List<ExtensionServiceState> getExtensionServiceState() {
+            return extensionServiceState;
+        }
+
+        public void setExtensionServiceState(List<ExtensionServiceState> extensionServiceState) {
+            this.extensionServiceState = extensionServiceState;
+        }
+
+        @Override
+        public String toString() {
+            return "WebRecordingServerResponse{" +
+                    "status=" + status +
+                    ", extensionServiceState=" + extensionServiceState +
+                    '}';
+        }
+
+        /**
+         * @brief The extension service state.
+         * @since v0.4.0
+         */
+        public static class ExtensionServiceState {
+            /**
+             * Extension service payload
+             */
+            @JsonProperty("payload")
+            private Payload payload;
+
+            /**
+             * Name of the extended service:
+             * <p>
+             * - "web_recorder_service": Represents the extended service is web page
+             * recording.
+             * <p>
+             * - "rtmp_publish_service": Represents the extended service is to push web page
+             * recording to the CDN.
+             */
+            @JsonProperty("serviceName")
+            private String serviceName;
+
+            @Override
+            public String toString() {
+                return "ExtensionServiceState{" +
+                        "payload=" + payload +
+                        ", serviceName='" + serviceName + '\'' +
+                        '}';
+            }
+
+            /**
+             * @brief Extended service payload.
+             * @since v0.4.0
+             */
+            public static class Payload {
+
+                /**
+                 * The status of uploading subscription content to the extension service:
+                 * <p>
+                 * - "init": The service is initializing.
+                 * <p>
+                 * - "inProgress": The service has started and is currently in progress.
+                 * <p>
+                 * - "exit": Service exits.
+                 */
+                @JsonProperty("state")
+                private String state;
+
+                /**
+                 * The status of the push stream to the CDN.
+                 */
+                @JsonProperty("outputs")
+                private List<Output> outputs;
+
+                public String getState() {
+                    return state;
+                }
+
+                public void setState(String state) {
+                    this.state = state;
+                }
+
+                public List<Output> getOutputs() {
+                    return outputs;
+                }
+
+                public void setOutputs(List<Output> outputs) {
+                    this.outputs = outputs;
+                }
+
+                @Override
+                public String toString() {
+                    return "Payload{" +
+                            "state='" + state + '\'' +
+                            ", outputs=" + outputs +
+                            '}';
+                }
+
+                /**
+                 * @brief The file detail.
+                 * @since v0.4.0
+                 */
+                public static class FileDetail {
+                    /**
+                     * The file name.
+                     */
+                    @JsonProperty("filename")
+                    private String filename;
+
+                    /**
+                     * The recording start time of the file, the Unix timestamp, in seconds.
+                     */
+                    @JsonProperty("sliceStartTime")
+                    private Long sliceStartTime;
+
+                    public String getFilename() {
+                        return filename;
+                    }
+
+                    public void setFilename(String filename) {
+                        this.filename = filename;
+                    }
+
+                    public Long getSliceStartTime() {
+                        return sliceStartTime;
+                    }
+
+                    public void setSliceStartTime(Long sliceStartTime) {
+                        this.sliceStartTime = sliceStartTime;
+                    }
+
+                    @Override
+                    public String toString() {
+                        return "FileDetail{" +
+                                "filename='" + filename + '\'' +
+                                ", sliceStartTime=" + sliceStartTime +
+                                '}';
+                    }
+                }
+
+                /**
+                 * @brief The push stream to the CDN output.
+                 * @since v0.4.0
+                 */
                 public static class Output {
+                    /**
+                     * The CDN address to which you push the stream.
+                     */
                     @JsonProperty("rtmpUrl")
                     private String rtmpUrl;
 
+                    /**
+                     * The current status of stream pushing of the web page recording:
+                     * <p>
+                     * - "connecting": Connecting to the CDN server.
+                     * <p>
+                     * - "publishing": The stream pushing is going on.
+                     * <p>
+                     * - "onhold": Set whether to pause the stream pushing.
+                     * <p>
+                     * - "disconnected": Failed to connect to the CDN server. Agora recommends
+                     * that you change the CDN address to push the stream.
+                     */
                     @JsonProperty("status")
                     private String status;
 

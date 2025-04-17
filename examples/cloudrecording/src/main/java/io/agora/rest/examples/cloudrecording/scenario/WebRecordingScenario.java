@@ -36,7 +36,8 @@ public class WebRecordingScenario extends BaseScenario {
                     .webScenario()
                     .acquire(cname, uid, AcquireWebRecordingResourceClientReq.builder()
                             .resourceExpiredHour(1)
-                            .build()).block();
+                            .build())
+                    .block();
         } catch (AgoraException e) {
             logger.error("Failed to acquire resource,err:{}", e.getMessage());
             return;
@@ -66,17 +67,19 @@ public class WebRecordingScenario extends BaseScenario {
                                     .storageConfig(storageConfig)
                                     .extensionServiceConfig(StartResourceReq.ExtensionServiceConfig.builder()
                                             .errorHandlePolicy("error_abort")
-                                            .extensionServices(Collections.singletonList(StartResourceReq.ExtensionService.builder()
-                                                    .serviceName("web_recorder_service")
-                                                    .errorHandlePolicy("error_abort")
-                                                    .serviceParam(StartResourceReq.WebRecordingServiceParam.builder()
-                                                            .url("https://live.bilibili.com/")
-                                                            .audioProfile(2)
-                                                            .videoWidth(1280)
-                                                            .videoHeight(720)
-                                                            .maxRecordingHour(1)
-                                                            .build())
-                                                    .build()))
+                                            .extensionServices(Collections
+                                                    .singletonList(StartResourceReq.ExtensionService.builder()
+                                                            .serviceName("web_recorder_service")
+                                                            .errorHandlePolicy("error_abort")
+                                                            .serviceParam(
+                                                                    StartResourceReq.WebRecordingServiceParam.builder()
+                                                                            .url("https://live.bilibili.com/")
+                                                                            .audioProfile(2)
+                                                                            .videoWidth(1280)
+                                                                            .videoHeight(720)
+                                                                            .maxRecordingHour(1)
+                                                                            .build())
+                                                            .build()))
                                             .build())
                                     .build())
                     .block();
@@ -95,7 +98,6 @@ public class WebRecordingScenario extends BaseScenario {
         }
 
         logger.info("Start resource successfully,startResourceResp:{}", startResourceRes);
-
 
         // query resource detail
         for (int i = 0; i < 3; i++) {
@@ -131,11 +133,13 @@ public class WebRecordingScenario extends BaseScenario {
         try {
             updateResourceRes = this.cloudRecordingClient
                     .webScenario()
-                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateWebRecordingResourceClientReq.builder()
-                            .webRecordingConfig(UpdateResourceReq.WebRecordingConfig.builder()
-                                    .onHold(false)
+                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(),
+                            UpdateWebRecordingResourceClientReq.builder()
+                                    .webRecordingConfig(UpdateResourceReq.WebRecordingConfig.builder()
+                                            .onHold(false)
+                                            .build())
                                     .build())
-                            .build()).block();
+                    .block();
 
         } catch (AgoraException e) {
             logger.error("Failed to update resource,err:{}", e.getMessage());
@@ -212,7 +216,8 @@ public class WebRecordingScenario extends BaseScenario {
                     .webScenario()
                     .acquire(cname, uid, AcquireWebRecordingResourceClientReq.builder()
                             .resourceExpiredHour(1)
-                            .build()).block();
+                            .build())
+                    .block();
         } catch (AgoraException e) {
             logger.error("Failed to acquire resource,err:{}", e.getMessage());
             return;
@@ -243,26 +248,28 @@ public class WebRecordingScenario extends BaseScenario {
                                     .extensionServiceConfig(StartResourceReq.ExtensionServiceConfig.builder()
                                             .errorHandlePolicy("error_abort")
                                             .extensionServices(Arrays.asList(StartResourceReq.ExtensionService.builder()
-                                                            .serviceName("web_recorder_service")
-                                                            .errorHandlePolicy("error_abort")
-                                                            .serviceParam(StartResourceReq.WebRecordingServiceParam.builder()
-                                                                    .url("https://live.bilibili.com/")
-                                                                    .audioProfile(2)
-                                                                    .videoWidth(1280)
-                                                                    .videoHeight(720)
-                                                                    .maxRecordingHour(1)
-                                                                    .build())
-                                                            .build(),
+                                                    .serviceName("web_recorder_service")
+                                                    .errorHandlePolicy("error_abort")
+                                                    .serviceParam(StartResourceReq.WebRecordingServiceParam.builder()
+                                                            .url("https://live.bilibili.com/")
+                                                            .audioProfile(2)
+                                                            .videoWidth(1280)
+                                                            .videoHeight(720)
+                                                            .maxRecordingHour(1)
+                                                            .build())
+                                                    .build(),
                                                     StartResourceReq.ExtensionService.builder()
                                                             .serviceName("rtmp_publish_service")
                                                             .errorHandlePolicy("error_ignore")
-                                                            .serviceParam(StartResourceReq.RtmpPublishServiceParam.builder()
-                                                                    .outputs(Collections.singletonList(StartResourceReq.Outputs.builder()
-                                                                            .rtmpUrl("rtmp://xxx.xxx.xxx.xxx:1935/live/test")
-                                                                            .build()))
+                                                            .serviceParam(StartResourceReq.RtmpPublishServiceParam
+                                                                    .builder()
+                                                                    .outputs(Collections.singletonList(
+                                                                            StartResourceReq.Output.builder()
+                                                                                    .rtmpUrl(
+                                                                                            "rtmp://xxx.xxx.xxx.xxx:1935/live/test")
+                                                                                    .build()))
                                                                     .build())
-                                                            .build()
-                                            ))
+                                                            .build()))
                                             .build())
                                     .build())
                     .block();
@@ -281,7 +288,6 @@ public class WebRecordingScenario extends BaseScenario {
         }
 
         logger.info("Start resource successfully,startResourceResp:{}", startResourceRes);
-
 
         // query resource detail
         for (int i = 0; i < 3; i++) {
@@ -317,16 +323,17 @@ public class WebRecordingScenario extends BaseScenario {
         try {
             updateResourceRes = this.cloudRecordingClient
                     .webScenario()
-                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(), UpdateWebRecordingResourceClientReq.builder()
-                            .webRecordingConfig(UpdateResourceReq.WebRecordingConfig.builder()
-                                    .onHold(false)
-                                    .build())
-                            .rtmpPublishConfig(UpdateResourceReq.RtmpPublishConfig.builder()
-                                    .outputs(Collections.singletonList(UpdateResourceReq.UpdateOutput.builder()
-                                            .rtmpURL("rtmp://yyy.yyy.yyy.yyy:1935/live/test")
+                    .update(cname, uid, acquireResourceRes.getResourceId(), startResourceRes.getSid(),
+                            UpdateWebRecordingResourceClientReq.builder()
+                                    .webRecordingConfig(UpdateResourceReq.WebRecordingConfig.builder()
+                                            .onHold(false)
                                             .build())
-                                    ).build())
-                            .build())
+                                    .rtmpPublishConfig(UpdateResourceReq.RtmpPublishConfig.builder()
+                                            .outputs(Collections.singletonList(UpdateResourceReq.UpdateOutput.builder()
+                                                    .rtmpURL("rtmp://yyy.yyy.yyy.yyy:1935/live/test")
+                                                    .build()))
+                                            .build())
+                                    .build())
                     .block();
 
         } catch (AgoraException e) {

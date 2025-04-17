@@ -2417,7 +2417,7 @@ public class StartResourceReq {
      * @brief The CDN address to which you push the stream.
      * @since v0.4.0
      */
-    public static class Outputs {
+    public static class Output {
         /**
          * The CDN address to which you push the stream.(Required)
          */
@@ -2428,7 +2428,7 @@ public class StartResourceReq {
             return new Builder();
         }
 
-        private Outputs(Builder builder) {
+        private Output(Builder builder) {
             setRtmpUrl(builder.rtmpUrl);
         }
 
@@ -2458,8 +2458,8 @@ public class StartResourceReq {
                 return this;
             }
 
-            public Outputs build() {
-                return new Outputs(this);
+            public Output build() {
+                return new Output(this);
             }
         }
     }
@@ -2820,7 +2820,7 @@ public class StartResourceReq {
          * The array of CDN addresses to which you push the stream.(Required)
          */
         @JsonProperty("outputs")
-        private List<Outputs> outputs;
+        private List<Output> outputs;
 
         public static Builder builder() {
             return new Builder();
@@ -2830,11 +2830,11 @@ public class StartResourceReq {
             setOutputs(builder.outputs);
         }
 
-        public List<Outputs> getOutputs() {
+        public List<Output> getOutputs() {
             return outputs;
         }
 
-        public void setOutputs(List<Outputs> outputs) {
+        public void setOutputs(List<Output> outputs) {
             this.outputs = outputs;
         }
 
@@ -2847,12 +2847,12 @@ public class StartResourceReq {
 
         public static final class Builder {
 
-            private List<Outputs> outputs;
+            private List<Output> outputs;
 
             private Builder() {
             }
 
-            public Builder outputs(List<Outputs> val) {
+            public Builder outputs(List<Output> val) {
                 outputs = val;
                 return this;
             }

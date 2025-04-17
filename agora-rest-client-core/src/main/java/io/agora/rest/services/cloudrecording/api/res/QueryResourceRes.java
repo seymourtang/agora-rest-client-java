@@ -350,6 +350,10 @@ public class QueryResourceRes {
                     '}';
         }
 
+        /**
+         * @brief The file details of the M3U8 and MP4 files generated during recording.
+         * @since v0.4.0
+         */
         public static class FileDetail {
             /**
              * The file names of the M3U8 and MP4 files generated during recording.
@@ -893,110 +897,111 @@ public class QueryResourceRes {
                         '}';
             }
 
+        }
+
+        /**
+         * @brief Extended service payload.
+         * @since v0.4.0
+         */
+        public static class Payload {
             /**
-             * @brief Extended service payload.
-             * @since v0.4.0
+             * The file list.
              */
-            public static class Payload {
-                /**
-                 * The file list.
-                 */
-                @JsonProperty("fileList")
-                private List<FileDetail> fileList;
+            @JsonProperty("fileList")
+            private List<FileDetail> fileList;
 
-                /**
-                 * Whether the page recording is in pause state:
-                 * <p>
-                 * - true: In pause state.
-                 * <p>
-                 * - false: The page recording is running.
-                 */
-                @JsonProperty("onhold")
-                private Boolean onhold;
+            /**
+             * Whether the page recording is in pause state:
+             * <p>
+             * - true: In pause state.
+             * <p>
+             * - false: The page recording is running.
+             */
+            @JsonProperty("onhold")
+            private Boolean onhold;
 
-                /**
-                 * The status of uploading subscription content to the extension service:
-                 * <p>
-                 * - "init": The service is initializing.
-                 * <p>
-                 * - "inProgress": The service has started and is currently in progress.
-                 * <p>
-                 * - "exit": Service exits.
-                 */
-                @JsonProperty("state")
-                private String state;
+            /**
+             * The status of uploading subscription content to the extension service:
+             * <p>
+             * - "init": The service is initializing.
+             * <p>
+             * - "inProgress": The service has started and is currently in progress.
+             * <p>
+             * - "exit": Service exits.
+             */
+            @JsonProperty("state")
+            private String state;
 
-                public void setFileList(List<FileDetail> fileList) {
-                    this.fileList = fileList;
-                }
+            public void setFileList(List<FileDetail> fileList) {
+                this.fileList = fileList;
+            }
 
-                public Boolean getOnhold() {
-                    return onhold;
-                }
+            public Boolean getOnhold() {
+                return onhold;
+            }
 
-                public void setOnhold(Boolean onhold) {
-                    this.onhold = onhold;
-                }
+            public void setOnhold(Boolean onhold) {
+                this.onhold = onhold;
+            }
 
-                public String getState() {
-                    return state;
-                }
+            public String getState() {
+                return state;
+            }
 
-                public void setState(String state) {
-                    this.state = state;
-                }
+            public void setState(String state) {
+                this.state = state;
+            }
 
-                @Override
-                public String toString() {
-                    return "Payload{" +
-                            "fileList=" + fileList +
-                            ", onhold=" + onhold +
-                            ", state='" + state + '\'' +
-                            '}';
-                }
+            @Override
+            public String toString() {
+                return "Payload{" +
+                        "fileList=" + fileList +
+                        ", onhold=" + onhold +
+                        ", state='" + state + '\'' +
+                        '}';
+            }
 
-                /**
-                 * @brief The file detail.
-                 * @since v0.4.0
-                 */
-                public static class FileDetail {
-                    /**
-                     * The file name.
-                     */
-                    @JsonProperty("filename")
-                    private String filename;
+        }
 
-                    /**
-                     * The recording start time of the file, the Unix timestamp, in seconds.
-                     */
-                    @JsonProperty("sliceStartTime")
-                    private Long sliceStartTime;
+        /**
+         * @brief The file detail.
+         * @since v0.4.0
+         */
+        public static class FileDetail {
+            /**
+             * The file name.
+             */
+            @JsonProperty("filename")
+            private String filename;
 
-                    public String getFilename() {
-                        return filename;
-                    }
+            /**
+             * The recording start time of the file, the Unix timestamp, in seconds.
+             */
+            @JsonProperty("sliceStartTime")
+            private Long sliceStartTime;
 
-                    public void setFilename(String filename) {
-                        this.filename = filename;
-                    }
+            public String getFilename() {
+                return filename;
+            }
 
-                    public Long getSliceStartTime() {
-                        return sliceStartTime;
-                    }
+            public void setFilename(String filename) {
+                this.filename = filename;
+            }
 
-                    public void setSliceStartTime(Long sliceStartTime) {
-                        this.sliceStartTime = sliceStartTime;
-                    }
+            public Long getSliceStartTime() {
+                return sliceStartTime;
+            }
 
-                    @Override
-                    public String toString() {
-                        return "FileDetail{" +
-                                "filename='" + filename + '\'' +
-                                ", sliceStartTime=" + sliceStartTime +
-                                '}';
-                    }
-                }
+            public void setSliceStartTime(Long sliceStartTime) {
+                this.sliceStartTime = sliceStartTime;
+            }
 
+            @Override
+            public String toString() {
+                return "FileDetail{" +
+                        "filename='" + filename + '\'' +
+                        ", sliceStartTime=" + sliceStartTime +
+                        '}';
             }
         }
     }
@@ -1092,147 +1097,106 @@ public class QueryResourceRes {
                         ", serviceName='" + serviceName + '\'' +
                         '}';
             }
+        }
+
+        /**
+         * @brief Extended service payload.
+         * @since v0.4.0
+         */
+        public static class Payload {
 
             /**
-             * @brief Extended service payload.
-             * @since v0.4.0
+             * The status of uploading subscription content to the extension service:
+             * <p>
+             * - "init": The service is initializing.
+             * <p>
+             * - "inProgress": The service has started and is currently in progress.
+             * <p>
+             * - "exit": Service exits.
              */
-            public static class Payload {
+            @JsonProperty("state")
+            private String state;
 
-                /**
-                 * The status of uploading subscription content to the extension service:
-                 * <p>
-                 * - "init": The service is initializing.
-                 * <p>
-                 * - "inProgress": The service has started and is currently in progress.
-                 * <p>
-                 * - "exit": Service exits.
-                 */
-                @JsonProperty("state")
-                private String state;
+            /**
+             * The status of the push stream to the CDN.
+             */
+            @JsonProperty("outputs")
+            private List<Output> outputs;
 
-                /**
-                 * The status of the push stream to the CDN.
-                 */
-                @JsonProperty("outputs")
-                private List<Output> outputs;
+            public String getState() {
+                return state;
+            }
 
-                public String getState() {
-                    return state;
-                }
+            public void setState(String state) {
+                this.state = state;
+            }
 
-                public void setState(String state) {
-                    this.state = state;
-                }
+            public List<Output> getOutputs() {
+                return outputs;
+            }
 
-                public List<Output> getOutputs() {
-                    return outputs;
-                }
+            public void setOutputs(List<Output> outputs) {
+                this.outputs = outputs;
+            }
 
-                public void setOutputs(List<Output> outputs) {
-                    this.outputs = outputs;
-                }
+            @Override
+            public String toString() {
+                return "Payload{" +
+                        "state='" + state + '\'' +
+                        ", outputs=" + outputs +
+                        '}';
+            }
 
-                @Override
-                public String toString() {
-                    return "Payload{" +
-                            "state='" + state + '\'' +
-                            ", outputs=" + outputs +
-                            '}';
-                }
+        }
 
-                /**
-                 * @brief The file detail.
-                 * @since v0.4.0
-                 */
-                public static class FileDetail {
-                    /**
-                     * The file name.
-                     */
-                    @JsonProperty("filename")
-                    private String filename;
+        /**
+         * @brief The push stream to the CDN output.
+         * @since v0.4.0
+         */
+        public static class Output {
+            /**
+             * The CDN address to which you push the stream.
+             */
+            @JsonProperty("rtmpUrl")
+            private String rtmpUrl;
 
-                    /**
-                     * The recording start time of the file, the Unix timestamp, in seconds.
-                     */
-                    @JsonProperty("sliceStartTime")
-                    private Long sliceStartTime;
+            /**
+             * The current status of stream pushing of the web page recording:
+             * <p>
+             * - "connecting": Connecting to the CDN server.
+             * <p>
+             * - "publishing": The stream pushing is going on.
+             * <p>
+             * - "onhold": Set whether to pause the stream pushing.
+             * <p>
+             * - "disconnected": Failed to connect to the CDN server. Agora recommends
+             * that you change the CDN address to push the stream.
+             */
+            @JsonProperty("status")
+            private String status;
 
-                    public String getFilename() {
-                        return filename;
-                    }
+            public String getRtmpUrl() {
+                return rtmpUrl;
+            }
 
-                    public void setFilename(String filename) {
-                        this.filename = filename;
-                    }
+            public void setRtmpUrl(String rtmpUrl) {
+                this.rtmpUrl = rtmpUrl;
+            }
 
-                    public Long getSliceStartTime() {
-                        return sliceStartTime;
-                    }
+            public String getStatus() {
+                return status;
+            }
 
-                    public void setSliceStartTime(Long sliceStartTime) {
-                        this.sliceStartTime = sliceStartTime;
-                    }
+            public void setStatus(String status) {
+                this.status = status;
+            }
 
-                    @Override
-                    public String toString() {
-                        return "FileDetail{" +
-                                "filename='" + filename + '\'' +
-                                ", sliceStartTime=" + sliceStartTime +
-                                '}';
-                    }
-                }
-
-                /**
-                 * @brief The push stream to the CDN output.
-                 * @since v0.4.0
-                 */
-                public static class Output {
-                    /**
-                     * The CDN address to which you push the stream.
-                     */
-                    @JsonProperty("rtmpUrl")
-                    private String rtmpUrl;
-
-                    /**
-                     * The current status of stream pushing of the web page recording:
-                     * <p>
-                     * - "connecting": Connecting to the CDN server.
-                     * <p>
-                     * - "publishing": The stream pushing is going on.
-                     * <p>
-                     * - "onhold": Set whether to pause the stream pushing.
-                     * <p>
-                     * - "disconnected": Failed to connect to the CDN server. Agora recommends
-                     * that you change the CDN address to push the stream.
-                     */
-                    @JsonProperty("status")
-                    private String status;
-
-                    public String getRtmpUrl() {
-                        return rtmpUrl;
-                    }
-
-                    public void setRtmpUrl(String rtmpUrl) {
-                        this.rtmpUrl = rtmpUrl;
-                    }
-
-                    public String getStatus() {
-                        return status;
-                    }
-
-                    public void setStatus(String status) {
-                        this.status = status;
-                    }
-
-                    @Override
-                    public String toString() {
-                        return "Output{" +
-                                "rtmpUrl='" + rtmpUrl + '\'' +
-                                ", status='" + status + '\'' +
-                                '}';
-                    }
-                }
+            @Override
+            public String toString() {
+                return "Output{" +
+                        "rtmpUrl='" + rtmpUrl + '\'' +
+                        ", status='" + status + '\'' +
+                        '}';
             }
         }
     }

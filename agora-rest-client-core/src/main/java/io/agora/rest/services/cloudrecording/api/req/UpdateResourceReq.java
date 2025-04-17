@@ -389,7 +389,22 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Used to update the web page recording configurations.
+     * @since v0.4.0
+     */
     public static class WebRecordingConfig {
+        /**
+         * Set whether to pause the web page recording.
+         * <p>
+         * - true: Pauses web page recording and generating recording files.
+         * <p>
+         * - false: (Default) Continues web page recording and generates recording
+         * files.
+         * <p>
+         * If you want to resume a paused web page recording, you can call the
+         * update method and set onhold to false.
+         */
         @JsonProperty("onhold")
         private Boolean onHold;
 
@@ -434,8 +449,16 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Used to update the configurations for pushing web page recording to
+     *        the CDN.
+     * @since v0.4.0
+     */
     public static class RtmpPublishConfig {
 
+        /**
+         * The output of pushing web page recording to the CDN.
+         */
         @JsonProperty("outputs")
         private List<UpdateOutput> outputs;
 
@@ -480,8 +503,19 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Used to update the output of pushing web page recording to the CDN.
+     * @since v0.4.0
+     */
     public static class UpdateOutput {
 
+        /**
+         * The CDN URL where you push the stream to.
+         * <p>
+         * URLs only support the RTMP and RTMPS protocols.
+         * <p>
+         * The maximum number of streams being pushed to the CDN is 1.
+         */
         @JsonProperty("rtmpUrl")
         private String rtmpURL;
 

@@ -724,22 +724,61 @@ public class QueryResourceRes {
                     '}';
         }
 
+        /**
+         * @brief The file details when the avFileType is set to ["hls","mp4"].
+         * @since v0.4.0
+         */
         public static class FileDetail {
+            /**
+             * The file name of the M3U8 and MP4 files generated during recording.
+             * (Optional)
+             */
             @JsonProperty("fileName")
             private String fileName;
 
+            /**
+             * The recording file type.(Optional)
+             * <p>
+             * - "audio": Audio-only files.
+             * <p>
+             * - "video": Video-only files.
+             * <p>
+             * - "audio_and_video": audio and video files
+             */
             @JsonProperty("trackType")
             private String trackType;
 
+            /**
+             * User UID, indicating which user's audio or video stream is being recorded. In
+             * composite recording mode, the uid is "0".(Optional)
+             */
             @JsonProperty("uid")
             private String uid;
 
+            /**
+             * Whether the users were recorded separately.(Optional)
+             * <p>
+             * - true: All users are recorded in a single file.
+             * <p>
+             * - false: Each user is recorded separately.
+             */
             @JsonProperty("mixedAllUser")
             private Boolean mixedAllUser;
 
+            /**
+             * Whether or not can be played online.(Optional)
+             * <p>
+             * - true: The file can be played online.
+             * <p>
+             * - false: The file cannot be played online.
+             */
             @JsonProperty("isPlayable")
             private Boolean isPlayable;
 
+            /**
+             * The recording start time of the file, the Unix timestamp, in
+             * seconds.(Optional)
+             */
             @JsonProperty("sliceStartTime")
             private Long sliceStartTime;
 

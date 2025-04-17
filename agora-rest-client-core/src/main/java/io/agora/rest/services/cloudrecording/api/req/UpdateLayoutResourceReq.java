@@ -246,26 +246,102 @@ public class UpdateLayoutResourceReq {
         }
     }
 
+    /**
+     * @brief Configurations of user's video window to be updated.
+     * @since v0.4.0
+     */
     public static class LayoutConfig {
 
+        /**
+         * The content of the string is the UID of the user to be displayed in the area,
+         * 32-bit unsigned integer.
+         */
         @JsonProperty("uid")
         private String uid;
 
+        /**
+         * The relative value of the horizontal coordinate of the upper-left corner of
+         * the screen, accurate to six decimal places.
+         * <p>
+         * Layout from left to right, with 0.0 at the far left and 1.0 at the far right.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("x_axis")
         private Float xAxis;
 
+        /**
+         * The relative value of the vertical coordinate of the upper-left corner of
+         * this screen in the screen, accurate to six decimal places.
+         * <p>
+         * Layout from top to bottom, with 0.0 at the top and 1.0 at the bottom.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("y_axis")
         private Float yAxis;
 
+        /**
+         * The relative value of the width of this screen, accurate to six decimal
+         * places.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("width")
         private Float width;
 
+        /**
+         * The relative value of the height of this screen, accurate to six decimal
+         * places.
+         * <p>
+         * This field can also be set to the integer 0 or 1.
+         * <p>
+         * The value range is [0,1].
+         */
         @JsonProperty("height")
         private Float height;
 
+        /**
+         * The transparency of the user's video window. Accurate to six decimal places.
+         * <p>
+         * 0.0 means the user's video window is transparent, and 1.0 indicates that it
+         * is completely opaque.
+         * <p>
+         * The value range is [0,1].
+         * <p>
+         * The default value is 1.
+         */
         @JsonProperty("alpha")
         private Float alpha;
 
+        /**
+         * The display mode of users' video windows.
+         * <p>
+         * The rendering mode can be set to:
+         * <p>
+         * - 0: Cropped mode.(Default)
+         * Prioritize to ensure the screen is filled.
+         * The video window size is proportionally scaled until it fills the screen.
+         * If the video's length and width differ from the video window,
+         * the video stream will be cropped from its edges to fit the window,
+         * under the aspect ratio set for the video window.
+         * <p>
+         * - 1: Fit mode.
+         * Prioritize to ensure that all video content is displayed.
+         * The video size is scaled proportionally until one side of the video window is
+         * aligned with the screen border.
+         * If the video scale does not comply with the window size,
+         * the video will be scaled to fill the screen while maintaining its aspect
+         * ratio.
+         * <p>
+         * This scaling may result in a black border around the edges of the video.
+         */
         @JsonProperty("render_mode")
         private Integer renderMode;
 
@@ -412,14 +488,56 @@ public class UpdateLayoutResourceReq {
         }
     }
 
+    /**
+     * @brief Configurations of user's background image to be updated.
+     * @since v0.4.0
+     */
     public static class BackgroundConfig {
 
+        /**
+         * The string content is the UID.(Required)
+         */
         @JsonProperty("uid")
         private String uid;
 
+        /**
+         * The URL of the user's background image.(Required)
+         * <p>
+         * After setting the background image, if the user stops sending the video
+         * stream for more than 3.5 seconds,
+         * the screen will switch to the background image.
+         * <p>
+         * URL supports the HTTP and HTTPS protocols, and the image formats supported
+         * are JPG and BMP.
+         * <p>
+         * The image size must not exceed 6 MB.
+         * <p>
+         * The settings will only take effect after the recording service successfully
+         * downloads the image;
+         * if the download fails, the settings will not take effect.
+         * <p>
+         * Different field settings may overlap each other.
+         */
         @JsonProperty("image_url")
         private String imageURL;
 
+        /**
+         * The display mode of users' video windows.(Optional)
+         * <p>
+         * The value can be set to:
+         * <p>
+         * - 0: cropped mode.(Default)
+         * Prioritize to ensure the screen is filled.
+         * The video window size is proportionally scaled until it fills the screen.
+         * If the video's length and width differ from the video window,
+         * the video stream will be cropped from its edges to fit the window, under the
+         * aspect ratio set for the video window.
+         * <p>
+         * - 1: Fit mode.
+         * Prioritize to ensure that all video content is displayed.
+         * The video size is scaled proportionally until one side of the video window is
+         * aligned with the screen border.
+         */
         @JsonProperty("render_mode")
         private Integer renderMode;
 

@@ -3,7 +3,7 @@ package io.agora.rest.services.cloudrecording.scenario.mix.res;
 import io.agora.rest.services.cloudrecording.api.res.QueryResourceRes;
 
 /**
- * @brief Response returned by the mix recording QueryHLSAndMP4 API.
+ * @brief Response returned by the mix recording queryHLSAndMP4 API.
  * @since v0.4.0
  */
 public class QueryMixHLSAndMP4RecordingResourceRes {

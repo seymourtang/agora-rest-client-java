@@ -3,7 +3,7 @@ package io.agora.rest.services.cloudrecording.api.res;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @brief Returned by the various of cloud recording scenarios Update API.
+ * @brief Returned by the various of cloud recording scenarios update API.
  * @since v0.4.0
  */
 public class UpdateResourceRes {

@@ -254,7 +254,7 @@ public class QueryResourceRes {
     }
 
     /**
-     * @brief Server response returned by the individual recording Query API.
+     * @brief Server response returned by the individual recording query API.
      * @since v0.4.0
      */
     public static class QueryIndividualRecordingServerResponse {
@@ -467,7 +467,7 @@ public class QueryResourceRes {
 
     /**
      * @brief Server response returned by the individual recording
-     *        QueryVideoScreenshot API.
+     *        queryVideoScreenshot API.
      * @since v0.4.0
      */
     public static class QueryIndividualVideoScreenshotServerResponse {
@@ -529,7 +529,7 @@ public class QueryResourceRes {
     }
 
     /**
-     * @brief Server response returned by the mix recording QueryHLS API.
+     * @brief Server response returned by the mix recording queryHLS API.
      * @since v0.4.0
      */
     public static class MixRecordingHLSServerResponse {
@@ -627,7 +627,7 @@ public class QueryResourceRes {
     }
 
     /**
-     * @brief Server response returned by the mix recording QueryHLSAndMP4 API.
+     * @brief Server response returned by the mix recording queryHLSAndMP4 API.
      * @since v0.4.0
      */
     public static class MixRecordingHLSAndMP4ServerResponse {
@@ -802,7 +802,7 @@ public class QueryResourceRes {
     }
 
     /**
-     * @brief Server response returned by the web recording Query API.
+     * @brief Server response returned by the web recording query API.
      * @since v0.4.0
      */
     public static class WebRecordingServerResponse {
@@ -1002,7 +1002,7 @@ public class QueryResourceRes {
     }
 
     /**
-     * @brief Server response returned by the web recording Query API.
+     * @brief Server response returned by the web recording query API.
      * @since v0.4.0
      */
     public static class WebRecordingRtmpPublishServerResponse {

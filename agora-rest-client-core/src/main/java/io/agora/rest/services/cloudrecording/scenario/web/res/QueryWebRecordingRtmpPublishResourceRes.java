@@ -3,7 +3,7 @@ package io.agora.rest.services.cloudrecording.scenario.web.res;
 import io.agora.rest.services.cloudrecording.api.res.QueryResourceRes;
 
 /**
- * @brief Response returned by the web recording QueryRtmpPublish API.
+ * @brief Response returned by the web recording queryRtmpPublish API.
  * @since v0.4.0
  */
 public class QueryWebRecordingRtmpPublishResourceRes {

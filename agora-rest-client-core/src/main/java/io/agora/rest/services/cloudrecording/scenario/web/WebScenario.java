@@ -16,15 +16,17 @@ public abstract class WebScenario {
         /**
          * @brief Get a resource ID for web cloud recording.
          * @since v0.4.0
-         * @post After receiving the resource ID, call the Start API to start cloud
+         * @post After receiving the resource ID, call the start API to start cloud
          *       recording.
          * @param cname         The name of the channel to be recorded.
          * @param uid           The user ID used by the cloud recording service in the
          *                      RTC channel to identify the recording service in the
          *                      channel.
-         * @param clientRequest The request body.
-         * @return Returns the response AcquireResourceRes. See AcquireResourceRes for
-         *         details.
+         * @param clientRequest The request body. See
+         *                      {@link AcquireWebRecordingResourceClientReq} for
+         *                      details.
+         * @return Returns the acquire resource result. See {@link AcquireResourceRes}
+         *         for details.
          */
         public abstract Mono<AcquireResourceRes> acquire(String cname, String uid,
                         AcquireWebRecordingResourceClientReq clientRequest);
@@ -37,10 +39,10 @@ public abstract class WebScenario {
          *                      RTC channel to identify the recording service in the
          *                      channel.
          * @param resourceId    The resource ID.
-         * @param clientRequest The request body. See StartWebRecordingResourceClientReq
-         *                      for details.
-         * @return Returns the response StartResourceRes. See StartResourceRes for
-         *         details.
+         * @param clientRequest The request body. See
+         *                      {@link StartWebRecordingResourceClientReq} for details.
+         * @return Returns the start resource result. See {@link StartResourceRes}
+         *         for details.
          */
         public abstract Mono<StartResourceRes> start(String cname, String uid, String resourceId,
                         StartWebRecordingResourceClientReq clientRequest);
@@ -50,8 +52,8 @@ public abstract class WebScenario {
          * @since v0.4.0
          * @param resourceId The resource ID.
          * @param sid        The recording ID, identifying a recording cycle.
-         * @return Returns the response QueryWebRecordingResourceRes. See
-         *         QueryWebRecordingResourceRes for details.
+         * @return Returns the query web recording resource result. See
+         *         {@link QueryWebRecordingResourceRes} for details.
          */
         public abstract Mono<QueryWebRecordingResourceRes> query(String resourceId, String sid);
 
@@ -60,21 +62,10 @@ public abstract class WebScenario {
          * @since v0.4.0
          * @param resourceId The resource ID.
          * @param sid        The recording ID, identifying a recording cycle.
-         * @return Returns the response QueryWebRecordingRtmpPublishResourceRes. See
-         *         QueryWebRecordingRtmpPublishResourceRes for details.
+         * @return Returns the query web recording rtmp publish resource result. See
+         *         {@link QueryWebRecordingRtmpPublishResourceRes} for details.
          */
         public abstract Mono<QueryWebRecordingRtmpPublishResourceRes> queryRtmpPublish(String resourceId, String sid);
-
-        // /**
-        // * @brief Query the status of pushing web page recording to the CDN.
-        // * @since v0.4.0
-        // * @param resourceId The resource ID.
-        // * @param sid The recording ID, identifying a recording cycle.
-        // * @return Returns the response QueryRtmpPublishResourceRes. See
-        // QueryRtmpPublishResourceRes for details.
-        // */
-        // public abstract Mono<QueryRtmpPublishResourceRes> queryRtmpPublish(String
-        // resourceId, String sid);
 
         /**
          * @brief Update the web recording configuration.
@@ -86,9 +77,10 @@ public abstract class WebScenario {
          * @param resourceId    The resource ID.
          * @param sid           The recording ID, identifying a recording cycle.
          * @param clientRequest The request body. See
-         *                      UpdateWebRecordingResourceClientReq for details.
-         * @return Returns the response UpdateResourceRes. See UpdateResourceRes for
-         *         details.
+         *                      {@link UpdateWebRecordingResourceClientReq} for
+         *                      details.
+         * @return Returns the update resource result. See
+         *         {@link UpdateResourceRes} for details.
          */
         public abstract Mono<UpdateResourceRes> update(String cname, String uid, String resourceId, String sid,
                         UpdateWebRecordingResourceClientReq clientRequest);
@@ -106,7 +98,7 @@ public abstract class WebScenario {
          *                   - true: Stop the recording asynchronously.
          *                   <p>
          *                   - false: Stop the recording synchronously.
-         * @return Returns the response StopResourceRes. See StopResourceRes for
+         * @return Returns the stop resource result. See {@link StopResourceRes} for
          *         details.
          */
         public abstract Mono<StopResourceRes> stop(String cname, String uid, String resourceId, String sid,

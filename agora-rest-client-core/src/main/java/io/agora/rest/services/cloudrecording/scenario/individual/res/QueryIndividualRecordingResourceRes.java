@@ -3,7 +3,7 @@ package io.agora.rest.services.cloudrecording.scenario.individual.res;
 import io.agora.rest.services.cloudrecording.api.res.QueryResourceRes;
 
 /**
- * @brief Response returned by the individual recording Query API.
+ * @brief Response returned by the individual recording query API.
  * @since v0.4.0
  */
 public class QueryIndividualRecordingResourceRes {

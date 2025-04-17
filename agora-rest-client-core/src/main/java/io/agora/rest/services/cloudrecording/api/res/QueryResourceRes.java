@@ -679,6 +679,10 @@ public class QueryResourceRes {
         @JsonProperty("fileList")
         private List<FileDetail> fileList;
 
+        /**
+         * The recording start time of the file, the Unix timestamp, in
+         * seconds.
+         */
         @JsonProperty("sliceStartTime")
         private Long sliceStartTime;
 

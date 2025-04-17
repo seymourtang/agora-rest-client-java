@@ -1046,7 +1046,7 @@ public class QueryResourceRes {
     }
 
     /**
-     * @brief Server response returned by the web recording query API.
+     * @brief Server response returned by the web recording queryRtmpPublish API.
      * @since v0.4.0
      */
     public static class WebRecordingRtmpPublishServerResponse {

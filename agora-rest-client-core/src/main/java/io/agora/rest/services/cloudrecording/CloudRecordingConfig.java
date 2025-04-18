@@ -98,6 +98,10 @@ public class CloudRecordingConfig {
             return this;
         }
 
+        public Builder httpProperty(HttpProperty httpProperty) {
+            this.httpProperty = httpProperty;
+            return this;
+        }
 
         public CloudRecordingConfig build() {
             if (httpProperty == null) {

@@ -1,9 +1,7 @@
 package io.agora.rest.services.cloudrecording;
 
 import io.agora.rest.core.AgoraConfig;
-import io.agora.rest.core.Context;
 import io.agora.rest.core.DefaultContext;
-import io.agora.rest.services.cloudrecording.api.*;
 import io.agora.rest.services.cloudrecording.api.req.*;
 import io.agora.rest.services.cloudrecording.api.res.*;
 import io.agora.rest.services.cloudrecording.enums.CloudRecordingModeEnum;
@@ -12,79 +10,64 @@ import io.agora.rest.services.cloudrecording.scenario.mix.MixScenario;
 import io.agora.rest.services.cloudrecording.scenario.web.WebScenario;
 import reactor.core.publisher.Mono;
 
-public class CloudRecordingClient {
+public abstract class CloudRecordingClient  {
 
-    private final AcquireResourceAPI acquireResourceAPI;
+    private static CloudRecordingClient mInstance;
 
-    private final QueryResourceAPI queryResourceAPI;
+    /**
+     * @param cloudRecordingConfig Instance of {@link CloudRecordingConfig}.
+     * @return Returns the Cloud Recording client instance.
+     * @brief Creates a Cloud Recording client with the specified configuration.
+     * @since v0.4.0
+     */
+    public static synchronized CloudRecordingClient create(CloudRecordingConfig cloudRecordingConfig) {
+        if (mInstance == null) {
+            AgoraConfig agoraConfig = AgoraConfig.builder()
+                    .appId(cloudRecordingConfig.getAppId())
+                    .credential(cloudRecordingConfig.getCredential())
+                    .domainArea(cloudRecordingConfig.getDomainArea())
+                    .httpProperty(cloudRecordingConfig.getHttpProperty())
+                    .build();
+            mInstance=new CloudRecordingClientImpl(new DefaultContext(agoraConfig));
+        }
 
-    private final StartResourceAPI startResourceAPI;
-
-    private final UpdateResourceAPI updateResourceAPI;
-
-    private final StopResourceAPI stopResourceAPI;
-
-    private final IndividualScenario individualScenario;
-
-    private final WebScenario webScenario;
-
-    private final MixScenario mixScenario;
-
-    public static CloudRecordingClient create(AgoraConfig agoraConfig) {
-        return new CloudRecordingClient(new DefaultContext(agoraConfig));
+        return mInstance;
     }
 
-    protected CloudRecordingClient(Context context) {
-        this.acquireResourceAPI = new AcquireResourceAPI(context);
-        this.queryResourceAPI = new QueryResourceAPI(context);
-        this.startResourceAPI = new StartResourceAPI(context);
-        this.stopResourceAPI = new StopResourceAPI(context);
-        this.updateResourceAPI = new UpdateResourceAPI(context);
 
-        this.individualScenario = new IndividualScenario(acquireResourceAPI, queryResourceAPI, startResourceAPI,
-                updateResourceAPI, stopResourceAPI);
-        this.webScenario = new WebScenario(acquireResourceAPI, queryResourceAPI, startResourceAPI, updateResourceAPI,
-                stopResourceAPI);
-        this.mixScenario = new MixScenario(acquireResourceAPI, queryResourceAPI, startResourceAPI, updateResourceAPI,
-                stopResourceAPI);
-    }
+    public abstract Mono<AcquireResourceRes> acquire(AcquireResourceReq request);
 
-    public Mono<AcquireResourceRes> acquire(AcquireResourceReq request) {
-        return acquireResourceAPI.handle(request);
-    }
+    public abstract Mono<StartResourceRes> start(String resourceId, CloudRecordingModeEnum mode, StartResourceReq request);
 
-    public Mono<StartResourceRes> start(String resourceId, CloudRecordingModeEnum mode, StartResourceReq request) {
-        return startResourceAPI.handle(resourceId, mode, request);
-    }
+    public abstract Mono<QueryResourceRes> query(String resourceId, String sid, CloudRecordingModeEnum mode);
 
-    public Mono<QueryResourceRes> query(String resourceId, String sid, CloudRecordingModeEnum mode) {
-        return queryResourceAPI.handle(resourceId, sid, mode);
-    }
+    public abstract Mono<StopResourceRes> stop(String resourceId, String sid, CloudRecordingModeEnum mode,
+                                               StopResourceReq request);
 
-    public Mono<StopResourceRes> stop(String resourceId, String sid, CloudRecordingModeEnum mode,
-                                      StopResourceReq request) {
-        return stopResourceAPI.handle(resourceId, sid, mode, request);
-    }
+    public abstract Mono<UpdateResourceRes> update(String resourceId, String sid, CloudRecordingModeEnum mode,
+                                                   UpdateResourceReq request);
 
-    public Mono<UpdateResourceRes> update(String resourceId, String sid, CloudRecordingModeEnum mode,
-                                          UpdateResourceReq request) {
-        return updateResourceAPI.handle(resourceId, sid, mode, request);
-    }
+    public abstract Mono<UpdateLayoutResourceRes> updateLayout(String resourceId, String sid, CloudRecordingModeEnum mode,
+                                                               UpdateLayoutResourceReq request);
 
-    public Mono<UpdateLayoutResourceRes> updateLayout(String resourceId, String sid, CloudRecordingModeEnum mode,
-                                                      UpdateLayoutResourceReq request) {
-        return updateResourceAPI.handleLayout(resourceId, sid, mode, request);
-    }
+    /**
+     * @brief Returns the individual scenario instance.
+     * @return Returns the individual scenario instance.
+     * @since v0.4.0
+     */
+    public abstract IndividualScenario individualScenario();
 
-    public IndividualScenario individualScenario() {
-        return individualScenario;
-    }
+    /**
+     * @brief Returns the web scenario instance.
+     * @return Returns the web scenario instance.
+     * @since v0.4.0
+     */
+    public abstract WebScenario webScenario();
 
-    public WebScenario webScenario() {
-        return webScenario;
-    }
-
-    public MixScenario mixScenario() {
-        return mixScenario;
-    }
+    /**
+     * @brief Returns the mix scenario instance.
+     * @return Returns the mix scenario instance.
+     * @since v0.4.0
+     */
+    public abstract MixScenario mixScenario();
 }

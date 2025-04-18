@@ -1,15 +1,14 @@
-package io.agora.rest.services.convoai;
+package io.agora.rest.services.cloudrecording;
 
 import io.agora.rest.core.Credential;
 import io.agora.rest.core.DomainArea;
 import io.agora.rest.core.HttpProperty;
 
 /**
- * @brief Defines the configuration for the Conversational AI engine client
- * @since v0.3.0
+ * @brief Defines the configuration for the Cloud Recording client
+ * @since v0.4.0
  */
-public class ConvoAIConfig {
-
+public class CloudRecordingConfig {
     /**
      * Agora AppID
      */
@@ -34,18 +33,11 @@ public class ConvoAIConfig {
      */
     private final HttpProperty httpProperty;
 
-    /**
-     * Service region for the Conversational AI engine. See
-     * {@link ConvoAIServiceRegionEnum}
-     */
-    private final ConvoAIServiceRegionEnum serviceRegion;
-
-    private ConvoAIConfig(Builder builder) {
+    private CloudRecordingConfig(Builder builder) {
         this.appId = builder.appId;
         this.credential = builder.credential;
         this.domainArea = builder.domainArea;
         this.httpProperty = builder.httpProperty;
-        this.serviceRegion = builder.serviceRegion;
     }
 
     public static Builder builder() {
@@ -68,18 +60,13 @@ public class ConvoAIConfig {
         return httpProperty;
     }
 
-    public ConvoAIServiceRegionEnum getServiceRegion() {
-        return serviceRegion;
-    }
-
     @Override
     public String toString() {
-        return "ConvoAIConfig{" +
+        return "CloudRecordingConfig{" +
                 "appId='" + appId + '\'' +
                 ", credential=" + credential +
                 ", domainArea=" + domainArea +
                 ", httpProperty=" + httpProperty +
-                ", serviceRegion=" + serviceRegion +
                 '}';
     }
 
@@ -92,8 +79,6 @@ public class ConvoAIConfig {
         private DomainArea domainArea;
 
         private HttpProperty httpProperty;
-
-        private ConvoAIServiceRegionEnum serviceRegion;
 
         private Builder() {
         }
@@ -113,16 +98,12 @@ public class ConvoAIConfig {
             return this;
         }
 
-        public Builder serverRegion(ConvoAIServiceRegionEnum serverRegion) {
-            this.serviceRegion = serverRegion;
-            return this;
-        }
 
-        public ConvoAIConfig build() {
+        public CloudRecordingConfig build() {
             if (httpProperty == null) {
                 this.httpProperty = HttpProperty.builder().build();
             }
-            return new ConvoAIConfig(this);
+            return new CloudRecordingConfig(this);
         }
     }
 }

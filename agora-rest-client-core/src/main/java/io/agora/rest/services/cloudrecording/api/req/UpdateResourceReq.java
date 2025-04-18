@@ -144,11 +144,20 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Update subscription lists.
+     * @since v0.4.0
+     */
     public static class StreamSubscribe {
-
+        /*
+         * The audio subscription list.(Optional)
+         */
         @JsonProperty("audioUidList")
         private AudioUIDList audioUidList;
 
+        /**
+         * The video subscription list.(Optional)
+         */
         @JsonProperty("videoUidList")
         private VideoUIDList videoUidList;
 
@@ -210,11 +219,30 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Update audio subscription list.
+     * @since v0.4.0
+     */
     public static class AudioUIDList {
 
+        /**
+         * Specify which UIDs' audio streams to subscribe to.
+         * 
+         * If you want to subscribe to the audio stream of all UIDs, no need to set
+         * this field.
+         * 
+         * Set as ["#allstream#"] to subscribe to the audio streams of all UIDs in
+         * the channel.
+         */
         @JsonProperty("subscribeAudioUids")
         private List<String> subscribeAudioUIDs;
 
+        /**
+         * Specify which UIDs' audio streams not to subscribe to.
+         * 
+         * The cloud recording service will subscribe to the audio streams of all other
+         * UIDs except the specified ones.
+         */
         @JsonProperty("unSubscribeAudioUids")
         private List<String> unsubscribeAudioUIDs;
 
@@ -276,11 +304,30 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Update video subscription list.
+     * @since v0.4.0
+     */
     public static class VideoUIDList {
 
+        /**
+         * Specify which UIDs' video streams to subscribe to.
+         * 
+         * If you want to subscribe to the video stream of all UIDs, no need to set this
+         * field.
+         * 
+         * Set as ["#allstream#"] to subscribe to the video streams of all UIDs in the
+         * channel.
+         */
         @JsonProperty("subscribeVideoUids")
         private List<String> subscribeVideoUIDs;
 
+        /*
+         * Specify which UIDs' video streams not to subscribe to.
+         * 
+         * The cloud recording service will subscribe to the video streams of all other
+         * UIDs except the specified ones.
+         */
         @JsonProperty("unSubscribeVideoUids")
         private List<String> unsubscribeVideoUIDs;
 
@@ -342,7 +389,22 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Used to update the web page recording configurations.
+     * @since v0.4.0
+     */
     public static class WebRecordingConfig {
+        /**
+         * Set whether to pause the web page recording.
+         * <p>
+         * - true: Pauses web page recording and generating recording files.
+         * <p>
+         * - false: (Default) Continues web page recording and generates recording
+         * files.
+         * <p>
+         * If you want to resume a paused web page recording, you can call the
+         * update method and set onhold to false.
+         */
         @JsonProperty("onhold")
         private Boolean onHold;
 
@@ -387,8 +449,16 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Used to update the configurations for pushing web page recording to
+     *        the CDN.
+     * @since v0.4.0
+     */
     public static class RtmpPublishConfig {
 
+        /**
+         * The output of pushing web page recording to the CDN.
+         */
         @JsonProperty("outputs")
         private List<UpdateOutput> outputs;
 
@@ -433,8 +503,19 @@ public class UpdateResourceReq {
         }
     }
 
+    /**
+     * @brief Used to update the output of pushing web page recording to the CDN.
+     * @since v0.4.0
+     */
     public static class UpdateOutput {
 
+        /**
+         * The CDN URL where you push the stream to.
+         * <p>
+         * URLs only support the RTMP and RTMPS protocols.
+         * <p>
+         * The maximum number of streams being pushed to the CDN is 1.
+         */
         @JsonProperty("rtmpUrl")
         private String rtmpURL;
 

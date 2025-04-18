@@ -20,10 +20,9 @@ import java.util.Map;
 
 public class Service extends BaseService {
     private static final Logger logger = LoggerFactory.getLogger(Service.class);
-    private JoinConvoAIReq req;
 
-
-    public Service(DomainArea domainArea, String appId, String cname, String uid, Credential credential, ConvoAIServiceRegionEnum serviceRegion) {
+    public Service(DomainArea domainArea, String appId, String cname, String uid, Credential credential,
+            ConvoAIServiceRegionEnum serviceRegion) {
         super(domainArea, appId, cname, uid, credential, serviceRegion);
     }
 
@@ -233,17 +232,9 @@ public class Service extends BaseService {
             throw new IllegalArgumentException("CONVOAI_TTS_BYTEDANCE_VOICE_TYPE is required");
         }
 
-        JoinConvoAIReq.BytedanceTTSVendorParams ttsVendorParams = JoinConvoAIReq.BytedanceTTSVendorParams.
-                builder().
-                token(ttsToken).
-                cluster(ttsCluster).
-                voiceType(ttsVoiceType).
-                appId(ttsAppId).
-                speedRatio(1.0F).
-                volumeRatio(1.0F).
-                pitchRatio(1.0F).
-                emotion("happy").
-                build();
+        JoinConvoAIReq.BytedanceTTSVendorParams ttsVendorParams = JoinConvoAIReq.BytedanceTTSVendorParams.builder()
+                .token(ttsToken).cluster(ttsCluster).voiceType(ttsVoiceType).appId(ttsAppId).speedRatio(1.0F)
+                .volumeRatio(1.0F).pitchRatio(1.0F).emotion("happy").build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.BYTEDANCE, ttsVendorParams);
     }
@@ -265,17 +256,9 @@ public class Service extends BaseService {
             throw new IllegalArgumentException("CONVOAI_TTS_TENCENT_SECRET_KEY is required");
         }
 
-        JoinConvoAIReq.TencentTTSVendorParams ttsVendorParams = JoinConvoAIReq.TencentTTSVendorParams.
-                builder().
-                appId(ttsAppId).
-                secretId(ttsSecretId).
-                secretKey(ttsSecretKey).
-                voiceType(601005).
-                volume(0).
-                speed(0).
-                emotionCategory("happy").
-                emotionIntensity(100).
-                build();
+        JoinConvoAIReq.TencentTTSVendorParams ttsVendorParams = JoinConvoAIReq.TencentTTSVendorParams.builder()
+                .appId(ttsAppId).secretId(ttsSecretId).secretKey(ttsSecretKey).voiceType(601005).volume(0).speed(0)
+                .emotionCategory("happy").emotionIntensity(100).build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.TENCENT, ttsVendorParams);
 
@@ -298,19 +281,11 @@ public class Service extends BaseService {
             throw new IllegalArgumentException("CONVOAI_TTS_MINIMAX_GROUP_MODEL is required");
         }
 
-        JoinConvoAIReq.MinimaxTTSVendorParams ttsVendorParams = JoinConvoAIReq.MinimaxTTSVendorParams.
-                builder().
-                groupId(ttsGroupId).
-                key(ttsGroupKey).
-                model(ttsGroupModel).
-                voiceSetting(JoinConvoAIReq.MinimaxTTSVendorVoiceSettingParam.builder().
-                        voiceId("female-shaonv").
-                        speed(1F).
-                        vol(1F).
-                        pitch(0).
-                        emotion("happy").
-                        build()).
-                build();
+        JoinConvoAIReq.MinimaxTTSVendorParams ttsVendorParams = JoinConvoAIReq.MinimaxTTSVendorParams.builder()
+                .groupId(ttsGroupId).key(ttsGroupKey).model(ttsGroupModel)
+                .voiceSetting(JoinConvoAIReq.MinimaxTTSVendorVoiceSettingParam.builder().voiceId("female-shaonv")
+                        .speed(1F).vol(1F).pitch(0).emotion("happy").build())
+                .build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.MINIMAX, ttsVendorParams);
 
@@ -333,14 +308,8 @@ public class Service extends BaseService {
             throw new IllegalArgumentException("CONVOAI_TTS_MICROSOFT_VOICE_NAME is required");
         }
 
-        JoinConvoAIReq.MicrosoftTTSVendorParams ttsVendorParams = JoinConvoAIReq.MicrosoftTTSVendorParams.
-                builder().
-                key(ttsKey).
-                region(ttsRegion).
-                voiceName(ttsVoiceName).
-                rate(1.8F).
-                volume(70F).
-                build();
+        JoinConvoAIReq.MicrosoftTTSVendorParams ttsVendorParams = JoinConvoAIReq.MicrosoftTTSVendorParams.builder()
+                .key(ttsKey).region(ttsRegion).voiceName(ttsVoiceName).rate(1.8F).volume(70F).build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.MICROSOFT, ttsVendorParams);
     }
@@ -362,12 +331,8 @@ public class Service extends BaseService {
             throw new IllegalArgumentException("CONVOAI_TTS_ELEVENLABS_VOICE_ID is required");
         }
 
-        JoinConvoAIReq.ElevenLabsTTSVendorParams ttsVendorParams = JoinConvoAIReq.ElevenLabsTTSVendorParams.
-                builder().
-                apiKey(ttsApiKey).
-                modelId(ttsModelId).
-                voiceId(ttsVoiceId).
-                build();
+        JoinConvoAIReq.ElevenLabsTTSVendorParams ttsVendorParams = JoinConvoAIReq.ElevenLabsTTSVendorParams.builder()
+                .apiKey(ttsApiKey).modelId(ttsModelId).voiceId(ttsVoiceId).build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.ELEVENLABS, ttsVendorParams);
     }

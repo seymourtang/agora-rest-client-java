@@ -2,12 +2,25 @@ package io.agora.rest.services.cloudrecording.scenario.web.req;
 
 import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
 
+/**
+ * @brief Client request for starting web recording.
+ * @since v0.4.0
+ */
 public class StartWebRecordingResourceClientReq {
 
+    /**
+     * Configuration for recorded files.(Optional)
+     */
     private StartResourceReq.RecordingFileConfig recordingFileConfig;
 
+    /**
+     * Configuration for third-party cloud storage.(Required)
+     */
     private StartResourceReq.StorageConfig storageConfig;
 
+    /**
+     * Configurations for extended services.(Optional)
+     */
     private StartResourceReq.ExtensionServiceConfig extensionServiceConfig;
 
     public static Builder builder() {

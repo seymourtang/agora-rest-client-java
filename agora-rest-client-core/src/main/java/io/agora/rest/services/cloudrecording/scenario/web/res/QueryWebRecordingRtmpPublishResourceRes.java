@@ -1,12 +1,12 @@
-package io.agora.rest.services.cloudrecording.scenario.individual.res;
+package io.agora.rest.services.cloudrecording.scenario.web.res;
 
 import io.agora.rest.services.cloudrecording.api.res.QueryResourceRes;
 
 /**
- * @brief Response returned by the individual recording query API.
+ * @brief Response returned by the web recording queryRtmpPublish API.
  * @since v0.4.0
  */
-public class QueryIndividualRecordingResourceRes {
+public class QueryWebRecordingRtmpPublishResourceRes {
     /**
      * The name of the channel to be recorded.
      */
@@ -30,15 +30,15 @@ public class QueryIndividualRecordingResourceRes {
 
     /**
      * Server response. See
-     * {@link QueryResourceRes.QueryIndividualRecordingServerResponse}.
+     * {@link QueryResourceRes.WebRecordingRtmpPublishServerResponse}.
      */
-    private QueryResourceRes.QueryIndividualRecordingServerResponse serverResponse;
+    private QueryResourceRes.WebRecordingRtmpPublishServerResponse serverResponse;
 
     public static Builder builder() {
         return new Builder();
     }
 
-    private QueryIndividualRecordingResourceRes(Builder builder) {
+    private QueryWebRecordingRtmpPublishResourceRes(Builder builder) {
         setCname(builder.cname);
         setUid(builder.uid);
         setResourceId(builder.resourceId);
@@ -78,17 +78,17 @@ public class QueryIndividualRecordingResourceRes {
         this.sid = sid;
     }
 
-    public QueryResourceRes.QueryIndividualRecordingServerResponse getServerResponse() {
+    public QueryResourceRes.WebRecordingRtmpPublishServerResponse getServerResponse() {
         return serverResponse;
     }
 
-    public void setServerResponse(QueryResourceRes.QueryIndividualRecordingServerResponse serverResponse) {
+    public void setServerResponse(QueryResourceRes.WebRecordingRtmpPublishServerResponse serverResponse) {
         this.serverResponse = serverResponse;
     }
 
     @Override
     public String toString() {
-        return "QueryIndividualRecordingResourceRes{" +
+        return "QueryWebRecordingResourceRes{" +
                 "cname='" + cname + '\'' +
                 ", uid='" + uid + '\'' +
                 ", resourceId='" + resourceId + '\'' +
@@ -102,7 +102,7 @@ public class QueryIndividualRecordingResourceRes {
         private String uid;
         private String resourceId;
         private String sid;
-        private QueryResourceRes.QueryIndividualRecordingServerResponse serverResponse;
+        private QueryResourceRes.WebRecordingRtmpPublishServerResponse serverResponse;
 
         private Builder() {
         }
@@ -127,13 +127,13 @@ public class QueryIndividualRecordingResourceRes {
             return this;
         }
 
-        public Builder serverResponse(QueryResourceRes.QueryIndividualRecordingServerResponse val) {
+        public Builder serverResponse(QueryResourceRes.WebRecordingRtmpPublishServerResponse val) {
             serverResponse = val;
             return this;
         }
 
-        public QueryIndividualRecordingResourceRes build() {
-            return new QueryIndividualRecordingResourceRes(this);
+        public QueryWebRecordingRtmpPublishResourceRes build() {
+            return new QueryWebRecordingRtmpPublishResourceRes(this);
         }
     }
 }

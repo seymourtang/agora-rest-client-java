@@ -2,8 +2,15 @@ package io.agora.rest.services.cloudrecording.scenario.mix.req;
 
 import io.agora.rest.services.cloudrecording.api.req.UpdateResourceReq;
 
+/**
+ * @brief Client request for updating mix recording.
+ * @since v0.4.0
+ */
 public class UpdateMixRecordingResourceClientReq {
 
+    /**
+     * Update subscription lists.(Optional)
+     */
     private UpdateResourceReq.StreamSubscribe streamSubscribe;
 
     public static Builder builder() {

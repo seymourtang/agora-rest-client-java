@@ -1,9 +1,6 @@
 package io.agora.rest.services.cloudrecording.scenario.mix;
 
-import io.agora.rest.services.cloudrecording.api.*;
-import io.agora.rest.services.cloudrecording.api.req.*;
 import io.agora.rest.services.cloudrecording.api.res.*;
-import io.agora.rest.services.cloudrecording.enums.CloudRecordingModeEnum;
 import io.agora.rest.services.cloudrecording.scenario.mix.req.AcquireMixRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.mix.req.StartMixRecordingResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.mix.req.UpdateLayoutMixRecordingResourceClientReq;
@@ -12,138 +9,120 @@ import io.agora.rest.services.cloudrecording.scenario.mix.res.QueryMixHLSAndMP4R
 import io.agora.rest.services.cloudrecording.scenario.mix.res.QueryMixHLSRecordingResourceRes;
 import reactor.core.publisher.Mono;
 
-public class MixScenario {
+public abstract class MixScenario {
 
-    private final AcquireResourceAPI acquireResourceAPI;
+        /**
+         * @brief Get a resource ID for mix cloud recording.
+         * @since v0.4.0
+         * @post After receiving the resource ID, call the start API to start cloud
+         *       recording.
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param clientRequest The request body. See
+         *                      {@link AcquireMixRecordingResourceClientReq} for
+         *                      details.
+         * @return Returns the acquire resource result. See
+         *         {@link AcquireResourceRes} for details.
+         */
+        public abstract Mono<AcquireResourceRes> acquire(String cname, String uid,
+                        AcquireMixRecordingResourceClientReq clientRequest);
 
-    private final QueryResourceAPI queryResourceAPI;
+        /**
+         * @brief Start mix cloud recording.
+         * @since v0.4.0
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param resourceId    The resource ID.
+         * @param clientRequest The request body. See
+         *                      {@link StartMixRecordingResourceClientReq} for
+         *                      details.
+         * @return Returns the start resource result. See
+         *         {@link StartResourceRes} for details.
+         */
+        public abstract Mono<StartResourceRes> start(String cname, String uid, String resourceId,
+                        StartMixRecordingResourceClientReq clientRequest);
 
-    private final StartResourceAPI startResourceAPI;
+        /**
+         * @brief Query the status of mix cloud recording when the video file format is
+         *        hls.
+         * @since v0.4.0
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @return Returns the query mix recording resource result when the video file
+         *         format is hls. See {@link QueryMixHLSRecordingResourceRes} for
+         *         details.
+         */
+        public abstract Mono<QueryMixHLSRecordingResourceRes> queryHLS(String resourceId, String sid);
 
-    private final UpdateResourceAPI updateResourceAPI;
+        /**
+         * @brief Query the status of mix cloud recording when the video file format is
+         *        hls and mp4.
+         * @since v0.4.0
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @return Returns the query mix recording resource result when the video file
+         *         format is hls and mp4. See
+         *         {@link QueryMixHLSAndMP4RecordingResourceRes} for details.
+         */
+        public abstract Mono<QueryMixHLSAndMP4RecordingResourceRes> queryHLSAndMP4(String resourceId, String sid);
 
-    private final StopResourceAPI stopResourceAPI;
+        /**
+         * @brief Update the mix cloud recording layout.
+         * @since v0.4.0
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param resourceId    The resource ID.
+         * @param sid           The recording ID, identifying a recording cycle.
+         * @param clientRequest The request body. See
+         *                      {@link UpdateLayoutMixRecordingResourceClientReq} for
+         *                      details.
+         * @return Returns the update layout resource result. See
+         *         {@link UpdateLayoutResourceRes} for details.
+         */
+        public abstract Mono<UpdateLayoutResourceRes> updateLayout(String cname, String uid, String resourceId,
+                        String sid,
+                        UpdateLayoutMixRecordingResourceClientReq clientRequest);
 
-    public MixScenario(AcquireResourceAPI acquireResourceAPI,
-                       QueryResourceAPI queryResourceAPI,
-                       StartResourceAPI startResourceAPI,
-                       UpdateResourceAPI updateResourceAPI,
-                       StopResourceAPI stopResourceAPI) {
-        this.acquireResourceAPI = acquireResourceAPI;
-        this.queryResourceAPI = queryResourceAPI;
-        this.startResourceAPI = startResourceAPI;
-        this.updateResourceAPI = updateResourceAPI;
-        this.stopResourceAPI = stopResourceAPI;
-    }
+        /**
+         * @brief Update the mix cloud recording configuration.
+         * @since v0.4.0
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param resourceId    The resource ID.
+         * @param sid           The recording ID, identifying a recording cycle.
+         * @param clientRequest The request body. See
+         *                      {@link UpdateMixRecordingResourceClientReq} for
+         *                      details.
+         * @return Returns the update resource result. See
+         *         {@link UpdateResourceRes} for details.
+         */
+        public abstract Mono<UpdateResourceRes> update(String cname, String uid, String resourceId, String sid,
+                        UpdateMixRecordingResourceClientReq clientRequest);
 
-    public Mono<AcquireResourceRes> acquire(String cname, String uid,
-                                            AcquireMixRecordingResourceClientReq clientRequest) {
-
-        StartResourceReq.StartClientRequest startParameter = null;
-        if (clientRequest.getStartParameter() != null) {
-            startParameter = StartResourceReq.StartClientRequest.builder()
-                    .token(clientRequest.getStartParameter().getToken())
-                    .storageConfig(clientRequest.getStartParameter().getStorageConfig())
-                    .recordingConfig(clientRequest.getStartParameter().getRecordingConfig())
-                    .recordingFileConfig(clientRequest.getStartParameter().getRecordingFileConfig())
-                    .build();
-        }
-
-
-        return this.acquireResourceAPI.handle(AcquireResourceReq.builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(AcquireResourceReq.ClientRequest.builder()
-                        .scene(0)
-                        .resourceExpiredHour(clientRequest.getResourceExpiredHour())
-                        .regionAffinity(clientRequest.getRegionAffinity())
-                        .excludeResourceIds(clientRequest.getExcludeResourceIds())
-                        .startParameter(startParameter)
-                        .build())
-                .build());
-    }
-
-    public Mono<StartResourceRes> start(String cname, String uid, String resourceId,
-                                        StartMixRecordingResourceClientReq clientRequest) {
-        return this.startResourceAPI.handle(resourceId, CloudRecordingModeEnum.MIX, StartResourceReq.builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(StartResourceReq.StartClientRequest.builder()
-                        .token(clientRequest.getToken())
-                        .storageConfig(clientRequest.getStorageConfig())
-                        .recordingConfig(clientRequest.getRecordingConfig())
-                        .recordingFileConfig(clientRequest.getRecordingFileConfig())
-                        .build())
-                .build());
-    }
-
-    public Mono<QueryMixHLSRecordingResourceRes> queryHLS(String resourceId, String sid) {
-        return this.queryResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.MIX).handle((res, sink) -> {
-            sink.next(QueryMixHLSRecordingResourceRes.builder()
-                    .cname(res.getCname())
-                    .uid(res.getUid())
-                    .resourceId(res.getResourceId())
-                    .sid(res.getSid())
-                    .serverResponse(res.getMixRecordingHLSServerResponse())
-                    .build());
-
-            sink.complete();
-        });
-    }
-
-    public Mono<QueryMixHLSAndMP4RecordingResourceRes> queryHLSAndMP4(String resourceId, String sid) {
-        return this.queryResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.MIX).handle((res, sink) -> {
-            sink.next(QueryMixHLSAndMP4RecordingResourceRes.builder()
-                    .cname(res.getCname())
-                    .uid(res.getUid())
-                    .resourceId(res.getResourceId())
-                    .sid(res.getSid())
-                    .serverResponse(res.getMixRecordingHLSAndMP4ServerResponse())
-                    .build());
-
-            sink.complete();
-        });
-    }
-
-    public Mono<UpdateLayoutResourceRes> updateLayout(String cname, String uid, String resourceId, String sid,
-                                                      UpdateLayoutMixRecordingResourceClientReq clientRequest) {
-        return this.updateResourceAPI.handleLayout(resourceId, sid, CloudRecordingModeEnum.MIX,
-                UpdateLayoutResourceReq.builder()
-                        .cname(cname)
-                        .uid(uid)
-                        .clientRequest(UpdateLayoutResourceReq.ClientRequest.builder()
-                                .maxResolutionUID(clientRequest.getMaxResolutionUID())
-                                .mixedVideoLayout(clientRequest.getMixedVideoLayout())
-                                .backgroundColor(clientRequest.getBackgroundColor())
-                                .defaultUserBackgroundImage(clientRequest
-                                        .getDefaultUserBackgroundImage())
-                                .layoutConfig(clientRequest.getLayoutConfig())
-                                .backgroundImage(clientRequest.getBackgroundImage())
-                                .backgroundConfig(clientRequest.getBackgroundConfig())
-                                .build())
-                        .build());
-    }
-
-    public Mono<UpdateResourceRes> update(String cname, String uid, String resourceId, String sid,
-                                          UpdateMixRecordingResourceClientReq clientRequest) {
-        return this.updateResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.MIX,
-                UpdateResourceReq.builder()
-                        .cname(cname)
-                        .uid(uid)
-                        .clientRequest(UpdateResourceReq.ClientRequest.builder()
-                                .streamSubscribe(clientRequest.getStreamSubscribe())
-                                .build())
-                        .build());
-    }
-
-    public Mono<StopResourceRes> stop(String cname, String uid, String resourceId, String sid, boolean asyncStop) {
-        return this.stopResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.MIX,
-                StopResourceReq.builder()
-                        .cname(cname)
-                        .uid(uid)
-                        .clientRequest(StopResourceReq.StopClientRequest.builder()
-                                .asyncStop(asyncStop)
-                                .build())
-                        .build());
-    }
+        /**
+         * @brief Stop mix cloud recording.
+         * @since v0.4.0
+         * @param cname      The name of the channel to be recorded.
+         * @param uid        The user ID used by the cloud recording service in the RTC
+         *                   channel to identify the recording service in the channel.
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @param asyncStop  Whether to stop the recording asynchronously.
+         *                   <p>
+         *                   - true: Stop the recording asynchronously.
+         *                   <p>
+         *                   - false: Stop the recording synchronously.
+         * @return Returns the stop resource result. See {@link StopResourceRes} for
+         *         details.
+         */
+        public abstract Mono<StopResourceRes> stop(String cname, String uid, String resourceId, String sid,
+                        boolean asyncStop);
 }

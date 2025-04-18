@@ -2,8 +2,15 @@ package io.agora.rest.services.cloudrecording.scenario.individual.req;
 
 import io.agora.rest.services.cloudrecording.api.req.UpdateResourceReq;
 
+/**
+ * @brief Client request for updating individual recording.
+ * @since v0.4.0
+ */
 public class UpdateIndividualRecordingResourceClientReq {
-
+    /**
+     * Update subscription lists.(Optional) See
+     * {@link UpdateResourceReq.StreamSubscribe}.
+     */
     private UpdateResourceReq.StreamSubscribe streamSubscribe;
 
     public static Builder builder() {

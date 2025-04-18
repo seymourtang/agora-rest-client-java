@@ -1,9 +1,9 @@
 package io.agora.rest.examples.cloudrecording.scenario;
 
-import io.agora.rest.core.AgoraConfig;
 import io.agora.rest.core.Credential;
 import io.agora.rest.core.DomainArea;
 import io.agora.rest.services.cloudrecording.CloudRecordingClient;
+import io.agora.rest.services.cloudrecording.CloudRecordingConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,13 +30,13 @@ public class BaseScenario {
         this.uid = uid;
         this.credential = credential;
 
-        AgoraConfig agoraConfig = AgoraConfig.builder()
+        CloudRecordingConfig agoraConfig = CloudRecordingConfig.builder()
                 .appId(appId)
                 .credential(credential)
                 .domainArea(domainArea)
                 .build();
 
-        logger.info("AgoraConfig: {}", agoraConfig);
+        logger.info("CloudRecordingConfig: {}", agoraConfig);
 
         this.cloudRecordingClient = CloudRecordingClient.create(agoraConfig);
     }

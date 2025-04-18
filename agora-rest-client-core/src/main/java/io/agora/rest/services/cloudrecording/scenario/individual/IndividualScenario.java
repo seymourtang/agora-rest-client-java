@@ -1,15 +1,9 @@
 package io.agora.rest.services.cloudrecording.scenario.individual;
 
-import io.agora.rest.services.cloudrecording.api.*;
-import io.agora.rest.services.cloudrecording.api.req.AcquireResourceReq;
-import io.agora.rest.services.cloudrecording.api.req.StartResourceReq;
-import io.agora.rest.services.cloudrecording.api.req.StopResourceReq;
-import io.agora.rest.services.cloudrecording.api.req.UpdateResourceReq;
 import io.agora.rest.services.cloudrecording.api.res.AcquireResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.StartResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.StopResourceRes;
 import io.agora.rest.services.cloudrecording.api.res.UpdateResourceRes;
-import io.agora.rest.services.cloudrecording.enums.CloudRecordingModeEnum;
 import io.agora.rest.services.cloudrecording.scenario.individual.req.AcquireIndividualResourceClientReq;
 import io.agora.rest.services.cloudrecording.scenario.individual.req.StartIndividualRecordingClientReq;
 import io.agora.rest.services.cloudrecording.scenario.individual.req.UpdateIndividualRecordingResourceClientReq;
@@ -17,142 +11,103 @@ import io.agora.rest.services.cloudrecording.scenario.individual.res.QueryIndivi
 import io.agora.rest.services.cloudrecording.scenario.individual.res.QueryIndividualRecordingVideoScreenshotResourceRes;
 import reactor.core.publisher.Mono;
 
-public class IndividualScenario {
+public abstract class IndividualScenario {
 
-    private final AcquireResourceAPI acquireResourceAPI;
+        /**
+         * @brief Get a resource ID for individual cloud recording.
+         * @since v0.4.0
+         * @post After receiving the resource ID, call the start API to start cloud
+         *       recording.
+         * @param cname          The name of the channel to be recorded.
+         * @param uid            The user ID used by the cloud recording service in the
+         *                       RTC channel to identify the recording service in the
+         *                       channel.
+         * @param enablePostpone Whether to postpone the recording.
+         *                       - true: Postpone the recording.
+         *                       - false: Start the recording immediately.
+         * @param clientRequest  The request body. See
+         *                       {@link AcquireIndividualResourceClientReq} for
+         *                       details.
+         * @return Returns the acquire resource result. See
+         *         {@link AcquireResourceRes} for details.
+         */
+        public abstract Mono<AcquireResourceRes> acquire(String cname, String uid, boolean enablePostpone,
+                        AcquireIndividualResourceClientReq clientRequest);
 
-    private final QueryResourceAPI queryResourceAPI;
+        /**
+         * @brief Start individual cloud recording.
+         * @since v0.4.0
+         * @param cname         Channel name.
+         * @param uid           User ID.
+         * @param resourceId    The resource ID.
+         * @param clientRequest The request body. See
+         *                      {@link StartIndividualRecordingClientReq} for
+         *                      details.
+         * @return Returns the start resource result. See
+         *         {@link StartResourceRes} for details.
+         */
+        public abstract Mono<StartResourceRes> start(String cname, String uid, String resourceId,
+                        StartIndividualRecordingClientReq clientRequest);
 
-    private final StartResourceAPI startResourceAPI;
+        /**
+         * @brief Query the status of individual cloud recording when video screenshot
+         *        capture is turned off.
+         * @since v0.4.0
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @return Returns the query recording resource result. See
+         *         {@link QueryIndividualRecordingResourceRes} for details.
+         */
+        public abstract Mono<QueryIndividualRecordingResourceRes> query(String resourceId, String sid);
 
-    private final UpdateResourceAPI updateResourceAPI;
+        /**
+         * @brief Query the status of individual cloud recording when video screenshot
+         *        capture is turned on.
+         * @since v0.4.0
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @return Returns the query recording resource result when video screenshot
+         *         capture is turned on. See
+         *         {@link QueryIndividualRecordingVideoScreenshotResourceRes} for
+         *         details.
+         */
+        public abstract Mono<QueryIndividualRecordingVideoScreenshotResourceRes> queryVideoScreenshot(String resourceId,
+                        String sid);
 
-    private final StopResourceAPI stopResourceAPI;
+        /**
+         * @brief Update the individual cloud recording configuration.
+         * @since v0.4.0
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param resourceId    The resource ID.
+         * @param sid           The recording ID, identifying a recording cycle.
+         * @param clientRequest The request body. See
+         *                      {@link UpdateIndividualRecordingResourceClientReq} for
+         *                      details.
+         * @return Returns the update resource result. See
+         *         {@link UpdateResourceRes} for details.
+         */
+        public abstract Mono<UpdateResourceRes> update(String cname, String uid, String resourceId, String sid,
+                        UpdateIndividualRecordingResourceClientReq clientRequest);
 
-    public IndividualScenario(AcquireResourceAPI acquireResourceAPI,
-                              QueryResourceAPI queryResourceAPI,
-                              StartResourceAPI startResourceAPI,
-                              UpdateResourceAPI updateResourceAPI,
-                              StopResourceAPI stopResourceAPI) {
-        this.acquireResourceAPI = acquireResourceAPI;
-        this.queryResourceAPI = queryResourceAPI;
-        this.startResourceAPI = startResourceAPI;
-        this.updateResourceAPI = updateResourceAPI;
-        this.stopResourceAPI = stopResourceAPI;
-    }
-
-    public Mono<AcquireResourceRes> acquire(String cname, String uid, boolean enablePostpone,
-                                            AcquireIndividualResourceClientReq clientRequest) {
-        int scene = 0;
-
-        if (enablePostpone) {
-            scene = 2;
-        }
-
-        StartResourceReq.StartClientRequest startParameter = null;
-        if (clientRequest.getStartParameter() != null) {
-            startParameter = StartResourceReq.StartClientRequest.builder()
-                    .token(clientRequest.getStartParameter().getToken())
-                    .storageConfig(clientRequest.getStartParameter()
-                            .getStorageConfig())
-                    .recordingConfig(clientRequest.getStartParameter()
-                            .getRecordingConfig())
-                    .recordingFileConfig(clientRequest.getStartParameter()
-                            .getRecordingFileConfig())
-                    .snapshotConfig(clientRequest.getStartParameter()
-                            .getSnapshotConfig())
-                    .appsCollection(clientRequest.getStartParameter()
-                            .getAppsCollection())
-                    .transcodeOptions(clientRequest.getStartParameter()
-                            .getTranscodeOptions())
-                    .build();
-        }
-
-        AcquireResourceReq req = AcquireResourceReq.builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(AcquireResourceReq.ClientRequest.builder()
-                        .scene(scene)
-                        .resourceExpiredHour(clientRequest.getResourceExpiredHour())
-                        .regionAffinity(clientRequest.getRegionAffinity())
-                        .excludeResourceIds(clientRequest.getExcludeResourceIds())
-                        .startParameter(startParameter)
-                        .build())
-                .build();
-
-        return this.acquireResourceAPI.handle(req);
-    }
-
-    public Mono<StartResourceRes> start(String cname, String uid, String resourceId,
-                                        StartIndividualRecordingClientReq clientRequest) {
-        return this.startResourceAPI.handle(resourceId, CloudRecordingModeEnum.INDIVIDUAL, StartResourceReq
-                .builder()
-                .cname(cname)
-                .uid(uid)
-                .clientRequest(StartResourceReq.StartClientRequest.builder()
-                        .token(clientRequest.getToken())
-                        .storageConfig(clientRequest.getStorageConfig())
-                        .recordingConfig(clientRequest.getRecordingConfig())
-                        .recordingFileConfig(clientRequest.getRecordingFileConfig())
-                        .snapshotConfig(clientRequest.getSnapshotConfig())
-                        .appsCollection(clientRequest.getAppsCollection())
-                        .transcodeOptions(clientRequest.getTranscodeOptions())
-                        .build())
-                .build());
-    }
-
-    public Mono<QueryIndividualRecordingResourceRes> query(String resourceId, String sid) {
-        return this.queryResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.INDIVIDUAL)
-                .handle((res, sink) -> {
-                    sink.next(QueryIndividualRecordingResourceRes.builder()
-                            .cname(res.getCname())
-                            .uid(res.getUid())
-                            .resourceId(res.getResourceId())
-                            .sid(res.getSid())
-                            .serverResponse(res.getQueryIndividualRecordingServerResponse())
-                            .build());
-
-                    sink.complete();
-                });
-    }
-
-    public Mono<QueryIndividualRecordingVideoScreenshotResourceRes> queryVideoScreenshot(String resourceId,
-                                                                                         String sid) {
-        return this.queryResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.INDIVIDUAL)
-                .handle((res, sink) -> {
-                    sink.next(QueryIndividualRecordingVideoScreenshotResourceRes.builder()
-                            .cname(res.getCname())
-                            .uid(res.getUid())
-                            .resourceId(res.getResourceId())
-                            .sid(res.getSid())
-                            .serverResponse(res
-                                    .getQueryIndividualVideoScreenshotServerResponse())
-                            .build());
-
-                    sink.complete();
-                });
-    }
-
-    public Mono<UpdateResourceRes> update(String cname, String uid, String resourceId, String sid,
-                                          UpdateIndividualRecordingResourceClientReq clientRequest) {
-        return this.updateResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.INDIVIDUAL,
-                UpdateResourceReq.builder()
-                        .cname(cname)
-                        .uid(uid)
-                        .clientRequest(UpdateResourceReq.ClientRequest.builder()
-                                .streamSubscribe(clientRequest.getStreamSubscribe())
-                                .build())
-                        .build());
-    }
-
-    public Mono<StopResourceRes> stop(String cname, String uid, String resourceId, String sid, boolean asyncStop) {
-        return this.stopResourceAPI.handle(resourceId, sid, CloudRecordingModeEnum.INDIVIDUAL,
-                StopResourceReq.builder()
-                        .cname(cname)
-                        .uid(uid)
-                        .clientRequest(StopResourceReq.StopClientRequest.builder()
-                                .asyncStop(asyncStop)
-                                .build())
-                        .build());
-    }
+        /**
+         * @brief Stop individual cloud recording.
+         * @since v0.4.0
+         * @param cname      The name of the channel to be recorded.
+         * @param uid        The user ID used by the cloud recording service in the RTC
+         *                   channel to identify the recording service in the channel.
+         * @param resourceId The resource ID.
+         * @param sid        The recording ID, identifying a recording cycle.
+         * @param asyncStop  Whether to stop the recording asynchronously.
+         *                   <p>
+         *                   - true: Stop the recording asynchronously.
+         *                   <p>
+         *                   - false: Stop the recording synchronously.
+         * @return Returns the stop resource result. See {@link StopResourceRes} for
+         *         details.
+         */
+        public abstract Mono<StopResourceRes> stop(String cname, String uid, String resourceId, String sid,
+                        boolean asyncStop);
 }

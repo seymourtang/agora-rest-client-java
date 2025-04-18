@@ -64,4 +64,44 @@ public class QueryConvoAIRes {
                 ", agentId='" + agentId + '\'' +
                 '}';
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getStartTs() {
+        return startTs;
+    }
+
+    public void setStartTs(Integer startTs) {
+        this.startTs = startTs;
+    }
+
+    public Integer getStopTs() {
+        return stopTs;
+    }
+
+    public void setStopTs(Integer stopTs) {
+        this.stopTs = stopTs;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
+    }
 }

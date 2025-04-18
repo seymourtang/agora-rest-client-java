@@ -49,4 +49,28 @@ public class UpdateConvoAIRes {
                 ", state='" + state + '\'' +
                 '}';
     }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
+    }
+
+    public Integer getCreateTs() {
+        return createTs;
+    }
+
+    public void setCreateTs(Integer createTs) {
+        this.createTs = createTs;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

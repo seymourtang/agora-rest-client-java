@@ -13,8 +13,7 @@ import picocli.CommandLine.Option;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "Main", mixinStandardHelpOptions = true, version = "0.1.0",
-        description = "Agora Conversational AI Service")
+@Command(name = "Main", mixinStandardHelpOptions = true, version = "0.1.0", description = "Agora Conversational AI Service")
 public class Main implements Callable<Integer> {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
@@ -26,11 +25,10 @@ public class Main implements Callable<Integer> {
 
     private final DomainArea domainArea = DomainArea.CN;
 
-
-    @Option(names = {"-t", "--ttsVendor"}, description = "bytedance,microsoft,tencent,minimax,elevenlabs")
+    @Option(names = { "-t", "--ttsVendor" }, description = "bytedance,microsoft,tencent,minimax,elevenlabs")
     private String ttsVendor = "";
 
-    @Option(names = {"-s", "--serviceRegion"}, description = "chineseMainland,global")
+    @Option(names = { "-s", "--serviceRegion" }, description = "chineseMainland,global")
     private String serviceRegion;
 
     public static void main(String[] args) {
@@ -45,7 +43,6 @@ public class Main implements Callable<Integer> {
         password = System.getenv("BASIC_AUTH_PASSWORD");
     }
 
-
     @Override
     public Integer call() throws Exception {
         loadEnv();
@@ -53,33 +50,32 @@ public class Main implements Callable<Integer> {
         logger.info("appId: {}, username: {}, password: {}, region: {}, ttsVendor: {}, serviceRegion: {}",
                 appId, username, password, domainArea, ttsVendor, serviceRegion);
 
-        JoinConvoAIReq.TTSVendorEnum ttsVendorEnum= JoinConvoAIReq.TTSVendorEnum.getEnum(ttsVendor);
+        JoinConvoAIReq.TTSVendorEnum ttsVendorEnum = JoinConvoAIReq.TTSVendorEnum.getEnum(ttsVendor);
 
-        if (ttsVendorEnum==null) {
+        if (ttsVendorEnum == null) {
             throw new IllegalArgumentException("ttsVendor is required");
         }
 
-        if (serviceRegion==null) {
+        if (serviceRegion == null) {
             throw new IllegalArgumentException("serviceRegion is required");
         }
 
         ConvoAIServiceRegionEnum convoAIServiceRegionEnum;
 
-        if(serviceRegion.equals("chineseMainland")){
+        if (serviceRegion.equals("chineseMainland")) {
             convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.CHINESE_MAINLAND;
-        }
-        else if(serviceRegion.equals("global")){
+        } else if (serviceRegion.equals("global")) {
             convoAIServiceRegionEnum = ConvoAIServiceRegionEnum.GLOBAL;
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Invalid serviceRegion: " + serviceRegion);
         }
 
-        Service svc =new Service(domainArea, appId, username, password, new BasicAuthCredential(username, password),  convoAIServiceRegionEnum);
+        Service svc = new Service(domainArea, appId, username, password, new BasicAuthCredential(username, password),
+                convoAIServiceRegionEnum);
 
         switch (ttsVendorEnum) {
             case BYTEDANCE:
-                if(convoAIServiceRegionEnum!=ConvoAIServiceRegionEnum.CHINESE_MAINLAND){
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.CHINESE_MAINLAND) {
                     throw new IllegalArgumentException("Bytedance TTS is only available in ChineseMainland");
                 }
 

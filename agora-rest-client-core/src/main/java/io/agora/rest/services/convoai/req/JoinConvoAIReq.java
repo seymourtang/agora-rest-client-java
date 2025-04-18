@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @brief Request Body parameters for calling the Conversational AI engine join API
+ * @brief Request Body parameters for calling the Conversational AI engine join
+ *        API
  * @since v0.3.0
  */
 public class JoinConvoAIReq {
@@ -57,9 +58,11 @@ public class JoinConvoAIReq {
     public static class Properties {
 
         /**
-         * Token used to join the RTC channel, i.e., the dynamic key for authentication (optional).
+         * Token used to join the RTC channel, i.e., the dynamic key for authentication
+         * (optional).
          * <p>
-         * If your project has enabled the App Certificate, you must pass the dynamic key in this field.
+         * If your project has enabled the App Certificate, you must pass the dynamic
+         * key in this field.
          */
         @JsonProperty("token")
         private String token;
@@ -73,14 +76,16 @@ public class JoinConvoAIReq {
         /**
          * User ID of the agent in the RTC channel (required)
          * <p>
-         * Filling "0" means a random assignment, but the Token needs to be modified accordingly
+         * Filling "0" means a random assignment, but the Token needs to be modified
+         * accordingly
          * <p>
          */
         @JsonProperty("agent_rtc_uid")
         private String agentRtcUId;
 
         /**
-         * List of user IDs that the agent subscribes to in the RTC channel, only subscribed users can interact with the agent (required)
+         * List of user IDs that the agent subscribes to in the RTC channel, only
+         * subscribed users can interact with the agent (required)
          * <p>
          * Passing "*" means subscribing to all users in the channel.
          * <p>
@@ -101,9 +106,11 @@ public class JoinConvoAIReq {
         /**
          * Maximum idle time of the RTC channel (s) (optional)
          * <p>
-         * The time after all users specified in remote_rtc_uids leave the channel is considered idle time.
+         * The time after all users specified in remote_rtc_uids leave the channel is
+         * considered idle time.
          * <p>
-         * If it exceeds the set maximum value, the agent will automatically stop and exit the channel.
+         * If it exceeds the set maximum value, the agent will automatically stop and
+         * exit the channel.
          * <p>
          * If set to 0, the agent will only stop when manually exited.
          * <p>
@@ -121,39 +128,44 @@ public class JoinConvoAIReq {
         private String agentRtmUId;
 
         /**
-         * Advanced feature configurations (optional), see {@link AdvancedFeatures} for details
+         * Advanced feature configurations (optional), see {@link AdvancedFeatures} for
+         * details
          */
         @JsonProperty("advanced_features")
         private AdvancedFeatures advancedFeatures;
 
         /**
-         * Custom language model (LLM) configuration (required), see {@link LLMPayload} for details
+         * Custom language model (LLM) configuration (required), see {@link LLMPayload}
+         * for details
          */
         @JsonProperty("llm")
         private LLMPayload llmPayload;
 
         /**
-         * Text-to-Speech (TTS) module configuration (optional), see {@link TTSPayload} for details
+         * Text-to-Speech (TTS) module configuration (optional), see {@link TTSPayload}
+         * for details
          */
         @JsonProperty("tts")
         private TTSPayload ttsPayload;
 
         /**
-         * Voice Activity Detection (VAD) configuration (optional), see {@link VADPayload} for details
+         * Voice Activity Detection (VAD) configuration (optional), see
+         * {@link VADPayload} for details
          */
         @JsonProperty("vad")
         private VADPayload vadPayload;
 
         /**
-         * Automatic Speech Recognition (ASR) configuration (optional), see {@link ASRPayload} for details
+         * Automatic Speech Recognition (ASR) configuration (optional), see
+         * {@link ASRPayload} for details
          */
         @JsonProperty("asr")
         private ASRPayload asrPayload;
 
-
         public static Builder builder() {
             return new Builder();
         }
+
         private Properties(Builder builder) {
             setToken(builder.token);
             setChannel(builder.channel);
@@ -349,7 +361,8 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines advanced feature configuration for the agent to join RTC channel
+     * @brief Defines advanced feature configuration for the agent to join RTC
+     *        channel
      * @since v0.3.0
      */
     public static class AdvancedFeatures {
@@ -361,7 +374,8 @@ public class JoinConvoAIReq {
          * <p>
          * - false: Do not enable (default)
          * <p>
-         * When enabled, users can interrupt the AI at any time and respond quickly, achieving natural transitions and smooth conversations.
+         * When enabled, users can interrupt the AI at any time and respond quickly,
+         * achieving natural transitions and smooth conversations.
          */
         @JsonProperty("enable_aivad")
         private Boolean enableAIVad;
@@ -373,7 +387,8 @@ public class JoinConvoAIReq {
          * <p>
          * - false: Do not enable (default)
          * <p>
-         * When enabled, the agent can use the capabilities provided by RTM to implement some advanced features.
+         * When enabled, the agent can use the capabilities provided by RTM to implement
+         * some advanced features.
          */
         @JsonProperty("enable_rtm")
         private Boolean enableRtm;
@@ -427,7 +442,8 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the custom language model (LLM) configuration for the agent to join the RTC channel
+     * @brief Defines the custom language model (LLM) configuration for the agent to
+     *        join the RTC channel
      * @since v0.3.0
      */
     public static class LLMPayload {
@@ -449,17 +465,21 @@ public class JoinConvoAIReq {
         private String apiKey;
 
         /**
-         * A set of predefined information attached at the beginning of each LLM call, used to control LLM output (optional)
+         * A set of predefined information attached at the beginning of each LLM call,
+         * used to control LLM output (optional)
          * <p>
-         * Can be role settings, prompts, and answer examples, must be compatible with OpenAI protocol
+         * Can be role settings, prompts, and answer examples, must be compatible with
+         * OpenAI protocol
          */
         @JsonProperty("system_messages")
         private List<Map<String, Object>> systemMessages;
 
         /**
-         * Additional information transmitted in the LLM message body, such as the model used, maximum token limit, etc. (optional)
+         * Additional information transmitted in the LLM message body, such as the model
+         * used, maximum token limit, etc. (optional)
          * <p>
-         * Different LLM providers support different configurations, see their respective LLM documentation for details.
+         * Different LLM providers support different configurations, see their
+         * respective LLM documentation for details.
          */
         @JsonProperty("params")
         private HashMap<String, Object> params;
@@ -469,7 +489,8 @@ public class JoinConvoAIReq {
          * <p>
          * Default value is 10
          * <p>
-         * Passing 0 means no short-term memory is cached. agent and subscribed users will record entries separately.
+         * Passing 0 means no short-term memory is cached. agent and subscribed users
+         * will record entries separately.
          */
         @JsonProperty("max_history")
         private Integer maxHistory;
@@ -477,7 +498,9 @@ public class JoinConvoAIReq {
         /**
          * Agent greeting message (optional)
          * <p>
-         * If filled, the agent will automatically send a greeting message to the first subscribed user who joins the channel when there are no users in the remote_rtc_uids list.
+         * If filled, the agent will automatically send a greeting message to the first
+         * subscribed user who joins the channel when there are no users in the
+         * remote_rtc_uids list.
          */
         @JsonProperty("greeting_message")
         private String greetingMessage;
@@ -487,7 +510,8 @@ public class JoinConvoAIReq {
          * <p>
          * - ["text"]: Text only (default)
          * <p>
-         * - ["text", "image"]: Text and image, requires the selected LLM to support visual modality input
+         * - ["text", "image"]: Text and image, requires the selected LLM to support
+         * visual modality input
          */
         @JsonProperty("input_modalities")
         private List<String> inputModalities;
@@ -495,11 +519,14 @@ public class JoinConvoAIReq {
         /**
          * Output modalities of the LLM (optional)
          * <p>
-         * - ["text"]: Text only (default), the output text will be converted to speech by the TTS module and then published to the RTC channel.
+         * - ["text"]: Text only (default), the output text will be converted to speech
+         * by the TTS module and then published to the RTC channel.
          * <p>
-         * - ["audio"]: Audio only. The audio will be directly published to the RTC channel.
+         * - ["audio"]: Audio only. The audio will be directly published to the RTC
+         * channel.
          * <p>
-         * - ["text", "audio"]: Text and audio. You can write your own logic to handle the LLM output as needed.
+         * - ["text", "audio"]: Text and audio. You can write your own logic to handle
+         * the LLM output as needed.
          */
         @JsonProperty("output_modalities")
         private List<String> outputModalities;
@@ -507,7 +534,8 @@ public class JoinConvoAIReq {
         /**
          * Failure message of the agent (optional)
          * <p>
-         * If filled, it will be returned through the TTS module when the LLM call fails.
+         * If filled, it will be returned through the TTS module when the LLM call
+         * fails.
          */
         @JsonProperty("failure_message")
         private String failureMessage;
@@ -669,7 +697,8 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Text-to-Speech (TTS) module configuration for the agent to join the RTC channel
+     * @brief Defines the Text-to-Speech (TTS) module configuration for the agent to
+     *        join the RTC channel
      * @since v0.3.0
      */
     public static class TTSPayload {
@@ -794,7 +823,7 @@ public class JoinConvoAIReq {
 
     /**
      * @brief Define Minimax TTS module parameters, see
-     * <a href="https://platform.minimaxi.com/document/T2A%20V2">Minimax</a>
+     *        <a href="https://platform.minimaxi.com/document/T2A%20V2">Minimax</a>
      * @since v0.3.0
      */
     public static class MinimaxTTSVendorParams implements TTSVendorParams {
@@ -927,7 +956,6 @@ public class JoinConvoAIReq {
             }
         }
     }
-
 
     /**
      * @brief Defines Minimax vendor audio setting parameters
@@ -1105,7 +1133,8 @@ public class JoinConvoAIReq {
 
     /**
      * @brief Define Tencent TTS module parameters, see
-     * <a href="https://cloud.tencent.com/document/product/1073/94308">Tencent</a>
+     *        <a href=
+     *        "https://cloud.tencent.com/document/product/1073/94308">Tencent</a>
      * @since v0.3.0
      */
     public static class TencentTTSVendorParams implements TTSVendorParams {
@@ -1306,7 +1335,7 @@ public class JoinConvoAIReq {
 
     /**
      * @brief Define Bytedance TTS module parameters, see
-     * <a href="https://www.volcengine.com/docs/6561/79823">Bytedance</a>
+     *        <a href="https://www.volcengine.com/docs/6561/79823">Bytedance</a>
      * @since v0.3.0
      */
     public static class BytedanceTTSVendorParams implements TTSVendorParams {
@@ -1682,7 +1711,8 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Voice Activity Detection (VAD) configuration for the agent to join the RTC channel
+     * @brief Defines the Voice Activity Detection (VAD) configuration for the agent
+     *        to join the RTC channel
      * @since v0.3.0
      */
     public static class VADPayload {
@@ -1690,7 +1720,8 @@ public class JoinConvoAIReq {
         /**
          * Human voice duration threshold (ms), range [120, 1200] (optional)
          * <p>
-         * Minimum duration of continuous human voice signal to avoid false interruptions.
+         * Minimum duration of continuous human voice signal to avoid false
+         * interruptions.
          */
         @JsonProperty("interrupt_duration_ms")
         private Integer interruptDurationMs;
@@ -1698,7 +1729,8 @@ public class JoinConvoAIReq {
         /**
          * Prefix padding threshold (ms), range [0, 5000] (optional)
          * <p>
-         * Minimum duration of voice required to start a new speech segment to avoid triggering voice activity detection with very short sounds.
+         * Minimum duration of voice required to start a new speech segment to avoid
+         * triggering voice activity detection with very short sounds.
          */
         @JsonProperty("prefix_padding_ms")
         private Integer prefixPaddingMs;
@@ -1706,7 +1738,8 @@ public class JoinConvoAIReq {
         /**
          * Silence duration threshold (ms), range [0, 2000] (optional)
          * <p>
-         * Minimum duration of silence at the end of speech to ensure short pauses do not prematurely end the speech segment.
+         * Minimum duration of silence at the end of speech to ensure short pauses do
+         * not prematurely end the speech segment.
          */
         @JsonProperty("silence_duration_ms")
         private Integer silenceDurationMs;
@@ -1714,9 +1747,11 @@ public class JoinConvoAIReq {
         /**
          * Voice recognition sensitivity, range (0.0,1.0) (optional)
          * <p>
-         * Determines the level of sound in the audio signal considered as "voice activity".
+         * Determines the level of sound in the audio signal considered as "voice
+         * activity".
          * <p>
-         * Lower values make it easier for the agent to detect voice, while higher values may ignore faint sounds.
+         * Lower values make it easier for the agent to detect voice, while higher
+         * values may ignore faint sounds.
          */
         @JsonProperty("threshold")
         private Float threshold;
@@ -1800,7 +1835,8 @@ public class JoinConvoAIReq {
     }
 
     /**
-     * @brief Defines the Automatic Speech Recognition (ASR) configuration for agent to join RTC channel
+     * @brief Defines the Automatic Speech Recognition (ASR) configuration for agent
+     *        to join RTC channel
      * @since v0.3.0
      */
     public static class ASRPayload {
@@ -1854,7 +1890,6 @@ public class JoinConvoAIReq {
 
         private Builder() {
         }
-
 
         public Builder name(String val) {
             name = val;

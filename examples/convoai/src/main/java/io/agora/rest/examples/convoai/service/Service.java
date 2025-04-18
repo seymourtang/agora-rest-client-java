@@ -6,11 +6,9 @@ import io.agora.rest.core.DomainArea;
 import io.agora.rest.services.convoai.ConvoAIServiceRegionEnum;
 import io.agora.rest.services.convoai.req.JoinConvoAIReq;
 import io.agora.rest.services.convoai.req.ListConvoAIReq;
+import io.agora.rest.services.convoai.req.SpeakConvoAIReq;
 import io.agora.rest.services.convoai.req.UpdateConvoAIReq;
-import io.agora.rest.services.convoai.res.JoinConvoAIRes;
-import io.agora.rest.services.convoai.res.ListConvoAIRes;
-import io.agora.rest.services.convoai.res.QueryConvoAIRes;
-import io.agora.rest.services.convoai.res.UpdateConvoAIRes;
+import io.agora.rest.services.convoai.res.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,6 +162,73 @@ public class Service extends BaseService {
                 throw new RuntimeException(e);
             }
         }
+
+        InterruptConvoAIRes interruptConvoAIRes;
+
+        try {
+            interruptConvoAIRes = this.convoAIClient.interrupt(agentId).block();
+        } catch (AgoraException e) {
+            logger.error("Failed to interrupt the agent,err:{}", e.getMessage());
+            return;
+        } catch (Exception e) {
+            logger.error("Unknown exception,err:{}", e.getMessage());
+            return;
+        }
+
+        if (interruptConvoAIRes == null) {
+            logger.error("Failed to interrupt the agent");
+            return;
+        }
+
+        logger.info("Interrupt the agent successfully, interruptConvoAIRes:{}", interruptConvoAIRes);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        HistoryConvoAIRes historyConvoAIRes;
+
+        try {
+            historyConvoAIRes = this.convoAIClient.getHistory(agentId).block();
+        } catch (AgoraException e) {
+            logger.error("Failed to get the history of the agent,err:{}", e.getMessage());
+            return;
+        } catch (Exception e) {
+            logger.error("Unknown exception,err:{}", e.getMessage());
+            return;
+        }
+
+        if (historyConvoAIRes == null) {
+            logger.error("Failed to get the history of the agent");
+            return;
+        }
+
+        logger.info("Get the history of the agent successfully, historyConvoAIRes:{}", historyConvoAIRes);
+
+        SpeakConvoAIRes speakConvoAIRes;
+
+        try {
+            speakConvoAIRes = this.convoAIClient.speak(agentId, SpeakConvoAIReq.builder()
+                    .text("Hello,how can I help you?")
+                    .interrupt(true)
+                    .priority("INTERRUPT")
+                    .build()).block();
+        } catch (AgoraException e) {
+            logger.error("Failed to speak the agent,err:{}", e.getMessage());
+            return;
+        } catch (Exception e) {
+            logger.error("Unknown exception,err:{}", e.getMessage());
+            return;
+        }
+
+        if (speakConvoAIRes == null) {
+            logger.error("Failed to speak the agent");
+            return;
+        }
+
+        logger.info("Speak the agent successfully, speakConvoAIRes:{}", speakConvoAIRes);
 
         ListConvoAIRes listConvoAIRes;
         try {

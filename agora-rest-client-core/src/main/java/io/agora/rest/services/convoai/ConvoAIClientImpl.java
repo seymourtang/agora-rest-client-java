@@ -5,10 +5,14 @@ import io.agora.rest.exception.AgoraInvalidArgumentException;
 import io.agora.rest.services.convoai.api.*;
 import io.agora.rest.services.convoai.req.JoinConvoAIReq;
 import io.agora.rest.services.convoai.req.ListConvoAIReq;
+import io.agora.rest.services.convoai.req.SpeakConvoAIReq;
 import io.agora.rest.services.convoai.req.UpdateConvoAIReq;
+import io.agora.rest.services.convoai.res.HistoryConvoAIRes;
+import io.agora.rest.services.convoai.res.InterruptConvoAIRes;
 import io.agora.rest.services.convoai.res.JoinConvoAIRes;
 import io.agora.rest.services.convoai.res.ListConvoAIRes;
 import io.agora.rest.services.convoai.res.QueryConvoAIRes;
+import io.agora.rest.services.convoai.res.SpeakConvoAIRes;
 import io.agora.rest.services.convoai.res.UpdateConvoAIRes;
 import reactor.core.publisher.Mono;
 
@@ -24,6 +28,12 @@ public class ConvoAIClientImpl extends ConvoAIClient {
 
     private final UpdateConvoAIAPI updateConvoAIAPI;
 
+    private final HistoryConvoAIAPI historyConvoAIAPI;
+
+    private final InterruptConvoAIAPI interruptConvoAIAPI;
+
+    private final SpeakConvoAIAPI speakConvoAIAPI;
+
     private final static String chineseMainlandPrefixTpl = "/cn/api/conversational-ai-agent/v2/projects/%s";
 
     private final static String globalPrefixTpl = "/api/conversational-ai-agent/v2/projects/%s";
@@ -35,6 +45,9 @@ public class ConvoAIClientImpl extends ConvoAIClient {
         listConvoAIAPI = new ListConvoAIAPI(context, pathPrefix);
         queryConvoAIAPI = new QueryConvoAIAPI(context, pathPrefix);
         updateConvoAIAPI = new UpdateConvoAIAPI(context, pathPrefix);
+        historyConvoAIAPI = new HistoryConvoAIAPI(context, pathPrefix);
+        interruptConvoAIAPI = new InterruptConvoAIAPI(context, pathPrefix);
+        speakConvoAIAPI = new SpeakConvoAIAPI(context, pathPrefix);
     }
 
     private String getPathPrefix(Context context, ConvoAIServiceRegionEnum serviceRegionEnum) {
@@ -74,5 +87,17 @@ public class ConvoAIClientImpl extends ConvoAIClient {
 
     public Mono<UpdateConvoAIRes> update(String agentId, UpdateConvoAIReq request) {
         return updateConvoAIAPI.handle(agentId, request);
+    }
+
+    public Mono<HistoryConvoAIRes> getHistory(String agentId) {
+        return historyConvoAIAPI.handle(agentId);
+    }
+
+    public Mono<InterruptConvoAIRes> interrupt(String agentId) {
+        return interruptConvoAIAPI.handle(agentId);
+    }
+
+    public Mono<SpeakConvoAIRes> speak(String agentId, SpeakConvoAIReq request) {
+        return speakConvoAIAPI.handle(agentId, request);
     }
 }

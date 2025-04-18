@@ -113,6 +113,11 @@ public class ConvoAIConfig {
             return this;
         }
 
+        public Builder httpProperty(HttpProperty httpProperty) {
+            this.httpProperty = httpProperty;
+            return this;
+        }
+
         public Builder serverRegion(ConvoAIServiceRegionEnum serverRegion) {
             this.serviceRegion = serverRegion;
             return this;

@@ -49,7 +49,8 @@ public class ListConvoAIRes {
         private Integer count;
 
         /**
-         * List of intelligent agents that meet the conditions, for detailed information refer to {@link Agent}
+         * List of intelligent agents that meet the conditions, for detailed information
+         * refer to {@link Agent}
          */
         @JsonProperty("list")
         private List<Agent> list;
@@ -60,6 +61,22 @@ public class ListConvoAIRes {
                     "count=" + count +
                     ", list=" + list +
                     '}';
+        }
+
+        public Integer getCount() {
+            return count;
+        }
+
+        public void setCount(Integer count) {
+            this.count = count;
+        }
+
+        public List<Agent> getList() {
+            return list;
+        }
+
+        public void setList(List<Agent> list) {
+            this.list = list;
         }
     }
 
@@ -110,6 +127,30 @@ public class ListConvoAIRes {
                     ", status='" + status + '\'' +
                     '}';
         }
+
+        public String getAgentId() {
+            return agentId;
+        }
+
+        public void setAgentId(String agentId) {
+            this.agentId = agentId;
+        }
+
+        public Integer getStartTs() {
+            return startTs;
+        }
+
+        public void setStartTs(Integer startTs) {
+            this.startTs = startTs;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
     }
 
     /**
@@ -136,5 +177,45 @@ public class ListConvoAIRes {
                     ", cursor='" + cursor + '\'' +
                     '}';
         }
+
+        public Integer getTotal() {
+            return total;
+        }
+
+        public void setTotal(Integer total) {
+            this.total = total;
+        }
+
+        public String getCursor() {
+            return cursor;
+        }
+
+        public void setCursor(String cursor) {
+            this.cursor = cursor;
+        }
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    public Meta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(Meta meta) {
+        this.meta = meta;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

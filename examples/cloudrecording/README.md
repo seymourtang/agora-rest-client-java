@@ -58,8 +58,6 @@ Where `individual_scene` represents the individual recording scenario:
 * recording: Recording only
 * snapshot: Snapshot only
 * recording_and_snapshot: Recording and snapshot
-* recording_and_postpone_transcoding: Recording with delayed transcoding
-* recording_and_audio_mix: Recording with delayed audio mixing
 
 Where `web_scene` represents the web page recording scenario:
 

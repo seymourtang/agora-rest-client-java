@@ -14,22 +14,10 @@ public class StartIndividualRecordingClientReq {
     private String token;
 
     /**
-     * Configuration for the application.(Optional) See
-     * {@link StartResourceReq.AppsCollection}.
-     */
-    private StartResourceReq.AppsCollection appsCollection;
-
-    /**
      * Configuration for recorded audio and video streams.(Optional) See
      * {@link StartResourceReq.RecordingConfig}.
      */
     private StartResourceReq.RecordingConfig recordingConfig;
-
-    /**
-     * Configurations for the recorded files generated under postponed transcoding
-     * or audio mixing.(Optional) See {@link StartResourceReq.TranscodeOptions}.
-     */
-    private StartResourceReq.TranscodeOptions transcodeOptions;
 
     /**
      * Configuration for recorded files.(Optional) See
@@ -55,9 +43,7 @@ public class StartIndividualRecordingClientReq {
 
     private StartIndividualRecordingClientReq(Builder builder) {
         setToken(builder.token);
-        setAppsCollection(builder.appsCollection);
         setRecordingConfig(builder.recordingConfig);
-        setTranscodeOptions(builder.transcodeOptions);
         setRecordingFileConfig(builder.recordingFileConfig);
         setSnapshotConfig(builder.snapshotConfig);
         setStorageConfig(builder.storageConfig);
@@ -71,28 +57,12 @@ public class StartIndividualRecordingClientReq {
         this.token = token;
     }
 
-    public StartResourceReq.AppsCollection getAppsCollection() {
-        return appsCollection;
-    }
-
-    public void setAppsCollection(StartResourceReq.AppsCollection appsCollection) {
-        this.appsCollection = appsCollection;
-    }
-
     public StartResourceReq.RecordingConfig getRecordingConfig() {
         return recordingConfig;
     }
 
     public void setRecordingConfig(StartResourceReq.RecordingConfig recordingConfig) {
         this.recordingConfig = recordingConfig;
-    }
-
-    public StartResourceReq.TranscodeOptions getTranscodeOptions() {
-        return transcodeOptions;
-    }
-
-    public void setTranscodeOptions(StartResourceReq.TranscodeOptions transcodeOptions) {
-        this.transcodeOptions = transcodeOptions;
     }
 
     public StartResourceReq.RecordingFileConfig getRecordingFileConfig() {
@@ -123,9 +93,7 @@ public class StartIndividualRecordingClientReq {
     public String toString() {
         return "StartIndividualRecordingClientReq{" +
                 "token='" + token + '\'' +
-                ", appsCollection=" + appsCollection +
                 ", recordingConfig=" + recordingConfig +
-                ", transcodeOptions=" + transcodeOptions +
                 ", recordingFileConfig=" + recordingFileConfig +
                 ", snapshotConfig=" + snapshotConfig +
                 ", storageConfig=" + storageConfig +
@@ -134,9 +102,7 @@ public class StartIndividualRecordingClientReq {
 
     public static final class Builder {
         private String token;
-        private StartResourceReq.AppsCollection appsCollection;
         private StartResourceReq.RecordingConfig recordingConfig;
-        private StartResourceReq.TranscodeOptions transcodeOptions;
         private StartResourceReq.RecordingFileConfig recordingFileConfig;
         private StartResourceReq.SnapshotConfig snapshotConfig;
         private StartResourceReq.StorageConfig storageConfig;
@@ -149,18 +115,8 @@ public class StartIndividualRecordingClientReq {
             return this;
         }
 
-        public Builder appsCollection(StartResourceReq.AppsCollection val) {
-            appsCollection = val;
-            return this;
-        }
-
         public Builder recordingConfig(StartResourceReq.RecordingConfig val) {
             recordingConfig = val;
-            return this;
-        }
-
-        public Builder transcodeOptions(StartResourceReq.TranscodeOptions val) {
-            transcodeOptions = val;
             return this;
         }
 

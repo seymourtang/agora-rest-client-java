@@ -14,8 +14,7 @@ import picocli.CommandLine.Option;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "Main", mixinStandardHelpOptions = true, version = "0.1.0",
-        description = "Agora Recording Service")
+@Command(name = "Main", mixinStandardHelpOptions = true, version = "0.1.0", description = "Agora Recording Service")
 public class Main implements Callable<Integer> {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
@@ -35,16 +34,16 @@ public class Main implements Callable<Integer> {
 
     private StartResourceReq.StorageConfig storageConfig;
 
-    @Option(names = {"-m", "--mode"}, description = "mix, web, individual")
+    @Option(names = { "-m", "--mode" }, description = "mix, web, individual")
     private String mode = "";
 
-    @Option(names = {"-ms", "--mix_scene"}, description = "hls, hls_and_mp4")
+    @Option(names = { "-ms", "--mix_scene" }, description = "hls, hls_and_mp4")
     private String mixScene = "";
 
-    @Option(names = {"-is", "--individual_scene"}, description = "recording, snapshot, recording_and_snapshot, recording_and_postpone_transcoding, recording_and_audio_mix")
+    @Option(names = { "-is", "--individual_scene" }, description = "recording, snapshot, recording_and_snapshot")
     private String individualScene = "";
 
-    @Option(names = {"-ws", "--web_scene"}, description = "web_recorder, web_recorder_and_rtmp_publish")
+    @Option(names = { "-ws", "--web_scene" }, description = "web_recorder, web_recorder_and_rtmp_publish")
     private String webScene = "";
 
     public static void main(String[] args) {
@@ -70,7 +69,8 @@ public class Main implements Callable<Integer> {
     }
 
     private void handleMixMode() {
-        MixRecordingScenario mixScenario = new MixRecordingScenario(region, appId, cname, uid, new BasicAuthCredential(username, password));
+        MixRecordingScenario mixScenario = new MixRecordingScenario(region, appId, cname, uid,
+                new BasicAuthCredential(username, password));
 
         switch (mixScene) {
             case "hls":
@@ -85,7 +85,8 @@ public class Main implements Callable<Integer> {
     }
 
     private void handleIndividualMode() {
-        IndividualRecordingScenario individualScenario = new IndividualRecordingScenario(region, appId, cname, uid, new BasicAuthCredential(username, password));
+        IndividualRecordingScenario individualScenario = new IndividualRecordingScenario(region, appId, cname, uid,
+                new BasicAuthCredential(username, password));
 
         switch (individualScene) {
             case "recording":
@@ -97,19 +98,14 @@ public class Main implements Callable<Integer> {
             case "recording_and_snapshot":
                 individualScenario.runRecordingAndSnapshot(token, storageConfig);
                 break;
-            case "recording_and_postpone_transcoding":
-                individualScenario.runRecordingAndPostponeTranscoding(token, storageConfig);
-                break;
-            case "recording_and_audio_mix":
-                individualScenario.runRecordingAndAudioMix(token, storageConfig);
-                break;
             default:
                 throw new IllegalArgumentException("invalid individual_scene: " + individualScene);
         }
     }
 
     private void handleWebMode() {
-        WebRecordingScenario webScenario = new WebRecordingScenario(region, appId, cname, uid, new BasicAuthCredential(username, password));
+        WebRecordingScenario webScenario = new WebRecordingScenario(region, appId, cname, uid,
+                new BasicAuthCredential(username, password));
 
         switch (webScene) {
             case "web_recorder":
@@ -127,7 +123,8 @@ public class Main implements Callable<Integer> {
     public Integer call() throws Exception {
         loadEnv();
 
-        logger.info("appId: {}, cname: {}, uid: {}, username: {}, password: {}, token: {}, region: {}, storageConfig: {}",
+        logger.info(
+                "appId: {}, cname: {}, uid: {}, username: {}, password: {}, token: {}, region: {}, storageConfig: {}",
                 appId, cname, uid, username, password, token, region, storageConfig);
 
         switch (mode) {

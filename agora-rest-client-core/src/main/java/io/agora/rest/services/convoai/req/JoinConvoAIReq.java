@@ -162,6 +162,9 @@ public class JoinConvoAIReq {
         @JsonProperty("asr")
         private ASRPayload asrPayload;
 
+        @JsonProperty("parameters")
+        private Map<String, Object> parameters;
+
         public static Builder builder() {
             return new Builder();
         }
@@ -179,6 +182,7 @@ public class JoinConvoAIReq {
             setTts(builder.ttsPayload);
             setVad(builder.vadPayload);
             setAsr(builder.asrPayload);
+            setParameters(builder.parameters);
         }
 
         public String getToken() {
@@ -277,6 +281,14 @@ public class JoinConvoAIReq {
             this.asrPayload = ASRPayload;
         }
 
+        public Map<String, Object> getParameters() {
+            return parameters;
+        }
+
+        public void setParameters(Map<String, Object> parameters) {
+            this.parameters = parameters;
+        }
+
         public static final class Builder {
             private String token;
             private String channel;
@@ -290,6 +302,7 @@ public class JoinConvoAIReq {
             private TTSPayload ttsPayload;
             private VADPayload vadPayload;
             private ASRPayload asrPayload;
+            private Map<String, Object> parameters;
 
             private Builder() {
             }
@@ -351,6 +364,11 @@ public class JoinConvoAIReq {
 
             public Builder asrPayload(ASRPayload val) {
                 asrPayload = val;
+                return this;
+            }
+
+            public Builder parameters(Map<String, Object> val) {
+                parameters = val;
                 return this;
             }
 

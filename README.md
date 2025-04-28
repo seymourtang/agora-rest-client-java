@@ -43,7 +43,7 @@ First, add the REST Client dependency in the `pom.xml` file:
 <dependency>
     <groupId>io.agora</groupId>
     <artifactId>agora-rest-client-core</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 </dependency>
 ```
 

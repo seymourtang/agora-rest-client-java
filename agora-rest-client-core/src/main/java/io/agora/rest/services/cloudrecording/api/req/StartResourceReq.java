@@ -60,14 +60,8 @@ public class StartResourceReq {
         @JsonProperty("token")
         private String token;
 
-        @JsonProperty("appsCollection")
-        private AppsCollection appsCollection;
-
         @JsonProperty("recordingConfig")
         private RecordingConfig recordingConfig;
-
-        @JsonProperty("transcodeOptions")
-        private TranscodeOptions transcodeOptions;
 
         @JsonProperty("recordingFileConfig")
         private RecordingFileConfig recordingFileConfig;
@@ -87,9 +81,7 @@ public class StartResourceReq {
 
         private StartClientRequest(Builder builder) {
             setToken(builder.token);
-            setAppsCollection(builder.appsCollection);
             setRecordingConfig(builder.recordingConfig);
-            setTranscodeOptions(builder.transcodeOptions);
             setRecordingFileConfig(builder.recordingFileConfig);
             setSnapshotConfig(builder.snapshotConfig);
             setStorageConfig(builder.storageConfig);
@@ -104,28 +96,12 @@ public class StartResourceReq {
             this.token = token;
         }
 
-        public AppsCollection getAppsCollection() {
-            return appsCollection;
-        }
-
-        public void setAppsCollection(AppsCollection appsCollection) {
-            this.appsCollection = appsCollection;
-        }
-
         public RecordingConfig getRecordingConfig() {
             return recordingConfig;
         }
 
         public void setRecordingConfig(RecordingConfig recordingConfig) {
             this.recordingConfig = recordingConfig;
-        }
-
-        public TranscodeOptions getTranscodeOptions() {
-            return transcodeOptions;
-        }
-
-        public void setTranscodeOptions(TranscodeOptions transcodeOptions) {
-            this.transcodeOptions = transcodeOptions;
         }
 
         public RecordingFileConfig getRecordingFileConfig() {
@@ -164,9 +140,7 @@ public class StartResourceReq {
         public String toString() {
             return "StartClientRequest{" +
                     "token='" + token + '\'' +
-                    ", appsCollection=" + appsCollection +
                     ", recordingConfig=" + recordingConfig +
-                    ", transcodeOptions=" + transcodeOptions +
                     ", recordingFileConfig=" + recordingFileConfig +
                     ", snapshotConfig=" + snapshotConfig +
                     ", storageConfig=" + storageConfig +
@@ -178,11 +152,7 @@ public class StartResourceReq {
 
             private String token;
 
-            private AppsCollection appsCollection;
-
             private RecordingConfig recordingConfig;
-
-            private TranscodeOptions transcodeOptions;
 
             private RecordingFileConfig recordingFileConfig;
 
@@ -204,18 +174,8 @@ public class StartResourceReq {
                 return this;
             }
 
-            public Builder appsCollection(AppsCollection val) {
-                appsCollection = val;
-                return this;
-            }
-
             public Builder recordingConfig(RecordingConfig val) {
                 recordingConfig = val;
-                return this;
-            }
-
-            public Builder transcodeOptions(TranscodeOptions val) {
-                transcodeOptions = val;
                 return this;
             }
 
@@ -241,71 +201,6 @@ public class StartResourceReq {
 
             public StartClientRequest build() {
                 return new StartClientRequest(this);
-            }
-        }
-    }
-
-    /**
-     * @brief Configuration for the application.
-     * @since v0.4.0
-     */
-    public static class AppsCollection {
-
-        /**
-         * The combination of cloud recording applications.(Optional)
-         * <p>
-         * The combination policy can be set to:
-         * <p>
-         * - "default": Use this policy except for postponed transcoding and audio
-         * mixing.(Default)
-         * <p>
-         * - "postpone_transcoding": Use this policy if you need to postpone transcoding
-         * or audio mixing.
-         */
-        @JsonProperty("combinationPolicy")
-        private String combinationPolicy;
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        private AppsCollection(Builder builder) {
-            setCombinationPolicy(builder.combinationPolicy);
-        }
-
-        public String getCombinationPolicy() {
-            return combinationPolicy;
-        }
-
-        public void setCombinationPolicy(String combinationPolicy) {
-            this.combinationPolicy = combinationPolicy;
-        }
-
-        @Override
-        public String toString() {
-            return "AppsCollection{" +
-                    "combinationPolicy='" + combinationPolicy + '\'' +
-                    '}';
-        }
-
-        public static final class Builder {
-
-            private String combinationPolicy;
-
-            private Builder() {
-            }
-
-            public static Builder builder() {
-                return new Builder();
-            }
-
-            public Builder combinationPolicy(String val) {
-                combinationPolicy = val;
-                return this;
-            }
-
-            public AppsCollection build() {
-                return new AppsCollection(this);
             }
         }
     }
@@ -790,342 +685,6 @@ public class StartResourceReq {
 
             public RecordingConfig build() {
                 return new RecordingConfig(this);
-            }
-        }
-    }
-
-    /**
-     * @brief Container format.
-     * @since v0.4.0
-     */
-    public static class Container {
-
-        /**
-         * The container format of the file.(Optional)
-         * <p>
-         * The container format can be set to:
-         * <p>
-         * - "mp4": the default format for the postponed transcoding. MP4 format.
-         * <p>
-         * - "mp3": The default format for postponed audio mixing. MP3 format.
-         * <p>
-         * - "m4a": M4A format.
-         * <p>
-         * - "aac": AAC format.
-         */
-        @JsonProperty("format")
-        private String format;
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        private Container(Builder builder) {
-            setFormat(builder.format);
-        }
-
-        public String getFormat() {
-            return format;
-        }
-
-        public void setFormat(String format) {
-            this.format = format;
-        }
-
-        @Override
-        public String toString() {
-            return "Container{" +
-                    "format='" + format + '\'' +
-                    '}';
-        }
-
-        public static final class Builder {
-
-            private String format;
-
-            private Builder() {
-            }
-
-            public Builder format(String val) {
-                format = val;
-                return this;
-            }
-
-            public Container build() {
-                return new Container(this);
-            }
-        }
-    }
-
-    /**
-     * @brief Configurations for the recorded files generated under postponed
-     *        transcoding or audio mixing.
-     * @since v0.4.0
-     */
-    public static class TranscodeOptions {
-        /**
-         * The container format of the recorded files.(Optional) See
-         * {@link TranscodeOptions.Container}.
-         */
-        @JsonProperty("container")
-        private Container container;
-
-        /**
-         * The configuration for transcoding.(Required) See
-         * {@link TranscodeOptions.TransConfig}.
-         */
-        @JsonProperty("transConfig")
-        private TransConfig transConfig;
-
-        /**
-         * Audio properties of the file. See {@link TranscodeOptions.Audio}.
-         */
-        @JsonProperty("audio")
-        private Audio audio;
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        private TranscodeOptions(Builder builder) {
-            setContainer(builder.container);
-            setTransConfig(builder.transConfig);
-            setAudio(builder.audio);
-        }
-
-        public Container getContainer() {
-            return container;
-        }
-
-        public void setContainer(Container container) {
-            this.container = container;
-        }
-
-        public TransConfig getTransConfig() {
-            return transConfig;
-        }
-
-        public void setTransConfig(TransConfig transConfig) {
-            this.transConfig = transConfig;
-        }
-
-        public Audio getAudio() {
-            return audio;
-        }
-
-        public void setAudio(Audio audio) {
-            this.audio = audio;
-        }
-
-        @Override
-        public String toString() {
-            return "TranscodeOptions{" +
-                    "container=" + container +
-                    ", transConfig=" + transConfig +
-                    ", audio=" + audio +
-                    '}';
-        }
-
-        public static final class Builder {
-
-            private Container container;
-            private TransConfig transConfig;
-            private Audio audio;
-
-            private Builder() {
-            }
-
-            public Builder container(Container val) {
-                container = val;
-                return this;
-            }
-
-            public Builder transConfig(TransConfig val) {
-                transConfig = val;
-                return this;
-            }
-
-            public Builder audio(Audio val) {
-                audio = val;
-                return this;
-            }
-
-            public TranscodeOptions build() {
-                return new TranscodeOptions(this);
-            }
-        }
-    }
-
-    /**
-     * @brief Configuration for transcoding.
-     * @since v0.4.0
-     */
-    public static class TransConfig {
-
-        /**
-         * The transcoding mode.(Required)
-         * <p>
-         * The transcoding mode can be set to:
-         * <p>
-         * - "postponeTranscoding": Postponed transcoding.
-         * <p>
-         * - "audioMix": Postponed audio mixing.
-         */
-        @JsonProperty("transMode")
-        private String transMode;
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        private TransConfig(Builder builder) {
-            setTransMode(builder.transMode);
-        }
-
-        public String getTransMode() {
-            return transMode;
-        }
-
-        public void setTransMode(String transMode) {
-            this.transMode = transMode;
-        }
-
-        @Override
-        public String toString() {
-            return "TransConfig{" +
-                    "transMode='" + transMode + '\'' +
-                    '}';
-        }
-
-        public static final class Builder {
-
-            private String transMode;
-
-            private Builder() {
-            }
-
-            public Builder transMode(String val) {
-                transMode = val;
-                return this;
-            }
-
-            public TransConfig build() {
-                return new TransConfig(this);
-            }
-        }
-    }
-
-    /**
-     * @brief Audio properties of the file.
-     * @since v0.4.0
-     */
-    public static class Audio {
-
-        /**
-         * Audio sampling rate.(Optional)
-         * <p>
-         * The sampling rate can be set to:
-         * <p>
-         * - "48000": 48 kHz.（Default）
-         * <p>
-         * - "32000": 32 kHz.
-         * <p>
-         * - "16000": 16 kHz.
-         */
-        @JsonProperty("sampleRate")
-        private String sampleRate;
-
-        /**
-         * Audio bitrate(Kbps).(Optional)
-         * <p>
-         * It supports a customized value and the default value is "48000".
-         */
-        @JsonProperty("bitrate")
-        private String bitRate;
-
-        /**
-         * Audio channels.(Optional)
-         * <p>
-         * The channels can be set to:
-         * <p>
-         * - "1": Mono.
-         * <p>
-         * - "2": Stereo.（Default）
-         */
-        @JsonProperty("channels")
-        private String channels;
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        private Audio(Builder builder) {
-            setSampleRate(builder.sampleRate);
-            setBitRate(builder.bitRate);
-            setChannels(builder.channels);
-        }
-
-        public String getSampleRate() {
-            return sampleRate;
-        }
-
-        public void setSampleRate(String sampleRate) {
-            this.sampleRate = sampleRate;
-        }
-
-        public String getBitRate() {
-            return bitRate;
-        }
-
-        public void setBitRate(String bitRate) {
-            this.bitRate = bitRate;
-        }
-
-        public String getChannels() {
-            return channels;
-        }
-
-        public void setChannels(String channels) {
-            this.channels = channels;
-        }
-
-        @Override
-        public String toString() {
-            return "Audio{" +
-                    "sampleRate='" + sampleRate + '\'' +
-                    ", bitRate='" + bitRate + '\'' +
-                    ", channels='" + channels + '\'' +
-                    '}';
-        }
-
-        public static final class Builder {
-
-            private String sampleRate;
-
-            private String bitRate;
-
-            private String channels;
-
-            private Builder() {
-            }
-
-            public Builder sampleRate(String val) {
-                sampleRate = val;
-                return this;
-            }
-
-            public Builder bitRate(String val) {
-                bitRate = val;
-                return this;
-            }
-
-            public Builder channels(String val) {
-                channels = val;
-                return this;
-            }
-
-            public Audio build() {
-                return new Audio(this);
             }
         }
     }

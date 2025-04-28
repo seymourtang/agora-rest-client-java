@@ -18,20 +18,17 @@ public abstract class IndividualScenario {
          * @since v0.4.0
          * @post After receiving the resource ID, call the start API to start cloud
          *       recording.
-         * @param cname          The name of the channel to be recorded.
-         * @param uid            The user ID used by the cloud recording service in the
-         *                       RTC channel to identify the recording service in the
-         *                       channel.
-         * @param enablePostpone Whether to postpone the recording.
-         *                       - true: Postpone the recording.
-         *                       - false: Start the recording immediately.
-         * @param clientRequest  The request body. See
-         *                       {@link AcquireIndividualResourceClientReq} for
-         *                       details.
+         * @param cname         The name of the channel to be recorded.
+         * @param uid           The user ID used by the cloud recording service in the
+         *                      RTC channel to identify the recording service in the
+         *                      channel.
+         * @param clientRequest The request body. See
+         *                      {@link AcquireIndividualResourceClientReq} for
+         *                      details.
          * @return Returns the acquire resource result. See
          *         {@link AcquireResourceRes} for details.
          */
-        public abstract Mono<AcquireResourceRes> acquire(String cname, String uid, boolean enablePostpone,
+        public abstract Mono<AcquireResourceRes> acquire(String cname, String uid,
                         AcquireIndividualResourceClientReq clientRequest);
 
         /**

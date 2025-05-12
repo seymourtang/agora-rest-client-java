@@ -99,7 +99,7 @@ public class Main {
         Credential credential = new BasicAuthCredential(username, password);
 
         // Initialize CloudRecordingConfig
-        CloudRecordingConfig agoraConfig = CloudRecordingConfig.builder()
+        CloudRecordingConfig config = CloudRecordingConfig.builder()
                 .appId(appId)
                 .credential(credential)
                 // Specify the region where the server is located.
@@ -110,7 +110,7 @@ public class Main {
 
         // Initialize CloudRecordingClient
 
-        CloudRecordingClient cloudRecordingClient = CloudRecordingClient.create(agoraConfig);
+        CloudRecordingClient cloudRecordingClient = CloudRecordingClient.create(config);
 
         AcquireResourceRes acquireResourceRes;
 

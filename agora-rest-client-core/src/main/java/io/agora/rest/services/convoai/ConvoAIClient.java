@@ -118,7 +118,7 @@ public abstract class ConvoAIClient {
 
     /**
      * @brief Interrupts the specified agent instance
-     * @since v0.9.0
+     * @since v0.4.0
      * @example Use this method to interrupt the specified agent instance.
      * @param agentId Agent ID.
      * @return Returns the interrupt response result, see
@@ -128,7 +128,7 @@ public abstract class ConvoAIClient {
 
     /**
      * @brief Speaks a custom message for the specified agent instance
-     * @since v0.9.0
+     * @since v0.4.0
      * @example Use this method to speak a custom message for the specified agent
      *          instance.
      * @param agentId Agent ID.

@@ -1,6 +1,6 @@
 # 对话式 AI 引擎服务
 
- [English](./README.md) | 简体中文
+[English](./README.md) | 简体中文
 
 ## 服务概述
 
@@ -8,33 +8,33 @@
 
 ## 环境准备
 
-- 获取声网App ID -------- [声网Agora - 文档中心 - 如何获取 App ID](https://docs.agora.io/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-id)
+-   获取声网 App ID -------- [声网 Agora - 文档中心 - 如何获取 App ID](https://docs.agora.io/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-id)
 
-  > - 点击创建应用
-  >
-  >   ![](../../../../../../../../../assets/imges/CN/create_app_1.png)
-  >
-  > - 选择你要创建的应用类型
-  >
-  >   ![](../../../../../../../../../assets/imges/CN/create_app_2.png)
+    > -   点击创建应用
+    >
+    >     ![](../../../../../../../../../assets/imges/CN/create_app_1.png)
+    >
+    > -   选择你要创建的应用类型
+    >
+    >     ![](../../../../../../../../../assets/imges/CN/create_app_2.png)
 
-- 获取App 证书 ----- [声网Agora - 文档中心 - 获取 App 证书](https://docs.agora.io/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-%E8%AF%81%E4%B9%A6)
+-   获取 App 证书 ----- [声网 Agora - 文档中心 - 获取 App 证书](https://docs.agora.io/cn/Agora%20Platform/get_appid_token?platform=All%20Platforms#%E8%8E%B7%E5%8F%96-app-%E8%AF%81%E4%B9%A6)
 
-  > 在声网控制台的项目管理页面，找到你的项目，点击配置。
-  > ![](../../../../../../../../../assets/imges/CN/config_app.png)
-  > 点击主要证书下面的复制图标，即可获取项目的 App 证书。
-  > ![](../../../../../../../../../assets/imges/CN/copy_app_cert.png)
+    > 在声网控制台的项目管理页面，找到你的项目，点击配置。
+    > ![](../../../../../../../../../assets/imges/CN/config_app.png)
+    > 点击主要证书下面的复制图标，即可获取项目的 App 证书。
+    > ![](../../../../../../../../../assets/imges/CN/copy_app_cert.png)
 
-- 启用会话式AI引擎服务 ----- [启用服务](https://doc.shengwang.cn/doc/convoai/restful/get-started/enable-service)
-  > ![](../../../../../../../../../assets/imges/CN/open_convo_ai.png)
+-   启用会话式 AI 引擎服务 ----- [启用服务](https://doc.shengwang.cn/doc/convoai/restful/get-started/enable-service)
+    > ![](../../../../../../../../../assets/imges/CN/open_convo_ai.png)
 
-## API定义
+## API 定义
 
-更多API详情，请参考 [API文档](https://doc.shengwang.cn/api-ref/convoai/java/java-api/overview)
+更多 API 详情，请参考 [API 文档](https://doc.shengwang.cn/api-ref/convoai/java/java-api/overview)
 
-## API调用示例
+## API 调用示例
 
-### 初始化会话式AI引擎客户端
+### 初始化会话式 AI 引擎客户端
 
 ```java
     public static final String APP_ID = "<your appId>";
@@ -58,14 +58,16 @@
 ```
 
 ### 创建对话式智能体
->
-> 创建对话式 AI 智能体实例并加入RTC频道。
 
-需要设置的参数：LLM、TTS和代理相关参数。
+> 创建对话式 AI 智能体实例并加入 RTC 频道。
 
-调用`join`方法创建会话代理，以使用字节跳动TTS为例：
+需要设置的参数：LLM、TTS 和代理相关参数。
+
+调用`join`方法创建会话代理，以使用字节跳动 TTS 为例：
 
 ```java
+    public static final String APP_ID = "<your appId>";
+    public static final String CNAME = "<your cname>";
     public static final String AGENT_RTC_UID = "<your agent rtc uid>";
     public static final String AGENT_RTC_TOKEN = "<your agent rtc token>";
 
@@ -165,10 +167,11 @@
 
 ### 停止对话式智能体
 
-> 停止对话式智能体并离开RTC频道。
+> 停止对话式智能体并离开 RTC 频道。
 
 需要设置的参数：
-- `join`接口返回的AgentId
+
+-   `join`接口返回的 AgentId
 
 ```java
  // Stop the agent
@@ -184,11 +187,12 @@
 
 ### 更新智能体配置
 
-> 目前只能更新正在运行的智能体的Token信息。
+> 目前只能更新正在运行的智能体的 Token 信息。
 
 需要设置的参数：
-- `join`接口返回的AgentId
-- 要更新的Token
+
+-   `join`接口返回的 AgentId
+-   要更新的 Token
 
 ```java
     // Update agent
@@ -213,7 +217,8 @@
 > 查询智能体的状态。
 
 需要设置的参数：
-- `join`接口返回的AgentId
+
+-   `join`接口返回的 AgentId
 
 ```java
     // Query agent
@@ -236,12 +241,13 @@
     logger.info("Query the agent successfully, queryConvoAIRes:{}", queryConvoAIRes);
 ```
 
-
 ## 检索智能体列表
+
 > 按照条件检索智能体列表。
 
 需要设置的参数：
-- `join`接口返回的AgentId
+
+-   `join`接口返回的 AgentId
 
 ```java
      // List agent
@@ -268,4 +274,5 @@
 ```
 
 ## 错误代码和响应状态代码处理
+
 有关具体的业务响应代码，请参考 [业务响应代码](https://doc.shengwang.cn/doc/convoai/restful/api/response-code) 文档。

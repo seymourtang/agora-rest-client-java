@@ -21,31 +21,6 @@ You can find the relevant parameters in the [Conversational AI Service Documenta
 
 When choosing different TTS providers, you need to configure additional environment variables. The currently supported TTS providers are:
 
-### bytedance
-
-```bash
-export CONVOAI_TTS_BYTEDANCE_TOKEN=<Your tts bytedance token>
-export CONVOAI_TTS_BYTEDANCE_APP_ID=<Your tts bytedance app id>
-export CONVOAI_TTS_BYTEDANCE_CLUSTER=<Your tts bytedance cluster>
-export CONVOAI_TTS_BYTEDANCE_VOICE_TYPE=<Your tts bytedance voice type>
-```
-
-### tencent
-
-```bash
-export CONVOAI_TTS_TENCENT_APP_ID=<Your tts tencent app id>
-export CONVOAI_TTS_TENCENT_SECRET_ID=<Your tts tencent secret id>
-export CONVOAI_TTS_TENCENT_SECRET_KEY=<Your tts tencent secret key>
-```
-
-### minimax
-
-```bash
-export CONVOAI_TTS_MINIMAX_GROUP_ID=<Your tts minimax group id>
-export CONVOAI_TTS_MINIMAX_GROUP_KEY=<Your tts minimax group key>
-export CONVOAI_TTS_MINIMAX_GROUP_MODEL=<Your tts minimax group model>
-```
-
 ### microsoft
 
 ```bash
@@ -73,11 +48,12 @@ make install
 Then, in the current module, execute the following commands to experience different scenarios of the `ConvoAI` example:
 
 ```bash
-mvn exec:java -Dexec.mainClass="io.agora.rest.examples.convoai.Main" -Dexec.args="--ttsVendor=<ttsVendor> --serviceRegion=<serviceRegion>"
+mvn exec:java -Dexec.mainClass="io.agora.rest.examples.convoai.Main" -Dexec.args="--ttsVendor=<ttsVendor> --serviceRegion=global"
 ```
 
-`ttsVendor` represents different TTS providers. Choose the appropriate TTS provider based on your requirements.
-`serviceRegion` represents the chosen service region. The currently supported service regions are:
-* `chineseMainland`
-* `global`
+`ttsVendor` represents different TTS providers.
 
+-   `microsoft`
+-   `elevenLabs`
+
+Choose the appropriate TTS provider based on your requirements.

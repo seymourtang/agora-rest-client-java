@@ -118,6 +118,15 @@ public class Service extends BaseService {
                             .asrPayload(JoinConvoAIReq.ASRPayload.builder()
                                     .language("zh-CN")
                                     .build())
+                            .parameters(JoinConvoAIReq.Parameters.builder()
+                                    .fixedParams(JoinConvoAIReq.FixedParams.builder()
+                                            .silenceConfig(JoinConvoAIReq.SilenceConfig.builder()
+                                                    .timeoutMs(1000)
+                                                    .action("speak")
+                                                    .content("Hello,how can I help you?")
+                                                    .build())
+                                            .build())
+                                    .build())
                             .build())
                     .build()).block();
         } catch (AgoraException e) {
@@ -254,7 +263,27 @@ public class Service extends BaseService {
 
         try {
             updateConvoAIRes = this.convoAIClient.update(agentId, UpdateConvoAIReq.builder()
-                    .token(updateToken).build()).block();
+                    .llm(UpdateConvoAIReq.UpdateLLMParams.builder()
+                            .params(new HashMap<String, Object>() {
+                                {
+                                    put("model", llmModel);
+                                    put("max_tokens", 2048);
+                                    put("username", "Tom");
+                                }
+                            })
+                            .systemMessages(new ArrayList<Map<String, Object>>() {
+                                {
+                                    add(new HashMap<String, Object>() {
+                                        {
+                                            put("content", "You are a helpful chatbot, and you are a new assistant.");
+                                            put("role", "system");
+                                        }
+                                    });
+                                }
+                            })
+                            .build())
+                    .token(updateToken)
+                    .build()).block();
         } catch (AgoraException e) {
             logger.error("Failed to update the agent,err:{}", e.getMessage());
             return;
@@ -298,8 +327,15 @@ public class Service extends BaseService {
         }
 
         JoinConvoAIReq.BytedanceTTSVendorParams ttsVendorParams = JoinConvoAIReq.BytedanceTTSVendorParams.builder()
-                .token(ttsToken).cluster(ttsCluster).voiceType(ttsVoiceType).appId(ttsAppId).speedRatio(1.0F)
-                .volumeRatio(1.0F).pitchRatio(1.0F).emotion("happy").build();
+                .token(ttsToken)
+                .cluster(ttsCluster)
+                .voiceType(ttsVoiceType)
+                .appId(ttsAppId)
+                .speedRatio(1.0F)
+                .volumeRatio(1.0F)
+                .pitchRatio(1.0F)
+                .emotion("happy")
+                .build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.BYTEDANCE, ttsVendorParams);
     }
@@ -322,8 +358,15 @@ public class Service extends BaseService {
         }
 
         JoinConvoAIReq.TencentTTSVendorParams ttsVendorParams = JoinConvoAIReq.TencentTTSVendorParams.builder()
-                .appId(ttsAppId).secretId(ttsSecretId).secretKey(ttsSecretKey).voiceType(601005).volume(0).speed(0)
-                .emotionCategory("happy").emotionIntensity(100).build();
+                .appId(ttsAppId)
+                .secretId(ttsSecretId)
+                .secretKey(ttsSecretKey)
+                .voiceType(601005)
+                .volume(0)
+                .speed(0)
+                .emotionCategory("happy")
+                .emotionIntensity(100)
+                .build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.TENCENT, ttsVendorParams);
 
@@ -347,9 +390,22 @@ public class Service extends BaseService {
         }
 
         JoinConvoAIReq.MinimaxTTSVendorParams ttsVendorParams = JoinConvoAIReq.MinimaxTTSVendorParams.builder()
-                .groupId(ttsGroupId).key(ttsGroupKey).model(ttsGroupModel)
-                .voiceSetting(JoinConvoAIReq.MinimaxTTSVendorVoiceSettingParam.builder().voiceId("female-shaonv")
-                        .speed(1F).vol(1F).pitch(0).emotion("happy").build())
+                .groupId(ttsGroupId)
+                .key(ttsGroupKey)
+                .model(ttsGroupModel)
+                .voiceSetting(JoinConvoAIReq.MinimaxTTSVendorVoiceSettingParam.builder()
+                        .voiceId("female-shaonv")
+                        .speed(1F)
+                        .vol(1F)
+                        .pitch(0)
+                        .emotion("happy")
+                        .latexRead(true)
+                        .englishNormalization(true)
+                        .build())
+                .audioSetting(JoinConvoAIReq.MinimaxTTSVendorAudioSettingParam.builder()
+                        .sampleRate(24000)
+                        .build())
+                .languageBoost("auto")
                 .build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.MINIMAX, ttsVendorParams);
@@ -374,7 +430,13 @@ public class Service extends BaseService {
         }
 
         JoinConvoAIReq.MicrosoftTTSVendorParams ttsVendorParams = JoinConvoAIReq.MicrosoftTTSVendorParams.builder()
-                .key(ttsKey).region(ttsRegion).voiceName(ttsVoiceName).rate(1.8F).volume(70F).build();
+                .key(ttsKey)
+                .region(ttsRegion)
+                .voiceName(ttsVoiceName)
+                .speed(1.8F)
+                .sampleRate(24000)
+                .volume(70F)
+                .build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.MICROSOFT, ttsVendorParams);
     }
@@ -397,7 +459,11 @@ public class Service extends BaseService {
         }
 
         JoinConvoAIReq.ElevenLabsTTSVendorParams ttsVendorParams = JoinConvoAIReq.ElevenLabsTTSVendorParams.builder()
-                .apiKey(ttsApiKey).modelId(ttsModelId).voiceId(ttsVoiceId).build();
+                .key(ttsApiKey)
+                .modelId(ttsModelId)
+                .voiceId(ttsVoiceId)
+                .sampleRate(24000)
+                .build();
 
         runCustomTTS(JoinConvoAIReq.TTSVendorEnum.ELEVENLABS, ttsVendorParams);
     }

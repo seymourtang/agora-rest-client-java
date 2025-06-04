@@ -1,5 +1,8 @@
 package io.agora.rest.services.convoai.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.agora.rest.core.Context;
 import io.agora.rest.exception.AgoraNeedRetryException;
 import io.agora.rest.services.convoai.res.InterruptConvoAIRes;
@@ -14,7 +17,9 @@ public class InterruptConvoAIAPI extends BaseAPI {
 
     public Mono<InterruptConvoAIRes> handle(String agentId) {
         String path = String.format("%s/agents/%s/interrupt", pathPrefix, agentId);
-        return this.context.sendRequest(path, HttpMethod.POST, null, InterruptConvoAIRes.class)
+        // use empty map as body
+        Map<String, Object> body = new HashMap<>();
+        return this.context.sendRequest(path, HttpMethod.POST, body, InterruptConvoAIRes.class)
                 .retryWhen(customRetry(e -> e instanceof AgoraNeedRetryException));
     }
 }

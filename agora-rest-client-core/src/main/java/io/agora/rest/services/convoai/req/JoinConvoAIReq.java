@@ -1,7 +1,10 @@
 package io.agora.rest.services.convoai.req;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -123,7 +126,10 @@ public class JoinConvoAIReq {
          * <p>
          * Only valid when advanced_features.enable_rtm is true.
          * <p>
+         * 
+         * @deprecated This field is deprecated since v0.6.0, use agent_rtc_uid instead.
          */
+        @Deprecated
         @JsonProperty("agent_rtm_uid")
         private String agentRtmUId;
 
@@ -162,8 +168,15 @@ public class JoinConvoAIReq {
         @JsonProperty("asr")
         private ASRPayload asrPayload;
 
+        /**
+         * Turn detection configuration (optional), see {@link TurnDetectionPayload} for
+         * details
+         */
+        @JsonProperty("turn_detection")
+        private TurnDetectionPayload turnDetectionPayload;
+
         @JsonProperty("parameters")
-        private Map<String, Object> parameters;
+        private Parameters parameters;
 
         public static Builder builder() {
             return new Builder();
@@ -182,6 +195,7 @@ public class JoinConvoAIReq {
             setTts(builder.ttsPayload);
             setVad(builder.vadPayload);
             setAsr(builder.asrPayload);
+            setTurnDetectionPayload(builder.turnDetectionPayload);
             setParameters(builder.parameters);
         }
 
@@ -281,12 +295,20 @@ public class JoinConvoAIReq {
             this.asrPayload = ASRPayload;
         }
 
-        public Map<String, Object> getParameters() {
+        public Parameters getParameters() {
             return parameters;
         }
 
-        public void setParameters(Map<String, Object> parameters) {
+        public void setParameters(Parameters parameters) {
             this.parameters = parameters;
+        }
+
+        public TurnDetectionPayload getTurnDetectionPayload() {
+            return turnDetectionPayload;
+        }
+
+        public void setTurnDetectionPayload(TurnDetectionPayload turnDetectionPayload) {
+            this.turnDetectionPayload = turnDetectionPayload;
         }
 
         public static final class Builder {
@@ -302,7 +324,8 @@ public class JoinConvoAIReq {
             private TTSPayload ttsPayload;
             private VADPayload vadPayload;
             private ASRPayload asrPayload;
-            private Map<String, Object> parameters;
+            private Parameters parameters;
+            private TurnDetectionPayload turnDetectionPayload;
 
             private Builder() {
             }
@@ -337,6 +360,7 @@ public class JoinConvoAIReq {
                 return this;
             }
 
+            @Deprecated
             public Builder agentRtmUId(String val) {
                 agentRtmUId = val;
                 return this;
@@ -367,7 +391,12 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public Builder parameters(Map<String, Object> val) {
+            public Builder turnDetectionPayload(TurnDetectionPayload val) {
+                turnDetectionPayload = val;
+                return this;
+            }
+
+            public Builder parameters(Parameters val) {
                 parameters = val;
                 return this;
             }
@@ -558,6 +587,53 @@ public class JoinConvoAIReq {
         @JsonProperty("failure_message")
         private String failureMessage;
 
+        /**
+         * LLM provider(Optional), supports the following settings:
+         * <p>
+         * - "custom": Custom LLM provider.
+         * <p>
+         * When you set this option, the agent includes the following fields, in
+         * addition
+         * to role and content when making requests to the custom LLM.
+         * <p>
+         * - turn_id: A unique identifier for each conversation turn. It starts from 0
+         * and increments with each turn. One user-agent interaction corresponds to
+         * one turn_id.
+         * <p>
+         * - timestamp: The request timestamp, in milliseconds.
+         * <p>
+         * - "aliyun": Aliyun LLM provider.(Only available in China Mainland service
+         * region)
+         * <p>
+         * - "bytedance": Bytedance LLM provider.(Only available in China Mainland
+         * service region)
+         * <p>
+         * - "deepseek": DeepSeek LLM provider.(Only available in China Mainland service
+         * region)
+         * <p>
+         * - "tencent": Tencent LLM provider.(Only available in China Mainland service
+         * region)
+         * 
+         * @since v0.6.0
+         */
+        @JsonProperty("vendor")
+        private String vendor;
+
+        /**
+         * The request style for chat completion.(Optional)(Only available in global
+         * service region)
+         * <p>
+         * - "openai": OpenAI style.(Default)
+         * <p>
+         * - "gemini": Gemini style.
+         * <p>
+         * - "anthropic": Anthropic style.
+         *
+         * @since v0.6.0
+         */
+        @JsonProperty("style")
+        private String style;
+
         public static Builder builder() {
             return new Builder();
         }
@@ -572,6 +648,8 @@ public class JoinConvoAIReq {
             setInputModalities(builder.inputModalities);
             setOutputModalities(builder.outputModalities);
             setFailureMessage(builder.failureMessage);
+            setVendor(builder.vendor);
+            setStyle(builder.style);
         }
 
         public String getUrl() {
@@ -646,6 +724,22 @@ public class JoinConvoAIReq {
             this.failureMessage = failureMessage;
         }
 
+        public String getVendor() {
+            return this.vendor;
+        }
+
+        public void setVendor(String vendor) {
+            this.vendor = vendor;
+        }
+
+        public String getStyle() {
+            return this.style;
+        }
+
+        public void setStyle(String style) {
+            this.style = style;
+        }
+
         public static final class Builder {
             private String url;
             private String apiKey;
@@ -656,6 +750,8 @@ public class JoinConvoAIReq {
             private List<String> inputModalities;
             private List<String> outputModalities;
             private String failureMessage;
+            private String vendor;
+            private String style;
 
             private Builder() {
             }
@@ -702,6 +798,16 @@ public class JoinConvoAIReq {
 
             public Builder failureMessage(String val) {
                 failureMessage = val;
+                return this;
+            }
+
+            public Builder vendor(String val) {
+                vendor = val;
+                return this;
+            }
+
+            public Builder style(String val) {
+                style = val;
                 return this;
             }
 
@@ -876,6 +982,30 @@ public class JoinConvoAIReq {
         @JsonProperty("voice_setting")
         private MinimaxTTSVendorVoiceSettingParam voiceSetting;
 
+        /**
+         * Pronunciation dictionary
+         * 
+         * @since v0.6.0
+         */
+        @JsonProperty("pronunciation_dict")
+        private PronunciationDictParam pronunciationDict;
+
+        /**
+         * Timber weight
+         * 
+         * @since v0.6.0
+         */
+        @JsonProperty("timber_weights")
+        private List<MinimaxTTSVendorTimberWeightParam> timberWeights;
+
+        /**
+         * Language boost
+         * 
+         * @since v0.6.0
+         */
+        @JsonProperty("language_boost")
+        private String languageBoost;
+
         public static Builder builder() {
             return new Builder();
         }
@@ -886,6 +1016,9 @@ public class JoinConvoAIReq {
             setModel(builder.model);
             setAudioSetting(builder.audioSetting);
             setVoiceSetting(builder.voiceSetting);
+            setPronunciationDict(builder.pronunciationDict);
+            setTimberWeights(builder.timberWeights);
+            setLanguageBoost(builder.languageBoost);
         }
 
         public MinimaxTTSVendorVoiceSettingParam getVoiceSetting() {
@@ -928,6 +1061,30 @@ public class JoinConvoAIReq {
             this.groupId = groupId;
         }
 
+        public List<MinimaxTTSVendorTimberWeightParam> getTimberWeights() {
+            return timberWeights;
+        }
+
+        public void setTimberWeights(List<MinimaxTTSVendorTimberWeightParam> timberWeights) {
+            this.timberWeights = timberWeights;
+        }
+
+        public String getLanguageBoost() {
+            return languageBoost;
+        }
+
+        public void setLanguageBoost(String languageBoost) {
+            this.languageBoost = languageBoost;
+        }
+
+        public PronunciationDictParam getPronunciationDict() {
+            return pronunciationDict;
+        }
+
+        public void setPronunciationDict(PronunciationDictParam pronunciationDict) {
+            this.pronunciationDict = pronunciationDict;
+        }
+
         public static final class Builder {
 
             private String groupId;
@@ -939,6 +1096,12 @@ public class JoinConvoAIReq {
             private MinimaxTTSVendorAudioSettingParam audioSetting;
 
             private MinimaxTTSVendorVoiceSettingParam voiceSetting;
+
+            private List<MinimaxTTSVendorTimberWeightParam> timberWeights;
+
+            private PronunciationDictParam pronunciationDict;
+
+            private String languageBoost;
 
             private Builder() {
 
@@ -966,6 +1129,21 @@ public class JoinConvoAIReq {
 
             public Builder voiceSetting(MinimaxTTSVendorVoiceSettingParam voiceSetting) {
                 this.voiceSetting = voiceSetting;
+                return this;
+            }
+
+            public Builder timberWeights(List<MinimaxTTSVendorTimberWeightParam> timberWeights) {
+                this.timberWeights = timberWeights;
+                return this;
+            }
+
+            public Builder pronunciationDict(PronunciationDictParam pronunciationDict) {
+                this.pronunciationDict = pronunciationDict;
+                return this;
+            }
+
+            public Builder languageBoost(String languageBoost) {
+                this.languageBoost = languageBoost;
                 return this;
             }
 
@@ -1056,6 +1234,22 @@ public class JoinConvoAIReq {
         @JsonProperty("emotion")
         private String emotion;
 
+        /**
+         * Whether to read the latex content
+         * 
+         * @since v0.6.0
+         */
+        @JsonProperty("latex_read")
+        private Boolean latexRead;
+
+        /**
+         * Whether to normalize the english content
+         * 
+         * @since v0.6.0
+         */
+        @JsonProperty("english_normalization")
+        private Boolean englishNormalization;
+
         public static Builder builder() {
             return new Builder();
         }
@@ -1066,6 +1260,8 @@ public class JoinConvoAIReq {
             setVol(builder.vol);
             setPitch(builder.pitch);
             setEmotion(builder.emotion);
+            setLatexRead(builder.latexRead);
+            setEnglishNormalization(builder.englishNormalization);
         }
 
         public String getEmotion() {
@@ -1108,12 +1304,30 @@ public class JoinConvoAIReq {
             this.voiceId = voiceId;
         }
 
+        public Boolean getLatexRead() {
+            return latexRead;
+        }
+
+        public void setLatexRead(Boolean latexRead) {
+            this.latexRead = latexRead;
+        }
+
+        public Boolean getEnglishNormalization() {
+            return englishNormalization;
+        }
+
+        public void setEnglishNormalization(Boolean englishNormalization) {
+            this.englishNormalization = englishNormalization;
+        }
+
         public static final class Builder {
             private String voiceId;
             private Float speed;
             private Float vol;
             private Integer pitch;
             private String emotion;
+            private Boolean latexRead;
+            private Boolean englishNormalization;
 
             private Builder() {
             }
@@ -1143,8 +1357,120 @@ public class JoinConvoAIReq {
                 return this;
             }
 
+            public Builder latexRead(Boolean val) {
+                latexRead = val;
+                return this;
+            }
+
+            public Builder englishNormalization(Boolean val) {
+                englishNormalization = val;
+                return this;
+            }
+
             public MinimaxTTSVendorVoiceSettingParam build() {
                 return new MinimaxTTSVendorVoiceSettingParam(this);
+            }
+        }
+    }
+
+    /**
+     * @brief Define Minimax TTS vendor pronunciation dictionary parameter
+     * @since v0.6.0
+     */
+    public static class PronunciationDictParam {
+
+        @JsonProperty("tones")
+        private List<String> tones;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private PronunciationDictParam(Builder builder) {
+            setTones(builder.tones);
+        }
+
+        public List<String> getTones() {
+            return tones;
+        }
+
+        public void setTones(List<String> tones) {
+            this.tones = tones;
+        }
+
+        public static final class Builder {
+            private List<String> tones;
+
+            private Builder() {
+            }
+
+            public Builder tones(List<String> tones) {
+                this.tones = tones;
+                return this;
+            }
+
+            public PronunciationDictParam build() {
+                return new PronunciationDictParam(this);
+            }
+        }
+    }
+
+    /**
+     * @brief Define Minimax TTS vendor timber weight parameter
+     * @since v0.6.0
+     */
+    public static class MinimaxTTSVendorTimberWeightParam {
+
+        @JsonProperty("voice_id")
+        private String voiceId;
+
+        @JsonProperty("weight")
+        private Float weight;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private MinimaxTTSVendorTimberWeightParam(Builder builder) {
+            setVoiceId(builder.voiceId);
+            setWeight(builder.weight);
+        }
+
+        public String getVoiceId() {
+            return voiceId;
+        }
+
+        public void setVoiceId(String voiceId) {
+            this.voiceId = voiceId;
+        }
+
+        public Float getWeight() {
+            return weight;
+        }
+
+        public void setWeight(Float weight) {
+            this.weight = weight;
+        }
+
+        public static final class Builder {
+            private String voiceId;
+            private Float weight;
+
+            private Builder() {
+            }
+
+            public Builder voiceId(String val) {
+                voiceId = val;
+                return this;
+            }
+
+            public Builder weight(Float val) {
+                weight = val;
+                return this;
+            }
+
+            public MinimaxTTSVendorTimberWeightParam build() {
+                return new MinimaxTTSVendorTimberWeightParam(this);
             }
         }
     }
@@ -1544,6 +1870,10 @@ public class JoinConvoAIReq {
         }
     }
 
+    /**
+     * @brief Define Microsoft TTS vendor parameters, see
+     * @since v0.6.0
+     */
     public static class MicrosoftTTSVendorParams implements TTSVendorParams {
 
         @JsonProperty("key")
@@ -1555,11 +1885,14 @@ public class JoinConvoAIReq {
         @JsonProperty("voice_name")
         private String voiceName;
 
-        @JsonProperty("rate")
-        private Float rate;
+        @JsonProperty("speed")
+        private Float speed;
 
         @JsonProperty("volume")
         private Float volume;
+
+        @JsonProperty("sample_rate")
+        private Integer sampleRate;
 
         public static Builder builder() {
             return new Builder();
@@ -1569,8 +1902,9 @@ public class JoinConvoAIReq {
             setKey(builder.key);
             setRegion(builder.region);
             setVoiceName(builder.voiceName);
-            setRate(builder.rate);
+            setSpeed(builder.speed);
             setVolume(builder.volume);
+            setSampleRate(builder.sampleRate);
         }
 
         public Float getVolume() {
@@ -1581,12 +1915,12 @@ public class JoinConvoAIReq {
             this.volume = volume;
         }
 
-        public Float getRate() {
-            return rate;
+        public Float getSpeed() {
+            return speed;
         }
 
-        public void setRate(Float rate) {
-            this.rate = rate;
+        public void setSpeed(Float speed) {
+            this.speed = speed;
         }
 
         public String getVoiceName() {
@@ -1613,12 +1947,21 @@ public class JoinConvoAIReq {
             this.key = key;
         }
 
+        public Integer getSampleRate() {
+            return sampleRate;
+        }
+
+        public void setSampleRate(Integer sampleRate) {
+            this.sampleRate = sampleRate;
+        }
+
         public static final class Builder {
             private String key;
             private String region;
             private String voiceName;
-            private Float rate;
+            private Float speed;
             private Float volume;
+            private Integer sampleRate;
 
             private Builder() {
             }
@@ -1638,13 +1981,18 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public Builder rate(Float val) {
-                rate = val;
+            public Builder speed(Float val) {
+                speed = val;
                 return this;
             }
 
             public Builder volume(Float val) {
                 volume = val;
+                return this;
+            }
+
+            public Builder sampleRate(Integer val) {
+                sampleRate = val;
                 return this;
             }
 
@@ -1654,10 +2002,14 @@ public class JoinConvoAIReq {
         }
     }
 
+    /**
+     * @brief Define ElevenLabs TTS vendor parameters, see
+     * @since v0.6.0
+     */
     public static class ElevenLabsTTSVendorParams implements TTSVendorParams {
 
-        @JsonProperty("api_key")
-        private String apiKey;
+        @JsonProperty("key")
+        private String key;
 
         @JsonProperty("model_id")
         private String modelId;
@@ -1665,22 +2017,42 @@ public class JoinConvoAIReq {
         @JsonProperty("voice_id")
         private String voiceId;
 
+        @JsonProperty("sample_rate")
+        private Integer sampleRate;
+
+        @JsonProperty("stability")
+        private Float stability;
+
+        @JsonProperty("similarity_boost")
+        private Float similarityBoost;
+
+        @JsonProperty("style")
+        private Float style;
+
+        @JsonProperty("use_speaker_boost")
+        private Boolean useSpeakerBoost;
+
         public static Builder builder() {
             return new Builder();
         }
 
         private ElevenLabsTTSVendorParams(Builder builder) {
-            setApiKey(builder.apiKey);
+            setKey(builder.key);
             setModelId(builder.modelId);
             setVoiceId(builder.voiceId);
+            setSampleRate(builder.sampleRate);
+            setStability(builder.stability);
+            setSimilarityBoost(builder.similarityBoost);
+            setStyle(builder.style);
+            setUseSpeakerBoost(builder.useSpeakerBoost);
         }
 
-        public String getApiKey() {
-            return apiKey;
+        public String getKey() {
+            return key;
         }
 
-        public void setApiKey(String apiKey) {
-            this.apiKey = apiKey;
+        public void setKey(String key) {
+            this.key = key;
         }
 
         public String getModelId() {
@@ -1699,16 +2071,61 @@ public class JoinConvoAIReq {
             this.voiceId = voiceId;
         }
 
+        public Integer getSampleRate() {
+            return sampleRate;
+        }
+
+        public void setSampleRate(Integer sampleRate) {
+            this.sampleRate = sampleRate;
+        }
+
+        public Float getStability() {
+            return stability;
+        }
+
+        public void setStability(Float stability) {
+            this.stability = stability;
+        }
+
+        public Float getSimilarityBoost() {
+            return similarityBoost;
+        }
+
+        public void setSimilarityBoost(Float similarityBoost) {
+            this.similarityBoost = similarityBoost;
+        }
+
+        public Float getStyle() {
+            return style;
+        }
+
+        public void setStyle(Float style) {
+            this.style = style;
+        }
+
+        public Boolean getUseSpeakerBoost() {
+            return useSpeakerBoost;
+        }
+
+        public void setUseSpeakerBoost(Boolean useSpeakerBoost) {
+            this.useSpeakerBoost = useSpeakerBoost;
+        }
+
         public static final class Builder {
-            private String apiKey;
+            private String key;
             private String modelId;
             private String voiceId;
+            private Integer sampleRate;
+            private Float stability;
+            private Float similarityBoost;
+            private Float style;
+            private Boolean useSpeakerBoost;
 
             private Builder() {
             }
 
-            public Builder apiKey(String val) {
-                apiKey = val;
+            public Builder key(String val) {
+                key = val;
                 return this;
             }
 
@@ -1719,6 +2136,31 @@ public class JoinConvoAIReq {
 
             public Builder voiceId(String val) {
                 voiceId = val;
+                return this;
+            }
+
+            public Builder sampleRate(Integer val) {
+                sampleRate = val;
+                return this;
+            }
+
+            public Builder stability(Float val) {
+                stability = val;
+                return this;
+            }
+
+            public Builder similarityBoost(Float val) {
+                similarityBoost = val;
+                return this;
+            }
+
+            public Builder style(Float val) {
+                style = val;
+                return this;
+            }
+
+            public Builder useSpeakerBoost(Boolean val) {
+                useSpeakerBoost = val;
                 return this;
             }
 
@@ -1921,6 +2363,313 @@ public class JoinConvoAIReq {
 
         public JoinConvoAIReq build() {
             return new JoinConvoAIReq(this);
+        }
+    }
+
+    /**
+     * @brief Defines the turn detection configuration for agent
+     * @since v0.6.0
+     */
+    public static class TurnDetectionPayload {
+
+        public String getInterruptMode() {
+            return interruptMode;
+        }
+
+        public void setInterruptMode(String interruptMode) {
+            this.interruptMode = interruptMode;
+        }
+
+        /**
+         * When the agent is interacting (speaking or thinking), the mode of human voice
+         * interrupting the agent's behavior, support the following values:
+         * <p>
+         * - "interrupt"(Default): Interrupt mode, human voice immediately interrupts
+         * the agent's interaction.
+         * <p>
+         * The agent will terminate the current interaction and directly process the
+         * human voice input.
+         * <p>
+         * - "append": Append mode, human voice does not interrupt the agent. (Default)
+         * <p>
+         * The agent will process the human voice request after the current interaction
+         * ends.
+         * <p>
+         * - "ignore": Ignore mode, the agent ignores the human voice request.
+         * <p>
+         * If the agent is speaking or thinking and receives human voice during the
+         * process,
+         * the agent will directly ignore and discard the human voice request, not
+         * storing it in the context.
+         * 
+         * @since v0.6.0
+         */
+        @JsonProperty("interrupt_mode")
+        private String interruptMode;
+
+        public static TurnDetectionPayload.Builder builder() {
+            return new TurnDetectionPayload.Builder();
+        }
+
+        private TurnDetectionPayload(Builder builder) {
+            setInterruptMode(builder.interruptMode);
+        }
+
+        public static final class Builder {
+            private String interruptMode;
+
+            private Builder() {
+            }
+
+            public Builder interruptMode(String val) {
+                interruptMode = val;
+                return this;
+            }
+
+            public TurnDetectionPayload build() {
+                return new TurnDetectionPayload(this);
+            }
+        }
+
+    }
+
+    /**
+     * @brief Defines the parameters for the agent,the same key in the fixedParams
+     *        and extraParams will be merged
+     * @since v0.6.0
+     */
+    public static class Parameters {
+
+        /**
+         * Fixed parameters for the agent
+         */
+        @JsonIgnore
+        private FixedParams fixedParams;
+
+        /**
+         * Extra parameters for the agent
+         */
+        @JsonIgnore
+        private Map<String, Object> extraParams = new HashMap<>();
+
+        public FixedParams getFixedParams() {
+            return fixedParams;
+        }
+
+        public Map<String, Object> getExtraParams() {
+            return extraParams;
+        }
+
+        @JsonAnyGetter
+        public Map<String, Object> getParameters() throws IllegalArgumentException {
+            Map<String, Object> merged = new HashMap<>();
+
+            if (fixedParams != null) {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    Map<String, Object> fixedParamsMap = objectMapper.convertValue(fixedParams, Map.class);
+                    merged.putAll(fixedParamsMap);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Failed to convert fixed params to map", e);
+                }
+            }
+
+            if (extraParams != null) {
+                merged.putAll(extraParams);
+            }
+            return merged;
+        }
+
+        private void setFixedParams(FixedParams fixedParams) {
+            this.fixedParams = fixedParams;
+        }
+
+        private void setExtraParams(Map<String, Object> extraParams) {
+            this.extraParams = extraParams;
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private Parameters(Builder builder) {
+            setFixedParams(builder.fixedParams);
+            setExtraParams(builder.extraParams);
+        }
+
+        public static final class Builder {
+            private FixedParams fixedParams;
+            private Map<String, Object> extraParams;
+
+            private Builder() {
+            }
+
+            public Builder fixedParams(FixedParams val) {
+                fixedParams = val;
+                return this;
+            }
+
+            public Builder extraParams(Map<String, Object> val) {
+                extraParams = val;
+                return this;
+            }
+
+            public Parameters build() {
+                return new Parameters(this);
+            }
+        }
+    }
+
+    /**
+     * @brief Defines the fixed parameters for the agent
+     * @since v0.6.0
+     */
+    public static class FixedParams {
+
+        @JsonProperty("silence_config")
+        private SilenceConfig silenceConfig;
+
+        public SilenceConfig getSilenceConfig() {
+            return silenceConfig;
+        }
+
+        public void setSilenceConfig(SilenceConfig silenceConfig) {
+            this.silenceConfig = silenceConfig;
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private FixedParams(Builder builder) {
+            setSilenceConfig(builder.silenceConfig);
+        }
+
+        public static final class Builder {
+            private SilenceConfig silenceConfig;
+
+            private Builder() {
+            }
+
+            public Builder silenceConfig(SilenceConfig val) {
+                silenceConfig = val;
+                return this;
+            }
+
+            public FixedParams build() {
+                return new FixedParams(this);
+            }
+        }
+    }
+
+    /**
+     * @brief Defines the silence config for the agent
+     * @since v0.6.0
+     */
+    public static class SilenceConfig {
+
+        /**
+         * Agent maximum silence time (ms).(Optional)
+         * <p>
+         * After the agent is created and a user joins the channel,
+         * the duration of the agent's non-listening, thinking, or speaking state is
+         * called the agent's silence time.
+         * <p>
+         * When the silence time reaches the set value, the agent will report the
+         * silence prompt message.
+         * <p>
+         * This feature can be used to let the agent remind users when users are
+         * inactive.
+         * <p>
+         * Set 0: Do not enable this feature.
+         * <p>
+         * Set to (0,60000]: Must also set content to enable normal reporting of
+         * silence prompts, otherwise the setting is invalid.
+         */
+        @JsonProperty("timeout_ms")
+        private Integer timeoutMs;
+
+        /**
+         * When the silence time reaches the set value, the agent will take the
+         * following actions(Optional):
+         * <p>
+         * - "speak": Use TTS module to report the silence message(Default)
+         * <p>
+         * - "think": Append the silence message to the end of the context and
+         * pass it to LLM
+         */
+        @JsonProperty("action")
+        private String action;
+
+        /**
+         * Content of the silence message (Optional)
+         * <p>
+         * The content will be used in different ways according to the settings in
+         * the action.
+         */
+        @JsonProperty("content")
+        private String content;
+
+        public Integer getTimeoutMs() {
+            return timeoutMs;
+        }
+
+        public String getAction() {
+            return action;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setTimeoutMs(Integer timeoutMs) {
+            this.timeoutMs = timeoutMs;
+        }
+
+        public void setAction(String action) {
+            this.action = action;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private SilenceConfig(Builder builder) {
+            setAction(builder.action);
+            setContent(builder.content);
+            setTimeoutMs(builder.timeoutMs);
+        }
+
+        public static final class Builder {
+            private Integer timeoutMs;
+            private String action;
+            private String content;
+
+            private Builder() {
+            }
+
+            public Builder timeoutMs(Integer val) {
+                timeoutMs = val;
+                return this;
+            }
+
+            public Builder action(String val) {
+                action = val;
+                return this;
+            }
+
+            public Builder content(String val) {
+                content = val;
+                return this;
+            }
+
+            public SilenceConfig build() {
+                return new SilenceConfig(this);
+            }
         }
     }
 }

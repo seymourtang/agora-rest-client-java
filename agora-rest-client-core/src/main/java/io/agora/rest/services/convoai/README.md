@@ -48,7 +48,7 @@ For more api details, please refer to the [API Documentation](https://docs.agora
                 credential(credential).
                 // Specify the region where the server is located. Options include CN, EU, AP, US.
                 // The client will automatically switch to use the best domain based on the configured region.
-                domainArea(DomainArea.CN).
+                domainArea(DomainArea.US).
                 // Specify the service region. Options include ChineseMainlandServiceRegion, GlobalServiceRegion.
                 // ChineseMainlandServiceRegion and GlobalServiceRegion are two different services.
                 serverRegion(ConvoAIServiceRegionEnum.GLOBAL).

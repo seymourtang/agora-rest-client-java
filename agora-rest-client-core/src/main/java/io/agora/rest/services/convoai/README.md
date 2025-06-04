@@ -8,26 +8,25 @@ Agora's Conversational AI Engine redefines human-computer interaction, breaking 
 
 ## Environment Setup
 
-- Obtain Agora App ID -------- [Agora Console](https://console.agora.io/v2)
+-   Obtain Agora App ID -------- [Agora Console](https://console.agora.io/v2)
 
-  > - Click Create Application
-  >
-  >   ![](../../../../../../../../../assets/imges/EN/create_app_1.png)
-  >
-  > - Select the type of application you want to create
-  >
-  >   ![](../../../../../../../../../assets/imges/EN/create_app_2.png)
+    > -   Click Create Application
+    >
+    >     ![](../../../../../../../../../assets/imges/EN/create_app_1.png)
+    >
+    > -   Select the type of application you want to create
+    >
+    >     ![](../../../../../../../../../assets/imges/EN/create_app_2.png)
 
-- Obtain App Certificate ----- [Agora Console](https://console.agora.io/v2)
+-   Obtain App Certificate ----- [Agora Console](https://console.agora.io/v2)
 
-  > In the project management page of the Agora Console, find your project and click Configure.
-  > ![](../../../../../../../../../assets/imges/EN/config_app.png)
-  > Click the copy icon under Primary Certificate to obtain the App Certificate for your project.
-  > ![](../../../../../../../../../assets/imges/EN/copy_app_cert.png)
+    > In the project management page of the Agora Console, find your project and click Configure.
+    > ![](../../../../../../../../../assets/imges/EN/config_app.png)
+    > Click the copy icon under Primary Certificate to obtain the App Certificate for your project.
+    > ![](../../../../../../../../../assets/imges/EN/copy_app_cert.png)
 
-- Enable Conversational AI Engine Service ----- [Enable Service](https://docs.agora.io/en/conversational-ai/get-started/manage-agora-account)
-  > ![](../../../../../../../../../assets/imges/EN/open_convo_ai.png)
-
+-   Enable Conversational AI Engine Service ----- [Enable Service](https://docs.agora.io/en/conversational-ai/get-started/manage-agora-account)
+    > ![](../../../../../../../../../assets/imges/EN/open_convo_ai.png)
 
 ## API Definition
 
@@ -52,21 +51,23 @@ For more api details, please refer to the [API Documentation](https://docs.agora
                 domainArea(DomainArea.CN).
                 // Specify the service region. Options include ChineseMainlandServiceRegion, GlobalServiceRegion.
                 // ChineseMainlandServiceRegion and GlobalServiceRegion are two different services.
-                serverRegion(ConvoAIServiceRegionEnum.CHINESE_MAINLAND).
+                serverRegion(ConvoAIServiceRegionEnum.GLOBAL).
                 build();
 
     ConvoAIClient convoAIClient = ConvoAIClient.create(config);
 ```
 
 ### Create Conversational Agent
->
+
 > Create a Conversational AI agent instance and join an RTC channel.
 
 Parameters to set: LLM, TTS, and Agent related parameters.
 
-Call the `join` method to create a conversational agent, using Bytedance TTS as an example:
+Call the `join` method to create a conversational agent, using Microsoft TTS as an example:
 
 ```java
+    public static final String APP_ID = "<your appId>";
+    public static final String CNAME = "<your cname>";
     public static final String AGENT_RTC_UID = "<your agent rtc uid>";
     public static final String AGENT_RTC_TOKEN = "<your agent rtc token>";
 
@@ -74,10 +75,9 @@ Call the `join` method to create a conversational agent, using Bytedance TTS as 
     public static final String LLM_API_KEY = "<your llm api key>";
     public static final String LLM_MODEL = "<your llm model>";
 
-    public static final String TTS_BYTEDANCE_TOKEN = "<your bytedance tts token>";
-    public static final String TTS_BYTEDANCE_APP_ID = "<your bytedance tts app id>";
-    public static final String TTS_BYTEDANCE_CLUSTER = "<your bytedance tts cluster>";
-    public static final String TTS_BYTEDANCE_VOICE_TYPE = "<your bytedance tts voice type>";
+    public static final String TTS_MICROSOFT_TOKEN = "<your microsoft tts token>";
+    public static final String TTS_MICROSOFT_REGION = "<your microsoft tts region>";
+    public static final String TTS_MICROSOFT_VOICE_NAME = "<your microsoft tts voice name>";
 
 	// Start agent
     String name = APP_ID + ":" + CNAME;
@@ -124,17 +124,15 @@ Call the `join` method to create a conversational agent, using Bytedance TTS as 
                                     .greetingMessage("Hello,how can I help you?")
                                     .build())
                             .ttsPayload(JoinConvoAIReq.TTSPayload.builder()
-                                    .vendor(JoinConvoAIReq.TTSVendorEnum.BYTEDANCE)
-                                    .params(JoinConvoAIReq.BytedanceTTSVendorParams.builder().
-                                            token(TTS_BYTEDANCE_TOKEN).
-                                            cluster(TTS_BYTEDANCE_CLUSTER).
-                                            voiceType(TTS_BYTEDANCE_VOICE_TYPE).
-                                            appId(TTS_BYTEDANCE_APP_ID).
-                                            speedRatio(1.0F).
-                                            volumeRatio(1.0F).
-                                            pitchRatio(1.0F).
-                                            emotion("happy").
-                                            build())
+                                    .vendor(JoinConvoAIReq.TTSVendorEnum.MICROSOFT)
+                                    .params(JoinConvoAIReq.MicrosoftTTSVendorParams.builder()
+                                            .key(TTS_MICROSOFT_TOKEN)
+                                            .region(TTS_MICROSOFT_REGION)
+                                            .voiceName(TTS_MICROSOFT_VOICE_NAME)
+                                            .speed(1.0F)
+                                            .volume(70F)
+                                            .sampleRate(24000)
+                                            .build())
                                     .build())
                             .vadPayload(JoinConvoAIReq.VADPayload.builder()
                                     .interruptDurationMs(160)
@@ -169,7 +167,8 @@ Call the `join` method to create a conversational agent, using Bytedance TTS as 
 > Stop the conversational agent and leave the RTC channel.
 
 Parameters to set:
-- AgentId returned by the `join` interface
+
+-   AgentId returned by the `join` interface
 
 ```java
  // Stop the agent
@@ -188,8 +187,9 @@ Parameters to set:
 > Currently, only the Token information of a running conversational agent can be updated.
 
 Parameters to set:
-- AgentId returned by the `join` interface
-- Token to be updated
+
+-   AgentId returned by the `join` interface
+-   Token to be updated
 
 ```java
     // Update agent
@@ -214,7 +214,8 @@ Parameters to set:
 > Query the status of the conversational agent.
 
 Parameters to set:
-- AgentId returned by the `join` interface
+
+-   AgentId returned by the `join` interface
 
 ```java
     // Query agent
@@ -237,13 +238,13 @@ Parameters to set:
     logger.info("Query the agent successfully, queryConvoAIRes:{}", queryConvoAIRes);
 ```
 
-
 ## Retrieves a list of agents
 
 > Retrieves a list of agents that meet the specified criteria.
 
 Parameters to set:
-- AgentId returned by the `join` interface
+
+-   AgentId returned by the `join` interface
 
 ```java
      // List agent
@@ -270,4 +271,5 @@ Parameters to set:
 ```
 
 ## Error Codes and Response Status Codes Handling
+
 For specific business response codes, please refer to the [Business Response Codes](https://docs.agora.io/en/conversational-ai/rest-api/reference) documentation.

@@ -6,7 +6,7 @@
     <groupId>io.agora</groupId>
 
     <artifactId>agora-rest-client-core</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
     <description>Agora REST Client for Java</description>
     <name>Agora REST Client</name>
     <url>https://github.com/AgoraIO-Community/agora-rest-client-java</url>

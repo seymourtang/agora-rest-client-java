@@ -849,6 +849,30 @@ public class JoinConvoAIReq {
         @JsonProperty("params")
         private TTSVendorParams params;
 
+        /**
+         * Controls whether the TTS module skips bracketed content when reading LLM
+         * response text.
+         * <p>
+         * This prevents the agent from vocalizing structural prompt information like
+         * tone indicators,
+         * action descriptions, and system prompts, creating a more natural and
+         * immersive listening experience.
+         * <p>
+         * Enable this feature by specifying one or more values:
+         * <p>
+         * 1: Skip content in Chinese parentheses （ ）
+         * <p>
+         * 2: Skip content in Chinese square brackets 【】
+         * <p>
+         * 3: Skip content in parentheses ()
+         * <p>
+         * 4: Skip content in square brackets [ ]
+         * <p>
+         * 5: Skip content in curly braces { }
+         */
+        @JsonProperty("skipPatterns")
+        private List<Integer> skipPatterns;
+
         public static Builder builder() {
             return new Builder();
         }
@@ -856,6 +880,7 @@ public class JoinConvoAIReq {
         private TTSPayload(Builder builder) {
             setVendor(builder.vendor);
             setParams(builder.params);
+            setSkipPatterns(builder.skipPatterns);
         }
 
         public TTSVendorParams getParams() {
@@ -874,9 +899,18 @@ public class JoinConvoAIReq {
             this.vendor = vendor;
         }
 
+        public List<Integer> getSkipPatterns() {
+            return skipPatterns;
+        }
+
+        public void setSkipPatterns(List<Integer> skipPatterns) {
+            this.skipPatterns = skipPatterns;
+        }
+
         public static final class Builder {
             private TTSVendorEnum vendor;
             private TTSVendorParams params;
+            private List<Integer> skipPatterns;
 
             private Builder() {
             }
@@ -888,6 +922,11 @@ public class JoinConvoAIReq {
 
             public Builder params(TTSVendorParams val) {
                 params = val;
+                return this;
+            }
+
+            public Builder skipPatterns(List<Integer> val) {
+                skipPatterns = val;
                 return this;
             }
 

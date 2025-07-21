@@ -870,7 +870,7 @@ public class JoinConvoAIReq {
          * <p>
          * 5: Skip content in curly braces { }
          */
-        @JsonProperty("skipPatterns")
+        @JsonProperty("skip_patterns")
         private List<Integer> skipPatterns;
 
         public static Builder builder() {

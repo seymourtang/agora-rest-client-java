@@ -1436,6 +1436,8 @@ public class StartResourceReq {
          * - 7: Huawei Cloud
          * <p>
          * - 8: Baidu IntelligentCloud
+         * <p>
+         * - 11: Self-built cloud storage
          */
         @JsonProperty("vendor")
         private Integer vendor;
@@ -1711,6 +1713,14 @@ public class StartResourceReq {
         @JsonProperty("tag")
         private String tag;
 
+        /**
+         * Domain name of self-built cloud storage.(Optional)
+         * <p>
+         * This field is required when vendor is set to 11.
+         */
+        @JsonProperty("endpoint")
+        private String endpoint;
+
         public static Builder builder() {
             return new Builder();
         }
@@ -1718,6 +1728,7 @@ public class StartResourceReq {
         private ExtensionParams(Builder builder) {
             setSse(builder.sse);
             setTag(builder.tag);
+            setEndpoint(builder.endpoint);
         }
 
         public String getSse() {
@@ -1736,11 +1747,20 @@ public class StartResourceReq {
             this.tag = tag;
         }
 
+        public String getEndpoint() {
+            return endpoint;
+        }
+
+        public void setEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
         @Override
         public String toString() {
             return "ExtensionParams{" +
                     "sse='" + sse + '\'' +
                     ", tag='" + tag + '\'' +
+                    ", endpoint='" + endpoint + '\'' +
                     '}';
         }
 
@@ -1749,6 +1769,8 @@ public class StartResourceReq {
             private String sse;
 
             private String tag;
+
+            private String endpoint;
 
             private Builder() {
             }
@@ -1760,6 +1782,11 @@ public class StartResourceReq {
 
             public Builder tag(String val) {
                 tag = val;
+                return this;
+            }
+
+            public Builder endpoint(String val) {
+                endpoint = val;
                 return this;
             }
 

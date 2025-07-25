@@ -148,6 +148,15 @@ public class JoinConvoAIReq {
         private LLMPayload llmPayload;
 
         /**
+         * Multimodal Large Language Model (MLLM) configuration for real-time audio and
+         * text processing(optional), see {@link MLLMPayload} for details
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("mllm")
+        private MLLMPayload mllmPayload;
+
+        /**
          * Text-to-Speech (TTS) module configuration (optional), see {@link TTSPayload}
          * for details
          */
@@ -157,7 +166,10 @@ public class JoinConvoAIReq {
         /**
          * Voice Activity Detection (VAD) configuration (optional), see
          * {@link VADPayload} for details
+         * 
+         * @deprecated This field is deprecated since v0.7.0, use {@link TurnDetectionPayload} instead.
          */
+        @Deprecated
         @JsonProperty("vad")
         private VADPayload vadPayload;
 
@@ -175,6 +187,11 @@ public class JoinConvoAIReq {
         @JsonProperty("turn_detection")
         private TurnDetectionPayload turnDetectionPayload;
 
+        /**
+         * Additional parameters configuration for the agent to join RTC channel(optional), see {@link Parameters} for details
+         * 
+         * @since v0.6.0
+         */
         @JsonProperty("parameters")
         private Parameters parameters;
 
@@ -197,6 +214,7 @@ public class JoinConvoAIReq {
             setAsr(builder.asrPayload);
             setTurnDetectionPayload(builder.turnDetectionPayload);
             setParameters(builder.parameters);
+            setMllm(builder.mllmPayload);
         }
 
         public String getToken() {
@@ -311,6 +329,14 @@ public class JoinConvoAIReq {
             this.turnDetectionPayload = turnDetectionPayload;
         }
 
+        public MLLMPayload getMllm() {
+            return mllmPayload;
+        }
+
+        public void setMllm(MLLMPayload mllmPayload) {
+            this.mllmPayload = mllmPayload;
+        }
+
         public static final class Builder {
             private String token;
             private String channel;
@@ -326,6 +352,7 @@ public class JoinConvoAIReq {
             private ASRPayload asrPayload;
             private Parameters parameters;
             private TurnDetectionPayload turnDetectionPayload;
+            private MLLMPayload mllmPayload;
 
             private Builder() {
             }
@@ -401,6 +428,11 @@ public class JoinConvoAIReq {
                 return this;
             }
 
+            public Builder mllmPayload(MLLMPayload val) {
+                mllmPayload = val;
+                return this;
+            }
+
             public Properties build() {
                 return new Properties(this);
             }
@@ -439,6 +471,21 @@ public class JoinConvoAIReq {
          */
         @JsonProperty("enable_rtm")
         private Boolean enableRtm;
+
+        /**
+         * Enable Multimodal Large Language Model.
+         * <p>
+         * - true: Enable
+         * <p>
+         * - false: Disable (default)
+         * <p>
+         * Enabling MLLM automatically disables ASR, LLM, and TTS. When you set this
+         * parameter to true, enable_aivad is also disabled.
+         * <p>
+         * @since v0.7.0
+         */
+        @JsonProperty("enable_mllm")
+        private Boolean enableMLLM;
 
         public static Builder builder() {
             return new Builder();
@@ -488,6 +535,262 @@ public class JoinConvoAIReq {
         }
     }
 
+
+    /**
+     * @brief Multi-modal language model (MLLM) configuration
+     * @since v0.7.0
+     */
+    public static class MLLMPayload {
+        /**
+         * The WebSocket URL for OpenAI Realtime API(Required)
+         */
+        @JsonProperty("url")
+        private String url;
+
+        /**
+         * The API key used for authentication.(Required)
+         * <p>
+         * Get your API key from the OpenAI Console.
+         */
+        @JsonProperty("api_key")
+        private String apiKey;
+
+        /**
+         * Array of conversation items used for short-term memory management.(Optional)
+         * <p>
+         * Uses the same structure as item.content from the OpenAI Realtime API(https://platform.openai.com/docs/api-reference/realtime-client-events/conversation/item/create).
+         */
+        @JsonProperty("messages")
+        private List<Map<String, Object>> messages;
+
+        /**
+         * Additional MLLM configuration parameters.(Optional)
+         * <p>
+         * - Modalities override: The modalities setting in params is overridden by `input_modalities` and `output_modalities`.
+         * 
+         * - Turn detection override: The turn_detection setting in params is overridden by the `turn_detection` section outside of `mllm`.
+         */
+        @JsonProperty("params")
+        private Map<String, Object> params;
+
+        /**
+         * The number of conversation history messages to maintain.
+         * <p>
+         * Cannot exceed the model's context window.
+         * <p>
+         * Default value is 32.
+         */
+        @JsonProperty("max_history")
+        private Integer maxHistory;
+
+        /**
+         * Input modalities for the MLLM (optional)
+         * <p>
+         * - ["audio"]: Audio only (default)
+         * <p>
+         * - ["audio", "text"]: Audio and text.
+         */
+        @JsonProperty("input_modalities")
+        private List<String> inputModalities;
+
+        /**
+         * Output format options:
+         * <p>
+         * - ["text", "audio"] for both text and voice responses.
+         */
+        @JsonProperty("output_modalities")
+        private List<String> outputModalities;
+
+        /**
+         * Initial message the agent speaks when a user joins the channel.
+         */
+        @JsonProperty("greeting_message")
+        private String greetingMessage;
+
+        /**
+         * MLLM provider identifier.
+         * <p>
+         * Set to `openai` for OpenAI Realtime API.
+         */
+        @JsonProperty("vendor")
+        private String vendor;
+
+        /**
+         * API request style.
+         * <p>
+         * Set to `openai` for OpenAI Realtime API format.
+         */
+        @JsonProperty("style")
+        private String style;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private MLLMPayload(Builder builder) {
+            setUrl(builder.url);
+            setApiKey(builder.apiKey);
+            setMessages(builder.messages);
+            setParams(builder.params);
+            setMaxHistory(builder.maxHistory);
+            setInputModalities(builder.inputModalities);
+            setOutputModalities(builder.outputModalities);
+            setGreetingMessage(builder.greetingMessage);
+            setVendor(builder.vendor);
+            setStyle(builder.style);
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        public List<Map<String, Object>> getMessages() {
+            return messages;
+        }
+
+        public void setMessages(List<Map<String, Object>> messages) {
+            this.messages = messages;
+        }
+
+        public Map<String, Object> getParams() {
+            return params;
+        }
+
+        public void setParams(Map<String, Object> params) {
+            this.params = params;
+        }
+
+        public Integer getMaxHistory() {
+            return maxHistory;
+        }
+
+        public void setMaxHistory(Integer maxHistory) {
+            this.maxHistory = maxHistory;
+        }
+
+        public List<String> getInputModalities() {
+            return inputModalities;
+        }
+
+        public void setInputModalities(List<String> inputModalities) {
+            this.inputModalities = inputModalities;
+        }
+
+        public List<String> getOutputModalities() {
+            return outputModalities;
+        }
+
+        public void setOutputModalities(List<String> outputModalities) {
+            this.outputModalities = outputModalities;
+        }
+
+        public String getGreetingMessage() {
+            return greetingMessage;
+        }
+
+        public void setGreetingMessage(String greetingMessage) {
+            this.greetingMessage = greetingMessage;
+        }
+
+        public String getVendor() {
+            return vendor;
+        }
+
+        public void setVendor(String vendor) {
+            this.vendor = vendor;
+        }
+
+        public String getStyle() {
+            return style;
+        }
+
+        public void setStyle(String style) {
+            this.style = style;
+        }
+
+        public static final class Builder {
+            private String url;
+            private String apiKey;
+            private List<Map<String, Object>> messages;
+            private Map<String, Object> params;
+            private Integer maxHistory;
+            private List<String> inputModalities;
+            private List<String> outputModalities;
+            private String greetingMessage;
+            private String vendor;
+            private String style;
+
+            private Builder() {
+            }
+
+            public Builder url(String val) {
+                url = val;
+                return this;
+            }
+
+            public Builder apiKey(String val) {
+                apiKey = val;
+                return this;
+            }
+
+            public Builder messages(List<Map<String, Object>> val) {
+                messages = val;
+                return this;
+            }
+
+            public Builder params(Map<String, Object> val) {
+                params = val;
+                return this;
+            }
+
+            public Builder maxHistory(Integer val) {
+                maxHistory = val;
+                return this;
+            }
+
+            public Builder inputModalities(List<String> val) {
+                inputModalities = val;
+                return this;
+            }
+
+            public Builder outputModalities(List<String> val) {
+                outputModalities = val;
+                return this;
+            }
+
+            public Builder greetingMessage(String val) {
+                greetingMessage = val;
+                return this;
+            }
+
+            public Builder vendor(String val) {
+                vendor = val;
+                return this;
+            }
+
+            public Builder style(String val) {
+                style = val;
+                return this;
+            }
+
+            public MLLMPayload build() {
+                return new MLLMPayload(this);
+            }
+        }
+    }
+
     /**
      * @brief Defines the custom language model (LLM) configuration for the agent to
      *        join the RTC channel
@@ -529,12 +832,12 @@ public class JoinConvoAIReq {
          * respective LLM documentation for details.
          */
         @JsonProperty("params")
-        private HashMap<String, Object> params;
+        private Map<String, Object> params;
 
         /**
          * Number of short-term memory entries cached in LLM (optional)
          * <p>
-         * Default value is 10
+         * Default value is 32
          * <p>
          * Passing 0 means no short-term memory is cached. agent and subscribed users
          * will record entries separately.
@@ -676,11 +979,11 @@ public class JoinConvoAIReq {
             this.systemMessages = systemMessages;
         }
 
-        public HashMap<String, Object> getParams() {
+        public Map<String, Object> getParams() {
             return params;
         }
 
-        public void setParams(HashMap<String, Object> params) {
+        public void setParams(Map<String, Object> params) {
             this.params = params;
         }
 
@@ -744,7 +1047,7 @@ public class JoinConvoAIReq {
             private String url;
             private String apiKey;
             private List<Map<String, Object>> systemMessages;
-            private HashMap<String, Object> params;
+            private Map<String, Object> params;
             private Integer maxHistory;
             private String greetingMessage;
             private List<String> inputModalities;
@@ -771,7 +1074,7 @@ public class JoinConvoAIReq {
                 return this;
             }
 
-            public Builder params(HashMap<String, Object> val) {
+            public Builder params(Map<String, Object> val) {
                 params = val;
                 return this;
             }
@@ -818,6 +1121,7 @@ public class JoinConvoAIReq {
     }
 
     public interface TTSVendorParams {
+        TTSVendorEnum getVendor();
     }
 
     /**
@@ -942,20 +1246,55 @@ public class JoinConvoAIReq {
      */
     public enum TTSVendorEnum {
 
-        // Minimax TTS vendor
+        /**
+         * Minimax TTS vendor
+         * 
+         * @since v0.3.0
+         */
         MINIMAX("minimax"),
 
-        // Tencent TTS vendor
+        /**
+         * Tencent TTS vendor
+         * 
+         * @since v0.3.0
+         */
         TENCENT("tencent"),
 
-        // Bytedance TTS vendor
+        /**
+         * Bytedance TTS vendor
+         * 
+         * @since v0.3.0
+         */
         BYTEDANCE("bytedance"),
 
-        // Microsoft TTS vendor
+        /**
+         * Microsoft TTS vendor
+         * 
+         * @since v0.3.0
+         */
         MICROSOFT("microsoft"),
 
-        // Elevenlabs TTS vendor
-        ELEVENLABS("elevenLabs");
+        /**
+         * Elevenlabs TTS vendor
+         * 
+         * @since v0.3.0
+         */
+        ELEVENLABS("elevenLabs"),
+
+        /**
+         * Cartesia TTS vendor
+         * 
+         * @since v0.7.0
+         */
+        CARTERSIA("cartesia"),
+
+        /**
+         * OpenAI TTS vendor
+         * 
+         * @since v0.7.0
+         *
+        */
+        OPENAI("openai");
 
         private final String vendor;
 
@@ -1189,6 +1528,11 @@ public class JoinConvoAIReq {
             public MinimaxTTSVendorParams build() {
                 return new MinimaxTTSVendorParams(this);
             }
+        }
+
+        @Override
+        public TTSVendorEnum getVendor() {
+            return TTSVendorEnum.MINIMAX;
         }
     }
 
@@ -1714,6 +2058,11 @@ public class JoinConvoAIReq {
                 return new TencentTTSVendorParams(this);
             }
         }
+
+        @Override
+        public TTSVendorEnum getVendor() {
+            return TTSVendorEnum.TENCENT;
+        }
     }
 
     /**
@@ -1907,6 +2256,11 @@ public class JoinConvoAIReq {
                 return new BytedanceTTSVendorParams(this);
             }
         }
+
+        @Override
+        public TTSVendorEnum getVendor() {
+            return TTSVendorEnum.BYTEDANCE;
+        }
     }
 
     /**
@@ -2038,6 +2392,11 @@ public class JoinConvoAIReq {
             public MicrosoftTTSVendorParams build() {
                 return new MicrosoftTTSVendorParams(this);
             }
+        }
+
+        @Override
+        public TTSVendorEnum getVendor() {
+            return TTSVendorEnum.MICROSOFT;
         }
     }
 
@@ -2207,12 +2566,284 @@ public class JoinConvoAIReq {
                 return new ElevenLabsTTSVendorParams(this);
             }
         }
+
+        @Override
+        public TTSVendorEnum getVendor() {
+            return TTSVendorEnum.ELEVENLABS;
+        }
+    }
+
+
+    /**
+     * @brief Define Cartesia TTS module parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class CartesiaTTSVendorParams implements TTSVendorParams {
+        @JsonProperty("api_key")
+        private String apiKey;
+
+        @JsonProperty("model_id")
+        private String modelId;
+
+        @JsonProperty("voice")
+        private TTSCartesiaVendorVoice voice;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        public String getModelId() {
+            return modelId;
+        }
+
+        public void setModelId(String modelId) {
+            this.modelId = modelId;
+        }
+
+        public TTSCartesiaVendorVoice getVoice() {
+            return voice;
+        }
+
+        public void setVoice(TTSCartesiaVendorVoice voice) {
+            this.voice = voice;
+        }
+
+        private CartesiaTTSVendorParams(Builder builder) {
+            setApiKey(builder.apiKey);
+            setModelId(builder.modelId);
+            setVoice(builder.voice);
+        }
+
+        public static final class Builder {
+            private String apiKey;
+            private String modelId;
+            private TTSCartesiaVendorVoice voice;
+
+            private Builder() {
+            }
+
+            public Builder apiKey(String val) {
+                apiKey = val;
+                return this;
+            }
+
+            public Builder modelId(String val) {
+                modelId = val;
+                return this;
+            }
+
+            public Builder voice(TTSCartesiaVendorVoice val) {
+                voice = val;
+                return this;
+            }
+
+            public CartesiaTTSVendorParams build() {
+                return new CartesiaTTSVendorParams(this);
+            }
+        }
+
+        @Override
+        public TTSVendorEnum getVendor() {
+            return TTSVendorEnum.CARTERSIA;
+        }
     }
 
     /**
+     * @brief Define Cartesia TTS Voice parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class TTSCartesiaVendorVoice {
+        @JsonProperty("mode")
+        private String mode;
+
+        @JsonProperty("id")
+        private String id;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public String getMode() {
+            return mode;
+        }
+
+        public void setMode(String mode) {
+            this.mode = mode;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        private TTSCartesiaVendorVoice(Builder builder) {
+            setMode(builder.mode);
+            setId(builder.id);
+        }
+
+        public static final class Builder {
+            private String mode;
+            private String id;
+
+            private Builder() {
+            }
+
+            public Builder mode(String val) {
+                mode = val;
+                return this;
+            }
+
+            public Builder id(String val) {
+                id = val;
+                return this;
+            }
+
+            public TTSCartesiaVendorVoice build() {
+                return new TTSCartesiaVendorVoice(this);
+            }
+        }
+    }
+
+    /**
+     * @brief Define OpenAI TTS Voice parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class TTSOpenAIVendorParams implements TTSVendorParams {
+        @JsonProperty("api_key")
+        private String apiKey;
+
+        @JsonProperty("model")
+        private String model;
+
+        @JsonProperty("voice")
+        private String voice;
+
+        @JsonProperty("instructions")
+        private String instructions;
+
+        @JsonProperty("speed")
+        private Float speed;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private TTSOpenAIVendorParams(Builder builder) {
+            setApiKey(builder.apiKey);
+            setModel(builder.model);
+            setVoice(builder.voice);
+            setInstructions(builder.instructions);
+            setSpeed(builder.speed);
+        }
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public void setModel(String model) {
+            this.model = model;
+        }
+
+        public String getVoice() {
+            return voice;
+        }
+
+        public void setVoice(String voice) {
+            this.voice = voice;
+        }
+
+        public String getInstructions() {
+            return instructions;
+        }
+
+        public void setInstructions(String instructions) {
+            this.instructions = instructions;
+        }
+
+        public Float getSpeed() {
+            return speed;
+        }
+
+        public void setSpeed(Float speed) {
+            this.speed = speed;
+        }
+
+        public static final class Builder {
+            private String apiKey;
+            private String model;
+            private String voice;
+            private String instructions;
+            private Float speed;
+
+            private Builder() {
+            }
+
+            public Builder apiKey(String val) {
+                apiKey = val;
+                return this;
+            }
+
+            public Builder model(String val) {
+                model = val;
+                return this;
+            }
+
+            public Builder voice(String val) {
+                voice = val;
+                return this;
+            }
+
+            public Builder instructions(String val) {
+                instructions = val;
+                return this;
+            }
+
+            public Builder speed(Float val) {
+                speed = val;
+                return this;
+            }
+
+            public TTSOpenAIVendorParams build() {
+                return new TTSOpenAIVendorParams(this);
+            }
+        }
+
+        @Override
+        public TTSVendorEnum getVendor() {
+            return TTSVendorEnum.OPENAI;
+        }
+    }
+    
+    /**
      * @brief Defines the Voice Activity Detection (VAD) configuration for the agent
      *        to join the RTC channel
+     * 
      * @since v0.3.0
+     * 
+     * @deprecated This field is deprecated since v0.7.0. Please use
+     *             {@link TurnDetectionPayload} instead.
      */
     public static class VADPayload {
 
@@ -2333,6 +2964,472 @@ public class JoinConvoAIReq {
         }
     }
 
+    public interface ASRVendorParams {
+        ASRVendorEnum getVendor();
+    }
+
+    /**
+     * @brief Define Microsoft ASR module parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class MicrosoftASRVendorParams implements ASRVendorParams {
+
+        @JsonProperty("key")
+        private String key;
+
+        @JsonProperty("region")
+        private String region;
+
+        @JsonProperty("language")
+        private String language;
+
+        @JsonProperty("phrase_list")
+        private List<String> phraseList;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private MicrosoftASRVendorParams(Builder builder) {
+            setKey(builder.key);
+            setRegion(builder.region);
+            setLanguage(builder.language);
+            setPhraseList(builder.phraseList);
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getRegion() {
+            return region;
+        }
+
+        public void setRegion(String region) {
+            this.region = region;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public void setLanguage(String language) {
+            this.language = language;
+        }
+
+        public List<String> getPhraseList() {
+            return phraseList;
+        }
+
+        public void setPhraseList(List<String> phraseList) {
+            this.phraseList = phraseList;
+        }
+
+        public static final class Builder {
+            private String key;
+            private String region;
+            private String language;
+            private List<String> phraseList;
+
+            private Builder() {
+            }
+
+            public Builder key(String val) {
+                key = val;
+                return this;
+            }
+
+            public Builder region(String val) {
+                region = val;
+                return this;
+            }
+
+            public Builder language(String val) {
+                language = val;
+                return this;
+            }
+
+            public Builder phraseList(List<String> val) {
+                phraseList = val;
+                return this;
+            }
+
+            public MicrosoftASRVendorParams build() {
+                return new MicrosoftASRVendorParams(this);
+            }
+        }
+
+        @Override
+        public ASRVendorEnum getVendor() {
+            return ASRVendorEnum.MICROSOFT;
+        }
+    }
+
+    /**
+     * @brief Define Tencent ASR module parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class TencentASRVendorParams implements ASRVendorParams {
+
+        @JsonProperty("key")
+        private String key;
+
+        @JsonProperty("app_id")
+        private String appId;
+
+        @JsonProperty("secret")
+        private String secret;
+
+        @JsonProperty("engine_model_type")
+        private String engineModelType;
+
+        @JsonProperty("voice_id")
+        private String voiceId;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        private TencentASRVendorParams(Builder builder) {
+            setKey(builder.key);
+            setAppId(builder.appId);
+            setSecret(builder.secret);
+            setEngineModelType(builder.engineModelType);
+            setVoiceId(builder.voiceId);
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getAppId() {
+            return appId;
+        }
+
+        public void setAppId(String appId) {
+            this.appId = appId;
+        }
+
+        public String getSecret() {
+            return secret;
+        }
+
+        public void setSecret(String secret) {
+            this.secret = secret;
+        }
+
+        public String getEngineModelType() {
+            return engineModelType;
+        }
+
+        public void setEngineModelType(String engineModelType) {
+            this.engineModelType = engineModelType;
+        }
+
+        public String getVoiceId() {
+            return voiceId;
+        }
+
+        public void setVoiceId(String voiceId) {
+            this.voiceId = voiceId;
+        }
+
+        public static final class Builder {
+            private String key;
+            private String appId;
+            private String secret;
+            private String engineModelType;
+            private String voiceId;
+
+            private Builder() {
+            }
+
+            public Builder key(String val) {
+                key = val;
+                return this;
+            }
+
+            public Builder appId(String val) {
+                appId = val;
+                return this;
+            }
+
+            public Builder secret(String val) {
+                secret = val;
+                return this;
+            }
+
+            public Builder engineModelType(String val) {
+                engineModelType = val;
+                return this;
+            }
+
+            public Builder voiceId(String val) {
+                voiceId = val;
+                return this;
+            }
+
+            public TencentASRVendorParams build() {
+                return new TencentASRVendorParams(this);
+            }
+        }
+
+        @Override
+        public ASRVendorEnum getVendor() {
+            return ASRVendorEnum.TENCENT;
+        }
+    }
+
+
+    /**
+     * @brief Define Deepgram ASR module parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class DeepgramASRVendorParams implements ASRVendorParams {
+
+        @JsonProperty("url")
+        private String url;
+
+        @JsonProperty("key")
+        private String key;
+
+        @JsonProperty("model")
+        private String model;
+
+        @JsonProperty("language")
+        private String language;
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public String getUrl() {
+            return url;
+        }
+        
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getKey() {
+            return key;
+        }
+        
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public void setModel(String model) {
+            this.model = model;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public void setLanguage(String language) {
+            this.language = language;
+        }   
+
+        private DeepgramASRVendorParams(Builder builder) {
+            setUrl(builder.url);
+            setKey(builder.key);
+            setModel(builder.model);
+            setLanguage(builder.language);
+        }
+
+        public static final class Builder {
+            private String url;
+            private String key;
+            private String model;
+            private String language;
+
+            private Builder() {
+            }
+
+            public Builder url(String val) {
+                url = val;
+                return this;
+            }
+
+            public Builder key(String val) {
+                key = val;
+                return this;
+            }
+
+            public Builder model(String val) {
+                model = val;
+                return this;
+            }
+
+            public Builder language(String val) {
+                language = val;
+                return this;
+            }
+
+            public DeepgramASRVendorParams build() {
+                return new DeepgramASRVendorParams(this);
+            }
+        }
+
+        @Override
+        public ASRVendorEnum getVendor() {
+            return ASRVendorEnum.DEEPGRAM;
+        }
+    }
+
+
+    /**
+     * @brief Define Fengming ASR module parameters
+     * 
+     * @note Fengming ASR does not contain any parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class FengmingASRVendorParams implements ASRVendorParams {
+
+        private FengmingASRVendorParams() {
+        }
+
+        private FengmingASRVendorParams(Builder builder) {
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static final class Builder {
+            private Builder() {
+            }
+
+            public FengmingASRVendorParams build() {
+                return new FengmingASRVendorParams(this);
+            }
+        }
+
+        @Override
+        public ASRVendorEnum getVendor() {
+            return ASRVendorEnum.FENGMING;
+        }
+    }
+
+    /**
+     * @brief Define ARES ASR module parameters
+     * 
+     * @note ARES ASR does not contain any parameters
+     * 
+     * @since v0.7.0
+     */
+    public static class ARESASRVendorParams implements ASRVendorParams {
+
+        private ARESASRVendorParams() {
+        }
+
+        private ARESASRVendorParams(Builder builder) {
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static final class Builder {
+            private Builder() {
+            }
+
+            public ARESASRVendorParams build() {
+                return new ARESASRVendorParams(this);
+            }
+        }
+
+        @Override
+        public ASRVendorEnum getVendor() {
+            return ASRVendorEnum.ARES;
+        }
+    }
+
+    /**
+     * @brief Defines ASR module vendor enumeration for agent to join RTC channel
+     * @since v0.7.0
+     */
+    public enum ASRVendorEnum {
+
+        /**
+         * Fengming ASR vendor
+         * 
+         * @since v0.7.0
+         */
+        FENGMING("fengming"),
+
+        /**
+         * Tencent ASR vendor
+         * 
+         * @since v0.7.0
+         */
+        TENCENT("tencent"),
+
+        /**
+         * Microsoft ASR vendor
+         * 
+         * @since v0.7.0
+         */
+        MICROSOFT("microsoft"),
+
+        /**
+         * ARES ASR vendor
+         * 
+         * @since v0.7.0
+         */
+        ARES("ares"),
+
+        /**
+         * Deepgram ASR vendor
+         * 
+         * @since v0.7.0
+         */
+        DEEPGRAM("deepgram");
+
+        private final String vendor;
+
+        ASRVendorEnum(String vendor) {
+            this.vendor = vendor;
+        }
+
+        public static ASRVendorEnum getEnum(String vendor) {
+            for (ASRVendorEnum e : ASRVendorEnum.values()) {
+                if (e.vendor.equals(vendor)) {
+                    return e;
+                }
+            }
+            return null;
+        }
+
+        @JsonValue
+        public String toJson() {
+            return vendor;
+        }
+
+        @Override
+        public String toString() {
+            return this.vendor;
+        }
+
+    }
+
     /**
      * @brief Defines the Automatic Speech Recognition (ASR) configuration for agent
      *        to join RTC channel
@@ -2350,12 +3447,40 @@ public class JoinConvoAIReq {
         @JsonProperty("language")
         private String language;
 
+        /**
+         * ASR vendor, see {@link ASRVendorEnum}
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("vendor")
+        private ASRVendorEnum vendor;
+
+        /**
+         * ASR vendor parameter description, see
+         * <p>
+         * - {@link FengmingASRVendorParams}
+         * <p>
+         * - {@link TencentASRVendorParams}
+         * <p>
+         * - {@link MicrosoftASRVendorParams}
+         * <p>
+         * - {@link ARESASRVendorParams}
+         * <p>
+         * - {@link DeepgramASRVendorParams}
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("params")
+        private ASRVendorParams params;
+
         public static Builder builder() {
             return new Builder();
         }
 
         private ASRPayload(Builder builder) {
             setLanguage(builder.language);
+            setVendor(builder.vendor);
+            setParams(builder.params);
         }
 
         public String getLanguage() {
@@ -2366,14 +3491,42 @@ public class JoinConvoAIReq {
             this.language = language;
         }
 
+        public ASRVendorEnum getVendor() {
+            return vendor;
+        }
+
+        public void setVendor(ASRVendorEnum vendor) {
+            this.vendor = vendor;
+        }
+
+        public ASRVendorParams getParams() {
+            return params;
+        }
+
+        public void setParams(ASRVendorParams params) {
+            this.params = params;
+        }
+
         public static final class Builder {
             private String language;
+            private ASRVendorEnum vendor;
+            private ASRVendorParams params;
 
             private Builder() {
             }
 
             public Builder language(String val) {
                 language = val;
+                return this;
+            }
+
+            public Builder vendor(ASRVendorEnum val) {
+                vendor = val;
+                return this;
+            }
+
+            public Builder params(ASRVendorParams val) {
+                params = val;
                 return this;
             }
 
@@ -2446,16 +3599,213 @@ public class JoinConvoAIReq {
         @JsonProperty("interrupt_mode")
         private String interruptMode;
 
+        /**
+         * Turn detection mechanism.(Optional)
+         * <p>
+         * - "agora_vad": Agora VAD.(Default)
+         * <p>
+         * - "server_vad": The model detects the start and end of speech based on audio
+         * volume and responds at the end of user speech. Only available when mllm is
+         * enabled and OpenAI is selected.
+         * <p>
+         * - "semantic_vad": Uses a turn detection model in conjunction with VAD to
+         * semantically estimate whether the user has finished speaking, then dynamically
+         * sets a timeout based on this probability for more natural conversations.Only 
+         * available when mllm is enabled and OpenAI is selected.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("type")
+        private String type;
+
+        /**
+         * The amount of time in milliseconds that the user's voice must exceed the VAD
+         * threshold before an interruption is triggered.(Optional)
+         * <p>
+         * Default value is 160.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("interrupt_duration_ms")
+        private Integer interruptDurationMs;
+
+        /**
+         * The extra forward padding time in milliseconds before the processing system
+         * starts to process the speech input. This padding helps capture the beginning
+         * of the speech.
+         * <p>
+         * Default value is 800.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("prefix_padding_ms")
+        private Integer prefixPaddingMs;
+
+        /**
+         * The duration of audio silence in milliseconds.(Optional)
+         * <p>
+         * If no voice activity is detected during this period, the agent assumes that
+         * the user has stopped speaking.
+         * <p>
+         * Default value is 480.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("silence_duration_ms")
+        private Integer silenceDurationMs;
+
+        /**
+         * Identification sensitivity determines the level of sound in the audio signal
+         * that is considered voice activity.(Optional)
+         * <p>
+         * Lower values make it easier for the agent to detect speech, and higher values
+         * ignore weak sounds.
+         * <p>
+         * The value range is (0.0, 1.0).
+         * <p>
+         * Default value is 0.5.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("threshold")
+        private Float threshold;
+
+        /**
+         * Whether to automatically generate a response when a VAD stop event occurs.
+         * (Optional)
+         * <p>
+         * Only available in server_vad and semantic_vad modes when using OpenAI
+         * Realtime API.
+         * <p>
+         * Default value is true.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("create_response")
+        private Boolean createResponse;
+
+        /**
+         * Whether to automatically interrupt any ongoing response when a VAD start
+         * event occurs.
+         * <p>
+         * Only available in server_vad and semantic_vad modes when using OpenAI
+         * Realtime API.
+         * <p>
+         * Default value is true.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("interrupt_response")
+        private Boolean interruptResponse;
+
+        /**
+         * The eagerness of the model to respond(Optional):
+         * <p>
+         * - "auto": Equivalent to medium(Default)
+         * <p>
+         * - "low": Wait longer for the user to continue speaking
+         * <p>
+         * - "high": Respond more quickly
+         * <p>
+         * Only available in semantic_vad mode when using OpenAI Realtime API.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("eagerness")
+        private String eagerness;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public Integer getInterruptDurationMs() {
+            return interruptDurationMs;
+        }
+
+        public void setInterruptDurationMs(Integer interruptDurationMs) {
+            this.interruptDurationMs = interruptDurationMs;
+        }
+
+        public Integer getPrefixPaddingMs() {
+            return prefixPaddingMs;
+        }
+
+        public void setPrefixPaddingMs(Integer prefixPaddingMs) {
+            this.prefixPaddingMs = prefixPaddingMs;
+        }
+
+        public Integer getSilenceDurationMs() {
+            return silenceDurationMs;
+        }
+
+        public void setSilenceDurationMs(Integer silenceDurationMs) {
+            this.silenceDurationMs = silenceDurationMs;
+        }
+
+        public Float getThreshold() {
+            return threshold;
+        }
+
+        public void setThreshold(Float threshold) {
+            this.threshold = threshold;
+        }
+
+        public Boolean getCreateResponse() {
+            return createResponse;
+        }
+
+        public void setCreateResponse(Boolean createResponse) {
+            this.createResponse = createResponse;
+        }
+
+        public Boolean getInterruptResponse() {
+            return interruptResponse;
+        }
+
+        public void setInterruptResponse(Boolean interruptResponse) {
+            this.interruptResponse = interruptResponse;
+        }
+
+        public String getEagerness() {
+            return eagerness;
+        }
+
+        public void setEagerness(String eagerness) {
+            this.eagerness = eagerness;
+        }
+        
+
         public static TurnDetectionPayload.Builder builder() {
             return new TurnDetectionPayload.Builder();
         }
 
         private TurnDetectionPayload(Builder builder) {
             setInterruptMode(builder.interruptMode);
+            setType(builder.type);
+            setInterruptDurationMs(builder.interruptDurationMs);
+            setPrefixPaddingMs(builder.prefixPaddingMs);
+            setSilenceDurationMs(builder.silenceDurationMs);
+            setThreshold(builder.threshold);
+            setCreateResponse(builder.createResponse);
+            setInterruptResponse(builder.interruptResponse);
+            setEagerness(builder.eagerness);
         }
 
         public static final class Builder {
             private String interruptMode;
+            private String type;
+            private Integer interruptDurationMs;
+            private Integer prefixPaddingMs;
+            private Integer silenceDurationMs;
+            private Float threshold;
+            private Boolean createResponse;
+            private Boolean interruptResponse;
+            private String eagerness;
+
 
             private Builder() {
             }
@@ -2465,9 +3815,51 @@ public class JoinConvoAIReq {
                 return this;
             }
 
+            public Builder type(String val) {
+                type = val;
+                return this;
+            }
+
+            public Builder interruptDurationMs(Integer val) {
+                interruptDurationMs = val;
+                return this;
+            }
+
+            public Builder prefixPaddingMs(Integer val) {
+                prefixPaddingMs = val;
+                return this;
+            }
+
+            public Builder silenceDurationMs(Integer val) {
+                silenceDurationMs = val;
+                return this;
+            }
+
+            public Builder threshold(Float val) {
+                threshold = val;
+                return this;
+            }
+
+            public Builder interruptResponse(Boolean val) {
+                interruptResponse = val;
+                return this;
+            }
+
+            public Builder eagerness(String val) {
+                eagerness = val;
+                return this;
+            }
+
+            public Builder createResponse(Boolean val) {
+                createResponse = val;
+                return this;
+            }
+
+
             public TurnDetectionPayload build() {
                 return new TurnDetectionPayload(this);
             }
+            
         }
 
     }
@@ -2565,8 +3957,54 @@ public class JoinConvoAIReq {
      */
     public static class FixedParams {
 
+        /**
+         * Silence config
+         * 
+         * @since v0.6.0
+         */
         @JsonProperty("silence_config")
         private SilenceConfig silenceConfig;
+
+        /**
+         * Agent data transmission channel(Optional):
+         * 
+         *  - "rtm": Use RTM transmission. This configuration takes effect only when advanced_features.enable_rtm is true.
+         * 
+         *  - "datastream": Use RTC data stream transport.(Default)
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("data_channel")
+        private String dataChannel;
+
+
+        /**
+         * Whether to receive agent performance data(Optional):
+         * <p>
+         * - true: Receive agent performance data.
+         * <p>
+         * - false: Do not receive agent performance data.(Default)
+         * <p>
+         * This setting only takes effect when advanced_features.enable_rtm is true.
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("enable_metrics")
+        private Boolean enableMetrics;
+
+        /**
+         * Whether to receive agent error events(Optional):
+         * <p>
+         * - true: Receive agent error events.
+         * <p>
+         * - false: Do not receive agent error events.(Default)
+         * <p>
+         * This setting only takes effect when advanced_features.enable_rtm is true
+         * 
+         * @since v0.7.0
+         */
+        @JsonProperty("enable_error_message")
+        private Boolean enableErrorMessage;
 
         public SilenceConfig getSilenceConfig() {
             return silenceConfig;
@@ -2576,22 +4014,52 @@ public class JoinConvoAIReq {
             this.silenceConfig = silenceConfig;
         }
 
+        public Boolean getEnableMetrics() {
+            return enableMetrics;
+        }
+
+        public Boolean getEnableErrorMessage() {
+            return enableErrorMessage;
+        }
+
+        public void setEnableMetrics(Boolean enableMetrics) {
+            this.enableMetrics = enableMetrics;
+        }
+
+        public void setEnableErrorMessage(Boolean enableErrorMessage) {
+            this.enableErrorMessage = enableErrorMessage;
+        }
+
         public static Builder builder() {
             return new Builder();
         }
 
         private FixedParams(Builder builder) {
             setSilenceConfig(builder.silenceConfig);
+            setEnableMetrics(builder.enableMetrics);
+            setEnableErrorMessage(builder.enableErrorMessage);
         }
 
         public static final class Builder {
             private SilenceConfig silenceConfig;
+            private Boolean enableMetrics;
+            private Boolean enableErrorMessage;
 
             private Builder() {
             }
 
             public Builder silenceConfig(SilenceConfig val) {
                 silenceConfig = val;
+                return this;
+            }
+
+            public Builder enableMetrics(Boolean val) {
+                enableMetrics = val;
+                return this;
+            }
+
+            public Builder enableErrorMessage(Boolean val) {
+                enableErrorMessage = val;
                 return this;
             }
 

@@ -25,7 +25,7 @@ public class Main implements Callable<Integer> {
 
     private final DomainArea domainArea = DomainArea.CN;
 
-    @Option(names = { "-t", "--ttsVendor" }, description = "bytedance,microsoft,tencent,minimax,elevenlabs")
+    @Option(names = { "-t", "--ttsVendor" }, description = "bytedance,microsoft,tencent,minimax,elevenlabs,cartesia,openai")
     private String ttsVendor = "";
 
     @Option(names = { "-s", "--serviceRegion" }, description = "chineseMainland,global")
@@ -82,9 +82,6 @@ public class Main implements Callable<Integer> {
                 svc.runBytedanceTTS();
                 break;
             case MICROSOFT:
-                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.GLOBAL) {
-                    throw new IllegalArgumentException("Microsoft TTS is only available in Global");
-                }
                 svc.runMicrosoftTTS();
                 break;
             case TENCENT:
@@ -104,6 +101,18 @@ public class Main implements Callable<Integer> {
                     throw new IllegalArgumentException("Elevenlabs TTS is only available in Global");
                 }
                 svc.runElevenlabsTTS();
+                break;
+            case CARTERSIA:
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.GLOBAL) {
+                    throw new IllegalArgumentException("Cartesia TTS is only available in Global");
+                }
+                svc.runCartesiaTTS();
+                break;
+            case OPENAI:
+                if (convoAIServiceRegionEnum != ConvoAIServiceRegionEnum.GLOBAL) {
+                    throw new IllegalArgumentException("OpenAI TTS is only available in Global");
+                }
+                svc.runOpenAITTS();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid ttsVendor: " + ttsVendor);

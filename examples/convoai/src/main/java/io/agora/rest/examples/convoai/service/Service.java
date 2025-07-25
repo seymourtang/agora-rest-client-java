@@ -24,7 +24,7 @@ public class Service extends BaseService {
         super(domainArea, appId, cname, uid, credential, serviceRegion);
     }
 
-    public void runCustomTTS(JoinConvoAIReq.TTSVendorEnum ttsVendor, JoinConvoAIReq.TTSVendorParams ttsVendorParams) {
+    public void runCustomTTS(JoinConvoAIReq.TTSVendorParams ttsVendorParams) {
         // Run Conversational AI service with custom TTS
 
         String token = System.getenv("CONVOAI_TOKEN");
@@ -106,14 +106,8 @@ public class Service extends BaseService {
                                     .greetingMessage("Hello,how can I help you?")
                                     .build())
                             .ttsPayload(JoinConvoAIReq.TTSPayload.builder()
-                                    .vendor(ttsVendor)
+                                    .vendor(ttsVendorParams.getVendor())
                                     .params(ttsVendorParams)
-                                    .build())
-                            .vadPayload(JoinConvoAIReq.VADPayload.builder()
-                                    .interruptDurationMs(160)
-                                    .prefixPaddingMs(300)
-                                    .silenceDurationMs(480)
-                                    .threshold(0.5F)
                                     .build())
                             .asrPayload(JoinConvoAIReq.ASRPayload.builder()
                                     .language("zh-CN")
@@ -337,7 +331,7 @@ public class Service extends BaseService {
                 .emotion("happy")
                 .build();
 
-        runCustomTTS(JoinConvoAIReq.TTSVendorEnum.BYTEDANCE, ttsVendorParams);
+        runCustomTTS(ttsVendorParams);
     }
 
     public void runTencentTTS() {
@@ -368,7 +362,7 @@ public class Service extends BaseService {
                 .emotionIntensity(100)
                 .build();
 
-        runCustomTTS(JoinConvoAIReq.TTSVendorEnum.TENCENT, ttsVendorParams);
+        runCustomTTS(ttsVendorParams);
 
     }
 
@@ -408,8 +402,7 @@ public class Service extends BaseService {
                 .languageBoost("auto")
                 .build();
 
-        runCustomTTS(JoinConvoAIReq.TTSVendorEnum.MINIMAX, ttsVendorParams);
-
+        runCustomTTS(ttsVendorParams);
     }
 
     public void runMicrosoftTTS() {
@@ -438,7 +431,7 @@ public class Service extends BaseService {
                 .volume(70F)
                 .build();
 
-        runCustomTTS(JoinConvoAIReq.TTSVendorEnum.MICROSOFT, ttsVendorParams);
+        runCustomTTS(ttsVendorParams);
     }
 
     public void runElevenlabsTTS() {
@@ -465,6 +458,85 @@ public class Service extends BaseService {
                 .sampleRate(24000)
                 .build();
 
-        runCustomTTS(JoinConvoAIReq.TTSVendorEnum.ELEVENLABS, ttsVendorParams);
+        runCustomTTS(ttsVendorParams);
+    }
+
+    public void runCartesiaTTS() {
+        // Run Conversational AI service with Cartesia TTS
+        String ttsApiKey = System.getenv("CONVOAI_TTS_CARTESIA_API_KEY");
+        if (ttsApiKey == null || ttsApiKey.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_CARTESIA_API_KEY is required");
+        }
+
+        String ttsModelId = System.getenv("CONVOAI_TTS_CARTESIA_MODEL_ID");
+        if (ttsModelId == null || ttsModelId.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_CARTESIA_MODEL_ID is required");
+        }
+
+        String ttsVoiceMode = System.getenv("CONVOAI_TTS_CARTESIA_VOICE_MODE");
+        if (ttsVoiceMode == null || ttsVoiceMode.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_CARTESIA_VOICE_MODE is required");
+        }
+
+        String ttsVoiceId = System.getenv("CONVOAI_TTS_CARTESIA_VOICE_ID");
+        if (ttsVoiceId == null || ttsVoiceId.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_CARTESIA_VOICE_ID is required");
+        }
+
+        JoinConvoAIReq.CartesiaTTSVendorParams ttsVendorParams = JoinConvoAIReq.CartesiaTTSVendorParams.builder()
+                .apiKey(ttsApiKey)
+                .modelId(ttsModelId)
+                .voice(JoinConvoAIReq.TTSCartesiaVendorVoice.builder()
+                        .mode(ttsVoiceMode)
+                        .id(ttsVoiceId)
+                        .build())
+                .build();
+
+        runCustomTTS(ttsVendorParams);
+    }
+
+    public void runOpenAITTS() {
+        // Run Conversational AI service with OpenAI TTS
+        String ttsApiKey = System.getenv("CONVOAI_TTS_OPENAI_API_KEY");
+        if (ttsApiKey == null || ttsApiKey.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_OPENAI_API_KEY is required");
+        }
+
+        String ttsModel = System.getenv("CONVOAI_TTS_OPENAI_MODEL");
+        if (ttsModel == null || ttsModel.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_OPENAI_MODEL is required");
+        }
+
+        String ttsVoice = System.getenv("CONVOAI_TTS_OPENAI_VOICE");
+        if (ttsVoice == null || ttsVoice.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_OPENAI_VOICE is required");
+        }
+
+        String ttsInstructions = System.getenv("CONVOAI_TTS_OPENAI_INSTRUCTIONS");
+        if (ttsInstructions == null || ttsInstructions.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_OPENAI_INSTRUCTIONS is required");
+        }
+
+        String ttsSpeed = System.getenv("CONVOAI_TTS_OPENAI_SPEED");
+        if (ttsSpeed == null || ttsSpeed.isEmpty()) {
+            throw new IllegalArgumentException("CONVOAI_TTS_OPENAI_SPEED is required");
+        }
+
+        Float speed = null;
+        try {
+            speed = Float.parseFloat(ttsSpeed);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("CONVOAI_TTS_OPENAI_SPEED is not a valid float");
+        }
+
+        JoinConvoAIReq.TTSOpenAIVendorParams ttsVendorParams = JoinConvoAIReq.TTSOpenAIVendorParams.builder()
+                .apiKey(ttsApiKey)
+                .model(ttsModel)
+                .voice(ttsVoice)
+                .instructions(ttsInstructions)
+                .speed(speed)
+                .build();
+
+        runCustomTTS(ttsVendorParams);
     }
 }
